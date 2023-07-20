@@ -215,5 +215,8 @@ class VdMeerFunc:
 
     print(len(Pf_Loose_Rock), Pf_Loose_Rock)
     print(nr_samples)
+<<<<<<< HEAD
 
     TestTEstESTAEFSal ska
+=======
+>>>>>>> origin/main
