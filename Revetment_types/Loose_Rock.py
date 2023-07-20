@@ -28,45 +28,57 @@ class VdMeerFunc:
             C_pl = vector[4]
             C_s = vector[5]
             t = vector[6]
-            a1 = vector[7]
+            a = vector[7]
             Hs = vector[8]
             Tp = vector[9]
             h = vector[10]
 
-            def wavelength(L):
-                return (2 * np.pi) / (Tp / 1.2) - (2 * np.pi * g) / L * np.tanh((2 * np.pi * (h + 0.4)) / L)
+            def Wavelength(g, Tp, h):
 
-            initial_guess_L = 18
+                c = [0.00011, 0.00039, 0.00171, 0.00654, 0.02174, 0.06320, 0.16084, 0.35550, 0.66667, 1]
+                sg = (2 * np.pi) / Tp
+                c0 = g / sg
+                k0d = sg * (h+0.4) / c0
+                kd = np.sqrt(k0d * k0d + k0d / np.polyval(c, k0d))
+                ar = k0d / kd
+                sf = ar + kd * (1 - ar * ar)
+                cf = c0 * ar
+                l = cf * Tp
+                cg = 0.5 * c0 * sf
+                sf = 1 / np.sqrt(sf)  # shoaling factor
+                return l, cf, cg, ar, sf
 
-            L = fsolve(wavelength, initial_guess_L)[0]
+            L = Wavelength(g, Tp, h)[0]
 
-            L = 18
+            print(h, L)
 
-            zeta = np.tan(a1) / (np.sqrt(Hs / L))
+            zeta = np.tan(a) / (np.sqrt(Hs / L))
 
             # If performing FORM analysis turn the breaker criterium off. Too discontinue
             H_sb = (0.095 * np.exp(4 * (1 / 33))) * L * np.tanh((2 * np.pi * (0.4 + h)) / L)
+            # print(h, Hs, H_sb)
 
-            if H_sb > Hs:
+            if H_sb < Hs:
                 return [9999999999]
 
-            if zeta <= 3:
+            zeta_cr = (C_pl / C_s * P**0.31 * np.sqrt(np.tan(a)))**1 / (P + 0.5)
+
+            if zeta <= zeta_cr:
                 # Limit state function plunging waves:
                 Z = [C_pl * P ** 0.18 * (S / (t / (Tp / 1.2))) ** 0.2 * (
-                        np.tan(a1) / (np.sqrt(Hs / L))) ** -0.5 - Hs / (((rho_s - rho_w) / rho_w) * Dn50)]
-
+                        np.tan(a) / (np.sqrt(Hs / L))) ** -0.5 - Hs / (((rho_s - rho_w) / rho_w) * Dn50)]
 
             else:
                 # Limit state function surging waves:
-                Z = [C_s * P ** -0.13 * (S / (t / Tp)) ** 0.2 * np.sqrt(1 / np.tan(a1)) * (
-                        np.tan(a1) / (np.sqrt(Hs / L))) ** P - Hs / (((rho_s - rho_w) / rho_w) * Dn50)]
+                Z = [C_s * P ** -0.13 * (S / (t / Tp)) ** 0.2 * np.sqrt(1 / np.tan(a)) * (
+                        np.tan(a) / (np.sqrt(Hs / L))) ** P - Hs / (((rho_s - rho_w) / rho_w) * Dn50)]
                 # print(zeta)
 
             # print(Z)
             return Z
 
         ot_failure_model = ot.PythonFunction(11, 1, vdmeermodel)
-        distribution.setDescription(["Dn50", "rho_w", "rho_s", " P", "C_pl", "C_s", "t", "a1", "Hs", "Tp", "h"])
+        distribution.setDescription(["Dn50", "rho_w", "rho_s", " P", "C_pl", "C_s", "t", "a", "Hs", "Tp", "h"])
         vect = ot.RandomVector(distributionvdmeer)
         Z = ot.CompositeRandomVector(ot_failure_model, vect)
         event = ot.ThresholdEvent(Z, ot.Less(), 0.0)
@@ -119,10 +131,10 @@ class VdMeerFunc:
 
             nu = time.time()
             # pf = 0
-            sample_size = 3000000
+            sample_size = 100
 
             probability, size = custom_montecarlo(sample_size, vect)
-            print(probability, size)
+            # print(probability, size)
 
             # print('Probability of failure =', probability, 'with sample size', size)
             # print('duration =', time.time() - nu)
@@ -199,19 +211,25 @@ class VdMeerFunc:
 
     Pf_Loose_Rock = []
     nr_samples = []
-    start_time = time.time()
+
 
     for i in VdMeerInput.distributionvdmeer2:
         for j in VdMeerInput.deterministicvdmeer2:
+            start_time = time.time()
             Pf_Loose_Rock.append(problooserock(i, j, 'custom_MC')[0])
             nr_samples.append(problooserock(i, j, 'custom_MC')[1])
+
+            print(Pf_Loose_Rock[-1], nr_samples[-1])
+
+            end_time = time.time()
+            execution_time = end_time - start_time
+
+            print("Execution time:", execution_time, "seconds, ")
             # print(i, j)
 
-    end_time = time.time()
-    execution_time = end_time - start_time
 
-    print("Execution time:", execution_time, "seconds, ", "seconds per calculation:",
-          execution_time / len(Pf_Loose_Rock))
+
+
 
     print(len(Pf_Loose_Rock), Pf_Loose_Rock)
     print(nr_samples)

@@ -19,7 +19,7 @@ class HydraulicBoundary:
 # ----------------------------------------------------------------------------------------------------------------------
 # Hydraulic boundary conditions Loose Rock
 
-    def HydraulicBoundariesLR(Table = Hydraulic_BC.iloc[6:8, :]):
+    def HydraulicBoundariesLR(Table = Hydraulic_BC.iloc[4:6, :]):
         Loose_rock = Table
 
         data = []
@@ -73,7 +73,7 @@ class HydraulicBoundary:
     pd.set_option('display.max_columns', None)
     # print(Hb_ver)
 
-    def HydraulicBoundariesBasalton(Table = Hydraulic_BC.iloc[15:16, :]):
+    def HydraulicBoundariesBasalton(Table = Hydraulic_BC.iloc[12:16, :]):
         Basalton = Table
 
         data = []

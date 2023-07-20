@@ -45,8 +45,12 @@ class Parameters:
     # Porosity
     Expected_value_P = 0.1
     Standard_deviation = 0.01
+    mu = np.log(Expected_value_P ** 2 / np.sqrt(Standard_deviation ** 2 + Expected_value_P ** 2))
+    sigma = np.log(1 + Standard_deviation ** 2 / Expected_value_P ** 2)
+    # print(mu, sigma)
+    Distribution = 'Lognormal'
     # Distribution = 'Normal'
-    Porosity = ot.Normal(Expected_value_P, Standard_deviation)
+    Porosity = ot.LogNormal(mu, sigma, 0)
     # print(Porosity)
 
     # Damage number [S]
@@ -94,7 +98,7 @@ class Parameters:
                           'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
 
     Data = []
-    for index, k in Hydraulic_BC.iloc[6:8, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[4:6, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -367,7 +371,7 @@ class Parameters:
                         'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
 
     Hydra = []
-    for index, k in Hydraulic_BC.iloc[15:16, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[12:16, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]

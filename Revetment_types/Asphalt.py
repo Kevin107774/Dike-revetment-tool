@@ -182,23 +182,32 @@ class AsphaltFunc:
             t = self[2]
             h = self[10]
 
+
             g = deterministicasphalt[0]
             v = deterministicasphalt[1]
             alpha = deterministicasphalt[2]
             B = deterministicasphalt[3]
 
-            # def wavelength(L):
-            #     return (2 * np.pi) / (Tp / 1.2) - (2 * np.pi * g) / L * np.tanh((2 * np.pi * (h + 0.4)) / L)
-            #
-            # initial_guess_L = 10
-            #
-            # L = fsolve(wavelength, initial_guess_L)[0]
-            L = 18
+            def Wavelength(g, Tp, h):
+                c = [0.00011, 0.00039, 0.00171, 0.00654, 0.02174, 0.06320, 0.16084, 0.35550, 0.66667, 1]
+                sg = (2 * np.pi) / Tp
+                c0 = g / sg
+                k0d = sg * (h + 0.4) / c0
+                kd = np.sqrt(k0d * k0d + k0d / np.polyval(c, k0d))
+                ar = k0d / kd
+                sf = ar + kd * (1 - ar * ar)
+                cf = c0 * ar
+                l = cf * Tp
+                cg = 0.5 * c0 * sf
+                sf = 1 / np.sqrt(sf)  # shoaling factor
+                return l, cf, cg, ar, sf
+
+            L = Wavelength(g, Tp, h)[0]
 
             # When performing FORM analysis turn the breaker criterium off, too discontinue
             H_sb = (0.095 * np.exp(4 * (1 / 33))) * L * np.tanh((2 * np.pi * (0.4 + h)) / L)
 
-            if H_sb > Hs:
+            if H_sb < Hs:
                 return [9999999999]
 
             q = (np.tan(a) / 0.25) * q_r
@@ -272,7 +281,7 @@ class AsphaltFunc:
                 # print(samples)
                 return pf, samples
 
-            sample_size = 3000000
+            sample_size = 1000000
             probability_impact, size = custom_montecarlo(sample_size, vector)
             # print(probability_impact, size)
 
@@ -343,14 +352,16 @@ class AsphaltFunc:
 
     start_time = time.time()
     for j in AsphaltImpactInput.distribution_impact_asphalt:
+        start_time = time.time()
         Pf_asphalt_impact.append(probasphaltimpact(j, AsphaltImpactInput.deterministic_impact_asphalt, 'custom_MC')[0])
         nr_samples.append(probasphaltimpact(j, AsphaltImpactInput.deterministic_impact_asphalt, 'custom_MC')[1])
 
-    end_time = time.time()
-    execution_time = end_time - start_time
+        print(Pf_asphalt_impact[-1], nr_samples[-1])
 
-    print("Execution time:", execution_time, "seconds, ", "seconds per calculation:",
-          execution_time / len(Pf_asphalt_impact))
+        end_time = time.time()
+        execution_time = end_time - start_time
+
+        print("Execution time:", execution_time, "seconds")
 
     print(Pf_asphalt_impact, len(Pf_asphalt_impact))
     print(nr_samples)
