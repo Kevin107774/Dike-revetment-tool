@@ -217,6 +217,6 @@ class VdMeerFunc:
     print(nr_samples)
 <<<<<<< HEAD
 
-    TestTEstESTAEFSal ska
+    TestTEstEST
 =======
 >>>>>>> origin/main
