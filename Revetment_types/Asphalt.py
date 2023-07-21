@@ -14,157 +14,157 @@ ot.Log.Show(ot.Log.NONE)
 
 class AsphaltFunc:
 
-    def probasphaltuplift(distribution, probabilistic='FORM'):
-
-        distributionasphalt = distribution
-
-        def asphalt_uplift(self):
-            d = self[4]
-            rho_w = self[5]
-            rho_a = self[6]
-            a = self[3]
-            a_vert = self[0]
-            v_vert = self[1]
-            R = self[2]
-
-            Qn = 0.96 / np.cos(a)
-
-            # print(Qn)
-
-            Z = [d - (0.21 * Qn * (a_vert + v_vert) * (rho_w / (rho_a - rho_w)) * R)]
-            return Z
-
-        uplift_failure_model = ot.PythonFunction(7, 1, asphalt_uplift)
-        distribution.setDescription(["d", "rho_w", "rho_a", "a", "a_vert", "v_vert", "R"])
-        vect = ot.RandomVector(distributionasphalt)
-        Z = ot.CompositeRandomVector(uplift_failure_model, vect)
-        event = ot.ThresholdEvent(Z, ot.Less(), 0.0)
-        event.setName("Failure of asphalt for uplift")
-
-        if probabilistic == 'FORM':
-
-            # Using FORM, define a solver:
-            optimAlgo = ot.Cobyla()
-            optimAlgo.setMaximumEvaluationNumber(1000000)
-            optimAlgo.setMaximumAbsoluteError(1.0e-10)
-            optimAlgo.setMaximumRelativeError(1.0e-10)
-            optimAlgo.setMaximumResidualError(1.0e-10)
-            optimAlgo.setMaximumConstraintError(1.0e-10)
-
-            # Run FORM
-            startingPoint = distributionasphalt.getMean()
-            algo = ot.FORM(optimAlgo, event, startingPoint)
-            algo.run()
-            result = algo.getResult()
-            # standardSpaceDesignPoint = result.getStandardSpaceDesignPoint()
-
-            # Retrieve results
-            probability_uplift = result.getEventProbability()
-            beta_uplift = result.getHasoferReliabilityIndex()
-            # print(f"Pf uplift ={probability_uplift}, beta uplift = {beta_uplift}")
-
-            # Importance factors (alpha)
-            # alpha = result.drawImportanceFactors()
-            # viewer.View(alpha)
-            # plt.show()
-
-        elif probabilistic == 'custom_MC':
-            def condition(x):
-                if x < 0:
-                    return 1
-                return 0
-
-            def custom_montecarlo(sample_size, vector):
-
-                matrix = np.apply_along_axis(asphalt_uplift, 1, np.array(vector.getSample(sample_size)))
-
-                monte_carlo = np.apply_along_axis(condition, 1, matrix)
-                sum_success = monte_carlo.sum()
-                samples = len(matrix)
-                pf = sum_success / samples
-
-                return pf, samples
-
-            nu = time.time()
-            sample_size = 10000
-
-            probability_uplift, size = custom_montecarlo(sample_size, vect)
-
-            # print('Probability of failure =', probability_uplift, 'with sample size', size)
-            # print('duration =', time.time() - nu)
-
-        elif probabilistic == 'MC':
-            # Creating the Monte Carlo simulation
-            experiment = ot.MonteCarloExperiment()
-            algo = ot.ProbabilitySimulationAlgorithm(event, experiment)
-            algo.setMaximumCoefficientOfVariation(0.05)
-            algo.setMaximumOuterSampling(int(1e5))
-            algo.setBlockSize(50)
-            algo.run()
-
-            # Retrieve results
-            result = algo.getResult()
-            probability_uplift = result.getProbabilityEstimate()
-            # print("Pf=", probability)
-
-        elif probabilistic == 'Importance':
-            # Using FORM, define a solver:
-            optimAlgo = ot.Cobyla()
-            optimAlgo.setMaximumEvaluationNumber(100000)
-            optimAlgo.setMaximumAbsoluteError(1.0e-10)
-            optimAlgo.setMaximumRelativeError(1.0e-10)
-            optimAlgo.setMaximumResidualError(1.0e-10)
-            optimAlgo.setMaximumConstraintError(1.0e-10)
-
-            # Run FORM
-            startingPoint = distributionasphalt.getMean()
-            algo = ot.FORM(optimAlgo, event, startingPoint)
-            algo.run()
-            result = algo.getResult()
-
-            # Design point
-            standardSpaceDesignPoint = result.getStandardSpaceDesignPoint()
-            dimension = distribution.getDimension()
-
-            # Importance sampling algorithm
-            myImportance = ot.Normal(dimension)
-            myImportance.setMean(standardSpaceDesignPoint)
-            experiment = ot.ImportanceSamplingExperiment(myImportance)
-            standardEvent = ot.StandardEvent(event)
-
-            # Run the simulation
-            algo = ot.ProbabilitySimulationAlgorithm(standardEvent, experiment)
-            algo.setMaximumCoefficientOfVariation(0.1)
-            algo.setMaximumOuterSampling(40000)
-            algo.run()
-
-            # Retrieve the results
-            result = algo.getResult()
-            probability_uplift = result.getProbabilityEstimate()
-            # print("Probability = ", probability)
-
-        return probability_uplift
-
-    # Retrieve alpha values: Use 1 row as input for the function, otherwise too many graphs to publish.
-
-    # x = AsphaltUpliftInput.distribution_uplift_asphalt[20]
+    # def probasphaltuplift(distribution, probabilistic='FORM'):
     #
-    # Pf_for_alpha = (probasphaltuplift(x, 'FORM'))
-    # print(x)
-    # print(Pf_for_alpha)
+    #     distributionasphalt = distribution
+    #
+    #     def asphalt_uplift(self):
+    #         d = self[4]
+    #         rho_w = self[5]
+    #         rho_a = self[6]
+    #         a = self[3]
+    #         a_vert = self[0]
+    #         v_vert = self[1]
+    #         R = self[2]
+    #
+    #         Qn = 0.96 / np.cos(a)
+    #
+    #         Z = [d - (0.21 * Qn * (a_vert + v_vert) * (rho_w / (rho_a - rho_w)) * R)]
+    #         return Z
+    #
+    #     uplift_failure_model = ot.PythonFunction(7, 1, asphalt_uplift)
+    #     distribution.setDescription(["d", "rho_w", "rho_a", "a", "a_vert", "v_vert", "R"])
+    #     vect = ot.RandomVector(distributionasphalt)
+    #     Z = ot.CompositeRandomVector(uplift_failure_model, vect)
+    #     event = ot.ThresholdEvent(Z, ot.Less(), 0.0)
+    #     event.setName("Failure of asphalt for uplift")
+    #
+    #     if probabilistic == 'FORM':
+    #
+    #         # Using FORM, define a solver:
+    #         optimAlgo = ot.Cobyla()
+    #         optimAlgo.setMaximumEvaluationNumber(1000000)
+    #         optimAlgo.setMaximumAbsoluteError(1.0e-10)
+    #         optimAlgo.setMaximumRelativeError(1.0e-10)
+    #         optimAlgo.setMaximumResidualError(1.0e-10)
+    #         optimAlgo.setMaximumConstraintError(1.0e-10)
+    #
+    #         # Run FORM
+    #         startingPoint = distributionasphalt.getMean()
+    #         algo = ot.FORM(optimAlgo, event, startingPoint)
+    #         algo.run()
+    #         result = algo.getResult()
+    #         # standardSpaceDesignPoint = result.getStandardSpaceDesignPoint()
+    #
+    #         # Retrieve results
+    #         probability_uplift = result.getEventProbability()
+    #         beta_uplift = result.getHasoferReliabilityIndex()
+    #         # print(f"Pf uplift ={probability_uplift}, beta uplift = {beta_uplift}")
+    #
+    #         # Importance factors (alpha)
+    #         # alpha = result.drawImportanceFactors()
+    #         # viewer.View(alpha)
+    #         # plt.show()
+    #
+    #     elif probabilistic == 'custom_MC':
+    #         def condition(x):
+    #             if x < 0:
+    #                 return 1
+    #             return 0
+    #
+    #         def custom_montecarlo(sample_size, vector):
+    #
+    #             matrix = np.apply_along_axis(asphalt_uplift, 1, np.array(vector.getSample(sample_size)))
+    #
+    #             monte_carlo = np.apply_along_axis(condition, 1, matrix)
+    #             sum_success = monte_carlo.sum()
+    #             samples = len(matrix)
+    #             pf = sum_success / samples
+    #
+    #             return pf, samples
+    #
+    #         nu = time.time()
+    #         sample_size = 1000
+    #
+    #         probability_uplift, size = custom_montecarlo(sample_size, vect)
+    #
+    #         # print('Probability of failure =', probability_uplift, 'with sample size', size)
+    #         # print('duration =', time.time() - nu)
+    #
+    #     elif probabilistic == 'MC':
+    #         # Creating the Monte Carlo simulation
+    #         experiment = ot.MonteCarloExperiment()
+    #         algo = ot.ProbabilitySimulationAlgorithm(event, experiment)
+    #         algo.setMaximumCoefficientOfVariation(0.05)
+    #         algo.setMaximumOuterSampling(int(1e5))
+    #         algo.setBlockSize(50)
+    #         algo.run()
+    #
+    #         # Retrieve results
+    #         result = algo.getResult()
+    #         probability_uplift = result.getProbabilityEstimate()
+    #         # print("Pf=", probability)
+    #
+    #     elif probabilistic == 'Importance':
+    #         # Using FORM, define a solver:
+    #         optimAlgo = ot.Cobyla()
+    #         optimAlgo.setMaximumEvaluationNumber(100000)
+    #         optimAlgo.setMaximumAbsoluteError(1.0e-10)
+    #         optimAlgo.setMaximumRelativeError(1.0e-10)
+    #         optimAlgo.setMaximumResidualError(1.0e-10)
+    #         optimAlgo.setMaximumConstraintError(1.0e-10)
+    #
+    #         # Run FORM
+    #         startingPoint = distributionasphalt.getMean()
+    #         algo = ot.FORM(optimAlgo, event, startingPoint)
+    #         algo.run()
+    #         result = algo.getResult()
+    #
+    #         # Design point
+    #         standardSpaceDesignPoint = result.getStandardSpaceDesignPoint()
+    #         dimension = distribution.getDimension()
+    #
+    #         # Importance sampling algorithm
+    #         myImportance = ot.Normal(dimension)
+    #         myImportance.setMean(standardSpaceDesignPoint)
+    #         experiment = ot.ImportanceSamplingExperiment(myImportance)
+    #         standardEvent = ot.StandardEvent(event)
+    #
+    #         # Run the simulation
+    #         algo = ot.ProbabilitySimulationAlgorithm(standardEvent, experiment)
+    #         algo.setMaximumCoefficientOfVariation(0.1)
+    #         algo.setMaximumOuterSampling(40000)
+    #         algo.run()
+    #
+    #         # Retrieve the results
+    #         result = algo.getResult()
+    #         probability_uplift = result.getProbabilityEstimate()
+    #         # print("Probability = ", probability)
+    #
+    #     return probability_uplift
+    #
+    # # Retrieve alpha values: Use 1 row as input for the function, otherwise too many graphs to publish.
+    #
+    # # x = AsphaltUpliftInput.distribution_uplift_asphalt[20]
+    # #
+    # # Pf_for_alpha = (probasphaltuplift(x, 'FORM'))
+    # # print(x)
+    # # print(Pf_for_alpha)
+    #
+    # Pf_asphalt_uplift = []
+    # start_time = time.time()
+    #
+    # for i in AsphaltUpliftInput.distribution_uplift_asphalt:
+    #     Pf_asphalt_uplift.append(probasphaltuplift(i, 'FORM'))
+    #
+    # end_time = time.time()
+    # execution_time = end_time - start_time
+    #
+    # print("Execution time:", execution_time, "seconds, ", "seconds per calculation:",
+    #       execution_time / len(Pf_asphalt_uplift))
+    # print(Pf_asphalt_uplift)
 
-    Pf_asphalt_uplift = []
-    start_time = time.time()
-    for i in AsphaltUpliftInput.distribution_uplift_asphalt:
-        Pf_asphalt_uplift.append(probasphaltuplift(i, 'FORM'))
-    end_time = time.time()
-    execution_time = end_time - start_time
-
-    print("Execution time:", execution_time, "seconds, ", "seconds per calculation:",
-          execution_time / len(Pf_asphalt_uplift))
-    print(Pf_asphalt_uplift)
-
-    def probasphaltimpact(distribution, deterministic, probabilistic='FORM'):
+    def probasphaltimpact(distribution, deterministic, probabilistic='custom_MC'):
 
         distributionasphalt = distribution
         deterministicasphalt = deterministic
@@ -181,7 +181,6 @@ class AsphaltFunc:
             sigma_b = self[9]
             t = self[2]
             h = self[10]
-
 
             g = deterministicasphalt[0]
             v = deterministicasphalt[1]
@@ -281,7 +280,7 @@ class AsphaltFunc:
                 # print(samples)
                 return pf, samples
 
-            sample_size = 1000000
+            sample_size = 1000
             probability_impact, size = custom_montecarlo(sample_size, vector)
             # print(probability_impact, size)
 
@@ -342,7 +341,6 @@ class AsphaltFunc:
     # x = AsphaltImpactInput.distribution_impact_asphalt[200]
     # y = AsphaltImpactInput.deterministic_impact_asphalt
 
-
     # Pf_for_alpha = (probasphaltimpact(x, y, 'FORM'))
     # print(x, y)
     # print(Pf_for_alpha)
@@ -352,18 +350,14 @@ class AsphaltFunc:
 
     start_time = time.time()
     for j in AsphaltImpactInput.distribution_impact_asphalt:
-        start_time = time.time()
         Pf_asphalt_impact.append(probasphaltimpact(j, AsphaltImpactInput.deterministic_impact_asphalt, 'custom_MC')[0])
         nr_samples.append(probasphaltimpact(j, AsphaltImpactInput.deterministic_impact_asphalt, 'custom_MC')[1])
 
-        print(Pf_asphalt_impact[-1], nr_samples[-1])
+    end_time = time.time()
+    execution_time = end_time - start_time
 
-        end_time = time.time()
-        execution_time = end_time - start_time
+    print("Asphalt impact, Execution time:", execution_time, "seconds, seconds per calculation:",
+          execution_time / len(Pf_asphalt_impact))
 
-        print("Execution time:", execution_time, "seconds")
-
-    print(Pf_asphalt_impact, len(Pf_asphalt_impact))
-    print(nr_samples)
-
-
+    print("Asphalt impact", Pf_asphalt_impact, len(Pf_asphalt_impact))
+    print("Asphalt imapct", nr_samples)

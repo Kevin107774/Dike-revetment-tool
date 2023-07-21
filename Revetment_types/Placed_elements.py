@@ -249,7 +249,7 @@ ot.Log.Show(ot.Log.NONE)
 
 class VerkalitFunc:
 
-    def probVerkalit(distribution, deterministic, probabilistic='FORM'):
+    def probVerkalit(distribution, deterministic, probabilistic='custom_MC'):
         distribution_Verkalit = distribution
         deterministic_Verkalit = deterministic
 
@@ -397,10 +397,9 @@ class VerkalitFunc:
 
             nu = time.time()
             # pf = 0
-            sample_size = 10000
+            sample_size = 1000
 
             probability_Verkalit, size = custom_montecarlo(sample_size, vector)
-            print(probability_Verkalit, size)
 
         elif probabilistic == 'MC':
             # Creating the Monte Carlo simulation
@@ -475,4 +474,6 @@ class VerkalitFunc:
 
     print("VERKALIT: Execution time:", execution_time, "seconds, ", "seconds per calculation:",
           execution_time / len(Pf_Verkalit))
-    print(len(Pf_Verkalit), Pf_Verkalit)
+
+    print("VERKALIT:,", len(Pf_Verkalit), Pf_Verkalit)
+    print("VERKALIT:" ,nr_samples)

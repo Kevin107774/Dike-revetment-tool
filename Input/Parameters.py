@@ -98,7 +98,7 @@ class Parameters:
                           'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
 
     Data = []
-    for index, k in Hydraulic_BC.iloc[4:6, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[6:21, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -233,7 +233,7 @@ class Parameters:
                        'Elasticity modulus', 'Transverse contraction coefficient', 'gravity']
 
     hydra = []
-    for index, k in Hydraulic_BC.iloc[16:36, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[8:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -262,21 +262,8 @@ class Parameters:
 
     # -----------------------------------------------------------------------------------------
 
-    # # Density concrete
-    # Density_concrete = np.linspace(2650, 3000, 8)
-    # rho_c = []
-    # mu_rho_c = []
-    # for i in Density_concrete:
-    #     Expected_value_rho_c = i
-    #     COV = 0.0103
-    #     Standard_deviation = COV * Expected_value_rho_c
-    #     mu_rho_c.append(Expected_value_rho_c)
-    #     Density_Concrete_distributions = ot.Normal(Expected_value_rho_c, Standard_deviation)
-    #     rho_c.append(Density_Concrete_distributions)
-
-    #######TEST
     # Density concrete
-    Density_concrete = np.linspace(2650, 2800, 4)
+    Density_concrete = np.linspace(2650, 3000, 8)
     rho_c = []
     mu_rho_c = []
     for i in Density_concrete:
@@ -287,10 +274,8 @@ class Parameters:
         Density_Concrete_distributions = ot.Normal(Expected_value_rho_c, Standard_deviation)
         rho_c.append(Density_Concrete_distributions)
 
-    #######TEST
-
     # Layer thickness Basalton
-    Layer_thickness_Basalton = np.linspace(0.2, 0.35, 4)
+    Layer_thickness_Basalton = np.linspace(0.2, 0.6, 9)
     d_B = []
     mu_d_B = []
     for i in Layer_thickness_Basalton:
@@ -300,18 +285,6 @@ class Parameters:
         mu_d_B.append(Expected_value_d_B)
         Layer_thickness_Basalton_distribution = ot.Normal(Expected_value_d_B, Standard_deviation)
         d_B.append(Layer_thickness_Basalton_distribution)
-
-    # # Layer thickness Basalton
-    # Layer_thickness_Basalton = np.linspace(0.2, 0.6, 9)
-    # d_B = []
-    # mu_d_B = []
-    # for i in Layer_thickness_Basalton:
-    #     Expected_value_d_B = i
-    #     COV = 0.0304
-    #     Standard_deviation = COV * Expected_value_d_B
-    #     mu_d_B.append(Expected_value_d_B)
-    #     Layer_thickness_Basalton_distribution = ot.Normal(Expected_value_d_B, Standard_deviation)
-    #     d_B.append(Layer_thickness_Basalton_distribution)
 
     # Layer thickness Verkalit
     Layer_thickness_Verkalit = np.linspace(0.2, 0.6, 9)
@@ -362,40 +335,40 @@ class Parameters:
     f_V = 0.88
 
     # Create parameter combinations Basalton
-
-    columns_Basalton = ['Waterlevel +mNAP', 'Significant wave height', 'Peak period', 'Mean wave period',
-                        'Storm duration', 'Layer thickness Basalton', 'Density concrete', 'Slope angle',
-                        'Angle of incidence', 'Coefficient for length of loading c1',
-                        'Coefficient for length of loading c2', 'Thickness filter',
-                        'Permeability geotextile', 'Thickness geotextile', 'Kinematic viscosity water',
-                        'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
-
-    Hydra = []
-    for index, k in Hydraulic_BC.iloc[12:16, :].iterrows():
-        Hs = k[2]
-        Tp = k[4]
-        Tm = k[9]
-        t = k[7]
-        h = k[1]
-        a = k[16]
-        density = []
-        for i in mu_rho_c:
-            diameter = []
-            for j in mu_d_B:
-                input = {'Waterlevel +mNAP': h, 'Significant wave height': Hs, 'Peak period': Tp,
-                         'Mean wave period': Tm, 'Storm duration': t, 'Layer thickness Basalton': j,
-                         'Density concrete': i, 'Slope angle': a, 'Angle of incidence': B,
-                         'Coefficient for length of loading c1': c1, 'Coefficient for length of loading c2': c2,
-                         'Thickness filter': b1, 'Permeability geotextile': k2, 'Thickness geotextile': b2,
-                         'Kinematic viscosity water': kin_v, 'Porosity granular material': n_f,
-                         'Diameter filter material D15': D_f15, 'Upper level transition height': Zb}
-                diameter.append(input)
-            combinations_Basalton = pd.DataFrame(diameter, columns=columns_Basalton)
-            density.append(combinations_Basalton)
-        Hydra.append(pd.concat(density, ignore_index=True))
-    parameter_combinations_Basalton = pd.concat(Hydra, ignore_index=True)
-    pd.set_option('display.max_columns', None)
-    # print(parameter_combinations_Basalton)
+    #
+    # columns_Basalton = ['Waterlevel +mNAP', 'Significant wave height', 'Peak period', 'Mean wave period',
+    #                     'Storm duration', 'Layer thickness Basalton', 'Density concrete', 'Slope angle',
+    #                     'Angle of incidence', 'Coefficient for length of loading c1',
+    #                     'Coefficient for length of loading c2', 'Thickness filter',
+    #                     'Permeability geotextile', 'Thickness geotextile', 'Kinematic viscosity water',
+    #                     'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
+    #
+    # Hydra = []
+    # for index, k in Hydraulic_BC.iloc[12:16, :].iterrows():
+    #     Hs = k[2]
+    #     Tp = k[4]
+    #     Tm = k[9]
+    #     t = k[7]
+    #     h = k[1]
+    #     a = k[16]
+    #     density = []
+    #     for i in mu_rho_c:
+    #         diameter = []
+    #         for j in mu_d_B:
+    #             input = {'Waterlevel +mNAP': h, 'Significant wave height': Hs, 'Peak period': Tp,
+    #                      'Mean wave period': Tm, 'Storm duration': t, 'Layer thickness Basalton': j,
+    #                      'Density concrete': i, 'Slope angle': a, 'Angle of incidence': B,
+    #                      'Coefficient for length of loading c1': c1, 'Coefficient for length of loading c2': c2,
+    #                      'Thickness filter': b1, 'Permeability geotextile': k2, 'Thickness geotextile': b2,
+    #                      'Kinematic viscosity water': kin_v, 'Porosity granular material': n_f,
+    #                      'Diameter filter material D15': D_f15, 'Upper level transition height': Zb}
+    #             diameter.append(input)
+    #         combinations_Basalton = pd.DataFrame(diameter, columns=columns_Basalton)
+    #         density.append(combinations_Basalton)
+    #     Hydra.append(pd.concat(density, ignore_index=True))
+    # parameter_combinations_Basalton = pd.concat(Hydra, ignore_index=True)
+    # pd.set_option('display.max_columns', None)
+    # # print(parameter_combinations_Basalton)
 
     # Create parameter combinations Verkalit
 
@@ -408,7 +381,7 @@ class Parameters:
                         'Factor Verkalit']
 
     Hydra2 = []
-    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[8:21, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]

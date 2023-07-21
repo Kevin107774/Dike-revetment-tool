@@ -2,6 +2,8 @@
 import numpy as np
 import openturns as ot
 import time
+
+import pandas as pd
 from openturns.viewer import View
 import openturns.viewer as viewer
 from matplotlib import pylab as plt
@@ -13,7 +15,7 @@ ot.Log.Show(ot.Log.NONE)
 
 class VdMeerFunc:
 
-    def problooserock(distribution, deterministic, probabilistic='FORM'):
+    def problooserock(distribution, deterministic, probabilistic='custom_MC'):
 
         distributionvdmeer = distribution
         deterministicvdmeer = deterministic
@@ -38,7 +40,7 @@ class VdMeerFunc:
                 c = [0.00011, 0.00039, 0.00171, 0.00654, 0.02174, 0.06320, 0.16084, 0.35550, 0.66667, 1]
                 sg = (2 * np.pi) / Tp
                 c0 = g / sg
-                k0d = sg * (h+0.4) / c0
+                k0d = sg * (h + 0.4) / c0
                 kd = np.sqrt(k0d * k0d + k0d / np.polyval(c, k0d))
                 ar = k0d / kd
                 sf = ar + kd * (1 - ar * ar)
@@ -50,8 +52,6 @@ class VdMeerFunc:
 
             L = Wavelength(g, Tp, h)[0]
 
-            print(h, L)
-
             zeta = np.tan(a) / (np.sqrt(Hs / L))
 
             # If performing FORM analysis turn the breaker criterium off. Too discontinue
@@ -61,7 +61,7 @@ class VdMeerFunc:
             if H_sb < Hs:
                 return [9999999999]
 
-            zeta_cr = (C_pl / C_s * P**0.31 * np.sqrt(np.tan(a)))**1 / (P + 0.5)
+            zeta_cr = (C_pl / C_s * P ** 0.31 * np.sqrt(np.tan(a))) ** 1 / (P + 0.5)
 
             if zeta <= zeta_cr:
                 # Limit state function plunging waves:
@@ -131,7 +131,7 @@ class VdMeerFunc:
 
             nu = time.time()
             # pf = 0
-            sample_size = 100
+            sample_size = 1000
 
             probability, size = custom_montecarlo(sample_size, vect)
             # print(probability, size)
@@ -212,26 +212,18 @@ class VdMeerFunc:
     Pf_Loose_Rock = []
     nr_samples = []
 
+    start_time = time.time()
 
     for i in VdMeerInput.distributionvdmeer2:
         for j in VdMeerInput.deterministicvdmeer2:
-            start_time = time.time()
             Pf_Loose_Rock.append(problooserock(i, j, 'custom_MC')[0])
             nr_samples.append(problooserock(i, j, 'custom_MC')[1])
 
-            print(Pf_Loose_Rock[-1], nr_samples[-1])
+    end_time = time.time()
+    execution_time = end_time - start_time
 
-            end_time = time.time()
-            execution_time = end_time - start_time
+    print("Loose rock, Execution time:", execution_time, "seconds, seconds per calculation:",
+          execution_time / len(Pf_Loose_Rock))
 
-            print("Execution time:", execution_time, "seconds, ")
-            # print(i, j)
-
-
-
-
-
-    print(len(Pf_Loose_Rock), Pf_Loose_Rock)
-    print(nr_samples)
-
-
+    print("Loose rock", len(Pf_Loose_Rock), Pf_Loose_Rock)
+    print("Loose rock", nr_samples)
