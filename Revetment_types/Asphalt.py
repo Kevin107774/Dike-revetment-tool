@@ -280,7 +280,7 @@ class AsphaltFunc:
                 # print(samples)
                 return pf, samples
 
-            sample_size = 1000
+            sample_size = 14500000
             probability_impact, size = custom_montecarlo(sample_size, vector)
             # print(probability_impact, size)
 

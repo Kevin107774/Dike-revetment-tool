@@ -64,7 +64,7 @@ Parameter_combinations['ECI'] = Parameter_combinations.apply(
         row['Nominal diameter rock'], ECILib.ECI_LR_maintenance), axis=1)
 
 print(Parameter_combinations)
-Parameter_combinations.to_excel("LooseRock_S16000000_21-7_Table(1.6-4mNAP).xlsx")
+Parameter_combinations.to_excel("LooseRock_S16000000_21-7_Table(1.6-2.4mNAP).xlsx")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ASPHALT
@@ -94,7 +94,7 @@ Parameter_combinations_asphalt['ECI'] = Parameter_combinations_asphalt.apply(lam
     'Asphalt layer thickness'], row['Water level +mNAP'], row['slope asphalt']), axis=1)
 
 print(Parameter_combinations_asphalt)
-Parameter_combinations_asphalt.to_excel("AsphaltImpact_S16000000_21-7_Table(1.8-6.2mNAP).xlsx")
+Parameter_combinations_asphalt.to_excel("AsphaltImpact_S14500000_21-7_Table(2.4-6.2mNAP).xlsx")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -146,7 +146,7 @@ Parameter_combinations_Verkalit['ECI'] = Parameter_combinations_Verkalit.apply(l
     row['Layer thickness Verkalit'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
 
 print(Parameter_combinations_Verkalit)
-Parameter_combinations_Verkalit.to_excel("Verkalit_S16000000_21-7_Table(1.8-4mNAP).xlsx")
+Parameter_combinations_Verkalit.to_excel("Verkalit_S14500000_21-7_Table(1.8-2.4mNAP).xlsx")
 
 # # ----------------------------------------------------------------------------------------------------------------------
 # # GRASS

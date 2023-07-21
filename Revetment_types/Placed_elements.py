@@ -397,7 +397,7 @@ class VerkalitFunc:
 
             nu = time.time()
             # pf = 0
-            sample_size = 1000
+            sample_size = 14500000
 
             probability_Verkalit, size = custom_montecarlo(sample_size, vector)
 
