@@ -299,8 +299,10 @@ class VerkalitFunc:
 
             P_Zb = np.maximum(1.06 * (np.maximum((Zb - h) / Hs, -0.3) + 0.3) ** 0.125,
                               5 * (np.minimum((Zb - h) / Hs, -0.2)) ** 4 + 0.9)
+            # print('P_zb', P_Zb)
 
             P_tana = 0.54 * (np.tan(a)) ** -0.49
+            # print('P_tana', P_tana)
 
             a_f = 160 * (v_kin * (1 - n_f) ** 2) / (g * n_f ** 3 * D_f15 ** 2)
 
@@ -319,18 +321,25 @@ class VerkalitFunc:
             Lambda = 0.38
 
             P_Lambda = 0.42 * (Lambda / d_b) ** -2.4 + 0.81
+            # print('P_Lambda', P_Lambda)
 
             P_Delta = 0.25 * ((rho_c - rho_w) / rho_w - 1.7) ** 2 + 0.98
+            # print('P_Delta', P_Delta)
 
             P_N = np.maximum(3.1 * (t / (Tp / 1.2)) ** -0.141, 0.8)
+            # print('P_N', P_N)
 
             P_B = 5.5 * 10 ** -22 * (B + 90) ** 9.5 + 1
+            # print('P_beta', P_B)
 
             S_op = Hs / L
 
             P_Sop = np.maximum(0.032 * (S_op + 0.3) ** -3, 1.66 * (S_op + 0.3) ** 0.47)
+            # print('P_Sop', P_Sop)
 
             P_D = 1 / (0.054 * d_b ** -1.3 + 0.79)
+            # print('diameter rock', d_b)
+            # print('P_d', P_D)
 
             fs_front = np.maximum(1 - c1 * np.log(t / (Tp / 1.2) / 1000), c2)
 
@@ -338,10 +347,16 @@ class VerkalitFunc:
 
             MAX_stab = ((7 * (np.minimum(Irr, 2)) ** (-1 / 3) + np.maximum(0.5 * (np.minimum(Irr, 5) - 2), 0)) / (
                 np.maximum(((np.cos(B)) ** (2 / 3)), 0.4))) * fs_front
+            # print('MAX_stab', MAX_stab)
 
-            Z_Verkalit = [Hs / (((rho_c - rho_w) / rho_w) * d_b) -
-                          np.minimum(4.93 * P_Zb * P_tana * P_Lambda * P_Delta * P_N * P_B * P_Sop * P_D * f_V,
-                                     MAX_stab)]
+            req_stab = 4.93 * P_Zb * P_tana * P_Lambda * P_Delta * P_N * P_B * P_Sop * P_D * f_V
+            print('req_stab', req_stab)
+
+            stability_number = Hs / (((rho_c - rho_w) / rho_w) * d_b)
+            print('stability number', stability_number)
+
+            Z_Verkalit = [np.minimum(4.93 * P_Zb * P_tana * P_Lambda * P_Delta * P_N * P_B * P_Sop * P_D * f_V,
+                                     MAX_stab) - Hs / (((rho_c - rho_w) / rho_w) * d_b)]
 
             return Z_Verkalit
 
@@ -397,7 +412,7 @@ class VerkalitFunc:
 
             nu = time.time()
             # pf = 0
-            sample_size = 14500000
+            sample_size = 1450
 
             probability_Verkalit, size = custom_montecarlo(sample_size, vector)
 
@@ -468,6 +483,7 @@ class VerkalitFunc:
     for i in ElementInput.distributionverkalit:
         Pf_Verkalit.append(probVerkalit(i, ElementInput.deterministicverkalit, 'custom_MC')[0])
         nr_samples.append(probVerkalit(i, ElementInput.deterministicverkalit, 'custom_MC')[1])
+        print(len(Pf_Verkalit), Pf_Verkalit)
 
     end_time = time.time()
     execution_time = end_time - start_time

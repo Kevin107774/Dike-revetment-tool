@@ -19,9 +19,9 @@ class ECIFunc:
         if h <= 1.79:
             slopelength_LR = np.sqrt((h - 0.37) ** 2 + ((h - 0.37) * (1 / a)) ** 2)
         elif 1.79 < h <= 2.41:
-            slopelength_LR = 8.19 + np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
+            slopelength_LR = 8.34 + np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
         else:
-            slopelength_LR = 8.19 + 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
+            slopelength_LR = 8.34 + 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
         filter_thickness = 0.2
         m2_LR = slopelength_LR * (ECILib.ECI_installation_LR + ECILib.ECI_filter_LR * filter_thickness)
         m3_LR = slopelength_LR * (ECILib.ECI_Transport_LR + ECILib.ECI_LR)

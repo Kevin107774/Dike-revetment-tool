@@ -8,9 +8,9 @@ import openturns.viewer as viewer
 from matplotlib import pylab as plt
 from Revetment_types.Loose_Rock import VdMeerFunc
 from Input.Parameters import Parameters
-from Revetment_types.Asphalt import AsphaltFunc
+# from Revetment_types.Asphalt import AsphaltFunc
 # from Revetment_types.Placed_elements import BasaltonFunc
-from Revetment_types.Placed_elements import VerkalitFunc
+# from Revetment_types.Placed_elements import VerkalitFunc
 from ECI.ECI_class import ECIFunc
 from ECI.ECI_Library import ECILib
 
@@ -64,37 +64,37 @@ Parameter_combinations['ECI'] = Parameter_combinations.apply(
         row['Nominal diameter rock'], ECILib.ECI_LR_maintenance), axis=1)
 
 print(Parameter_combinations)
-Parameter_combinations.to_excel("LooseRock_S16000000_21-7_Table(1.6-2.4mNAP).xlsx")
+Parameter_combinations.to_excel("LooseRock_S16000000_9_8_Table(1.6-1.8mNAP).xlsx")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ASPHALT
 # Retrieve results from Asphalt uplift model
 
-Parameter_combinations_asphalt = Parameters.parameter_combinations_asphalt
-Number_samples = AsphaltFunc.nr_samples
-# Probability_failure_uplift = AsphaltFunc.Pf_asphalt_uplift
-Probability_failure_impact = AsphaltFunc.Pf_asphalt_impact
+# Parameter_combinations_asphalt = Parameters.parameter_combinations_asphalt
+# Number_samples = AsphaltFunc.nr_samples
+# # Probability_failure_uplift = AsphaltFunc.Pf_asphalt_uplift
+# Probability_failure_impact = AsphaltFunc.Pf_asphalt_impact
+# #
+# #
+# # Add the Pf as a column to the dataframe
+# # Parameter_combinations_asphalt['Probability of failure uplift'] = Probability_failure_uplift
+# Parameter_combinations_asphalt['Probability of failure impact'] = Probability_failure_impact
 #
+# #
+# # Add the Pf for the design lifetime to the dataframe
+# # Parameter_combinations_asphalt['Pf uplift 50 year'] = pflifetime(Parameter_combinations_asphalt['Probability of '
+# #                                                                                                 'failure uplift'])
+# Parameter_combinations_asphalt['Pf impact 50 year'] = pflifetime(Parameter_combinations_asphalt['Probability of '
+#                                                                                                 'failure impact'])
+# # Add the number of samples to the dataframe
+# Parameter_combinations_asphalt['Number of samples (impact)'] = Number_samples
 #
-# Add the Pf as a column to the dataframe
-# Parameter_combinations_asphalt['Probability of failure uplift'] = Probability_failure_uplift
-Parameter_combinations_asphalt['Probability of failure impact'] = Probability_failure_impact
-
+# # Add ECI as column to the dataframe
+# Parameter_combinations_asphalt['ECI'] = Parameter_combinations_asphalt.apply(lambda row: ECIFunc.ECIAsphalt(row[
+#     'Asphalt layer thickness'], row['Water level +mNAP'], row['slope asphalt']), axis=1)
 #
-# Add the Pf for the design lifetime to the dataframe
-# Parameter_combinations_asphalt['Pf uplift 50 year'] = pflifetime(Parameter_combinations_asphalt['Probability of '
-#                                                                                                 'failure uplift'])
-Parameter_combinations_asphalt['Pf impact 50 year'] = pflifetime(Parameter_combinations_asphalt['Probability of '
-                                                                                                'failure impact'])
-# Add the number of samples to the dataframe
-Parameter_combinations_asphalt['Number of samples (impact)'] = Number_samples
-
-# Add ECI as column to the dataframe
-Parameter_combinations_asphalt['ECI'] = Parameter_combinations_asphalt.apply(lambda row: ECIFunc.ECIAsphalt(row[
-    'Asphalt layer thickness'], row['Water level +mNAP'], row['slope asphalt']), axis=1)
-
-print(Parameter_combinations_asphalt)
-Parameter_combinations_asphalt.to_excel("AsphaltImpact_S14500000_21-7_Table(2.4-6.2mNAP).xlsx")
+# print(Parameter_combinations_asphalt)
+# Parameter_combinations_asphalt.to_excel("AsphaltImpact_S14500000_21-7_Table(2.4-6.2mNAP).xlsx")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -127,26 +127,26 @@ Parameter_combinations_asphalt.to_excel("AsphaltImpact_S14500000_21-7_Table(2.4-
 # ELEMENTS (Verkalit)
 # Retrieve results from elements, Verkalit
 
-Parameter_combinations_Verkalit = Parameters.parameter_combinations_Verkalit
-Number_samples = VerkalitFunc.nr_samples
-Probability_failure_Verkalit = VerkalitFunc.Pf_Verkalit
-
-# Add the Pf as a column to the dataframe
-Parameter_combinations_Verkalit['Probability of failure Verkalit'] = Probability_failure_Verkalit
-
-# Add the Pf for the design lifetime to the dataframe
-Parameter_combinations_Verkalit['Pf Verkalit 50 year'] = pflifetime(
-    Parameter_combinations_Verkalit['Probability of failure Verkalit'])
-
-# Add the number of samples to the dataframe
-Parameter_combinations_Verkalit['Number of samples'] = Number_samples
-
-# Add ECI as column to the dataframe
-Parameter_combinations_Verkalit['ECI'] = Parameter_combinations_Verkalit.apply(lambda row: ECIFunc.ECIVerkalit(
-    row['Layer thickness Verkalit'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
-
-print(Parameter_combinations_Verkalit)
-Parameter_combinations_Verkalit.to_excel("Verkalit_S14500000_21-7_Table(1.8-2.4mNAP).xlsx")
+# Parameter_combinations_Verkalit = Parameters.parameter_combinations_Verkalit
+# Number_samples = VerkalitFunc.nr_samples
+# Probability_failure_Verkalit = VerkalitFunc.Pf_Verkalit
+#
+# # Add the Pf as a column to the dataframe
+# Parameter_combinations_Verkalit['Probability of failure Verkalit'] = Probability_failure_Verkalit
+#
+# # Add the Pf for the design lifetime to the dataframe
+# Parameter_combinations_Verkalit['Pf Verkalit 50 year'] = pflifetime(
+#     Parameter_combinations_Verkalit['Probability of failure Verkalit'])
+#
+# # Add the number of samples to the dataframe
+# Parameter_combinations_Verkalit['Number of samples'] = Number_samples
+#
+# # Add ECI as column to the dataframe
+# Parameter_combinations_Verkalit['ECI'] = Parameter_combinations_Verkalit.apply(lambda row: ECIFunc.ECIVerkalit(
+#     row['Layer thickness Verkalit'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
+#
+# print(Parameter_combinations_Verkalit)
+# Parameter_combinations_Verkalit.to_excel("Verkalit_S14500000_21-7_Table(1.8-2.4mNAP).xlsx")
 
 # # ----------------------------------------------------------------------------------------------------------------------
 # # GRASS
