@@ -19,7 +19,7 @@ class HydraulicBoundary:
 # ----------------------------------------------------------------------------------------------------------------------
 # Hydraulic boundary conditions Loose Rock
 
-    def HydraulicBoundariesLR(Table = Hydraulic_BC.iloc[6:32, :]):
+    def HydraulicBoundariesLR(Table = Hydraulic_BC.iloc[6:8, :]):
         Loose_rock = Table
 
         data = []
@@ -45,7 +45,7 @@ class HydraulicBoundary:
     pd.set_option('display.max_columns', None)
     # print(Hb_LR)
 
-    def HydraulicBoundariesVerkalit(Table = Hydraulic_BC.iloc[8:7, :]):
+    def HydraulicBoundariesVerkalit(Table = Hydraulic_BC.iloc[9:10, :]):
         Verkalit = Table
 
         data = []
@@ -73,35 +73,35 @@ class HydraulicBoundary:
     pd.set_option('display.max_columns', None)
     # print(Hb_ver)
 
-    # def HydraulicBoundariesBasalton(Table = Hydraulic_BC.iloc[12:16, :]):
-    #     Basalton = Table
-    #
-    #     data = []
-    #     columns = ['Waterlevel_Basalton', 'Significant_waveheight_Basalton', 'Peak_period_Basalton',
-    #                'Mean_period_Basalton', 'Storm_duration_Basalton', 'Slope_angle_Basalton']
-    #
-    #     for index, i in Basalton.iterrows():
-    #         Waterlevel_Basalton = ot.Normal(i[1], i[12])
-    #         Significant_waveheight_Basalton = ot.Normal(i[2], i[3])
-    #         Peak_period_Basalton = ot.Normal(i[4], i[5])
-    #         Mean_period_Basalton = ot.Normal(i[9], i[10])
-    #         Storm_duration_Basalton = ot.Normal(i[7], i[8])
-    #         Slope_angle_Basalton = ot.Normal(i[16], i[17])
-    #
-    #         row = [Waterlevel_Basalton, Significant_waveheight_Basalton, Peak_period_Basalton, Mean_period_Basalton,
-    #                Storm_duration_Basalton, Slope_angle_Basalton]
-    #         data.append(row)
-    #
-    #     Basalton_Hydraulic_BC_Distribution = pd.DataFrame(data, columns=columns)
-    #     return Basalton_Hydraulic_BC_Distribution
-    #
-    #     # print(Basalton_Hydraulic_BC_Distribution)
-    #
-    # Hb_bas = HydraulicBoundariesBasalton()
-    # pd.set_option('display.max_columns', None)
+    def HydraulicBoundariesBasalton(Table = Hydraulic_BC.iloc[12:16, :]):
+        Basalton = Table
+
+        data = []
+        columns = ['Waterlevel_Basalton', 'Significant_waveheight_Basalton', 'Peak_period_Basalton',
+                   'Mean_period_Basalton', 'Storm_duration_Basalton', 'Slope_angle_Basalton']
+
+        for index, i in Basalton.iterrows():
+            Waterlevel_Basalton = ot.Normal(i[1], i[12])
+            Significant_waveheight_Basalton = ot.Normal(i[2], i[3])
+            Peak_period_Basalton = ot.Normal(i[4], i[5])
+            Mean_period_Basalton = ot.Normal(i[9], i[10])
+            Storm_duration_Basalton = ot.Normal(i[7], i[8])
+            Slope_angle_Basalton = ot.Normal(i[16], i[17])
+
+            row = [Waterlevel_Basalton, Significant_waveheight_Basalton, Peak_period_Basalton, Mean_period_Basalton,
+                   Storm_duration_Basalton, Slope_angle_Basalton]
+            data.append(row)
+
+        Basalton_Hydraulic_BC_Distribution = pd.DataFrame(data, columns=columns)
+        return Basalton_Hydraulic_BC_Distribution
+
+        # print(Basalton_Hydraulic_BC_Distribution)
+
+    Hb_bas = HydraulicBoundariesBasalton()
+    pd.set_option('display.max_columns', None)
     # # print(Hb_bas)
 
-    def HydraulicBoundariesAsphalt(Table = Hydraulic_BC.iloc[12:32, :]):
+    def HydraulicBoundariesAsphalt(Table = Hydraulic_BC.iloc[12:15, :]):
         Asphalt = Table
 
         data = []

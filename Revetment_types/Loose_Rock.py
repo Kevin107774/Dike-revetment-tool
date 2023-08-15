@@ -2,20 +2,22 @@
 import numpy as np
 import openturns as ot
 import time
-
 import pandas as pd
-from openturns.viewer import View
-import openturns.viewer as viewer
-from matplotlib import pylab as plt
+# from openturns.viewer import View
+# import openturns.viewer as viewer
+# from matplotlib import pylab as plt
 from Input.Parameters_Class import VdMeerInput
-from scipy.optimize import fsolve
+# from scipy.optimize import fsolve
+import threading
+# from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 
 ot.Log.Show(ot.Log.NONE)
 
 
 class VdMeerFunc:
 
-    def problooserock(distribution, deterministic, probabilistic='custom_MC'):
+    def problooserock(self, distribution, deterministic, probabilistic='custom_MC'):
 
         distributionvdmeer = distribution
         deterministicvdmeer = deterministic
@@ -129,7 +131,7 @@ class VdMeerFunc:
 
                 return pf, samples
 
-            nu = time.time()
+            # nu = time.time()
             # pf = 0
             sample_size = 1600
 
@@ -201,6 +203,7 @@ class VdMeerFunc:
 
         return probability, size
 
+
     # Retrieve alpha values: Use 1 row as input for the function, otherwise too many graphs to publish.
 
     # x = VdMeerInput.distributionvdmeer2[20]
@@ -209,17 +212,30 @@ class VdMeerFunc:
     # print(x, y)
     # print(Pf_for_alpha)
 
+def calculate_probabilities(args):
+    i, j = args
+    vdm_instance = VdMeerFunc()
+    result, samples = vdm_instance.problooserock(i, j, 'custom_MC')
+    return result, samples
+
+if __name__ == "__main__":
     Pf_Loose_Rock = []
     nr_samples = []
 
     start_time = time.time()
 
-    for i in VdMeerInput.distributionvdmeer2:
-        for j in VdMeerInput.deterministicvdmeer2:
-            Pf_Loose_Rock.append(problooserock(i, j, 'custom_MC')[0])
-            nr_samples.append(problooserock(i, j, 'custom_MC')[1])
-            # print(len(Pf_Loose_Rock), Pf_Loose_Rock)
-            # print(nr_samples)
+    # Create a ProcessPoolExecutor with the desired number of processes
+    num_processes = 6  # You can adjust this based on your system's capacity
+    with ProcessPoolExecutor(max_workers=num_processes) as executor:
+        args_list = [(i, j) for i in VdMeerInput.distributionvdmeer2 for j in VdMeerInput.deterministicvdmeer2]
+        results = executor.map(calculate_probabilities, args_list)
+
+        # Collect the results
+        for result, samples in results:
+            Pf_Loose_Rock.append(result)
+            nr_samples.append(samples)
+            print(len(Pf_Loose_Rock), Pf_Loose_Rock)
+            print(nr_samples)
 
     end_time = time.time()
     execution_time = end_time - start_time

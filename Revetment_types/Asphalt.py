@@ -8,6 +8,7 @@ from matplotlib import pylab as plt
 from Input.Parameters_Class import AsphaltUpliftInput
 from Input.Parameters_Class import AsphaltImpactInput
 from scipy.optimize import fsolve
+from concurrent.futures import ProcessPoolExecutor
 
 ot.Log.Show(ot.Log.NONE)
 
@@ -164,7 +165,7 @@ class AsphaltFunc:
     #       execution_time / len(Pf_asphalt_uplift))
     # print(Pf_asphalt_uplift)
 
-    def probasphaltimpact(distribution, deterministic, probabilistic='custom_MC'):
+    def probasphaltimpact(self, distribution, deterministic, probabilistic='custom_MC'):
 
         distributionasphalt = distribution
         deterministicasphalt = deterministic
@@ -280,7 +281,7 @@ class AsphaltFunc:
                 # print(samples)
                 return pf, samples
 
-            sample_size = 14500000
+            sample_size = 1450
             probability_impact, size = custom_montecarlo(sample_size, vector)
             # print(probability_impact, size)
 
@@ -345,13 +346,30 @@ class AsphaltFunc:
     # print(x, y)
     # print(Pf_for_alpha)
 
+def probability_asphalt_impact(args):
+    i, j = args
+    asphalt_instance = AsphaltFunc()
+    result, samples, = asphalt_instance.probasphaltimpact(i, j, 'custom_MC')
+    return result, samples
+
+if __name__ == "__main__":
     Pf_asphalt_impact = []
     nr_samples = []
 
     start_time = time.time()
-    for j in AsphaltImpactInput.distribution_impact_asphalt:
-        Pf_asphalt_impact.append(probasphaltimpact(j, AsphaltImpactInput.deterministic_impact_asphalt, 'custom_MC')[0])
-        nr_samples.append(probasphaltimpact(j, AsphaltImpactInput.deterministic_impact_asphalt, 'custom_MC')[1])
+
+    # Create the ProcessPoolExecutor with the desired number of processes
+    num_processes = 6  # Adjust based on the system's capacity
+    with ProcessPoolExecutor(max_workers=num_processes) as executor:
+        args_list = [(i, AsphaltImpactInput.deterministic_impact_asphalt) for i in AsphaltImpactInput.distribution_impact_asphalt]
+        results = executor.map(probability_asphalt_impact, args_list)
+
+    # Collect the results
+    for result, samples in results:
+        Pf_asphalt_impact.append(result)
+        nr_samples.append(samples)
+        print(len(Pf_asphalt_impact), Pf_asphalt_impact)
+        print(nr_samples)
 
     end_time = time.time()
     execution_time = end_time - start_time

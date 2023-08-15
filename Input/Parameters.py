@@ -125,7 +125,7 @@ class Parameters:
 
     # ------------------------------------------------------------------------
     # Asphalt layer thickness d [m]
-    Asphalt_layer_thickness = np.array([0.15, 0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.50, 0.55, 0.60])
+    Asphalt_layer_thickness = np.array([0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5])
     d_a = []
     mu_da = []
     for i in Asphalt_layer_thickness:

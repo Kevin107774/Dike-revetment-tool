@@ -37,37 +37,37 @@ class VdMeerInput:
 
 
 class ElementInput:
-    # distributionbasalton = []
+    distributionbasalton = []
     distributionverkalit = []
 
-    # for index, k in HydraulicBoundary.HydraulicBoundariesBasalton().iterrows():
-    #     Hs = k[1]
-    #     Tp = k[2]
-    #     t = k[4]
-    #     h = k[0]
-    #     a = k[5]
-    #     for i in Parameters.rho_c:
-    #         rho_c = i
-    #         for j in Parameters.d_B:
-    #             d_B = j
-    #             rho_w = Parameters.Density_water
-    #
-    #             distribution = ot.ComposedDistribution([Hs, Tp, t, h, a, rho_c, d_B, rho_w])
-    #             distributionbasalton.append(distribution)
-    #
-    # B = Parameters.B
-    # c1 = Parameters.c1
-    # c2 = Parameters.c2
-    # b1 = Parameters.b1
-    # k2 = Parameters.k2
-    # b2 = Parameters.b2
-    # v_kin = Parameters.kin_v
-    # n_f = Parameters.n_f
-    # D_f15 = Parameters.D_f15
-    # g = Parameters.g
-    # Zb = Parameters.Zb
-    #
-    # deterministicbasalton = (B, c1, c2, b1, k2, b2, v_kin, n_f, D_f15, g, Zb)
+    for index, k in HydraulicBoundary.HydraulicBoundariesBasalton().iterrows():
+        Hs = k[1]
+        Tp = k[2]
+        t = k[4]
+        h = k[0]
+        a = k[5]
+        for i in Parameters.rho_c:
+            rho_c = i
+            for j in Parameters.d_B:
+                d_B = j
+                rho_w = Parameters.Density_water
+
+                distribution = ot.ComposedDistribution([Hs, Tp, t, h, a, rho_c, d_B, rho_w])
+                distributionbasalton.append(distribution)
+
+    B = Parameters.B
+    c1 = Parameters.c1
+    c2 = Parameters.c2
+    b1 = Parameters.b1
+    k2 = Parameters.k2
+    b2 = Parameters.b2
+    v_kin = Parameters.kin_v
+    n_f = Parameters.n_f
+    D_f15 = Parameters.D_f15
+    g = Parameters.g
+    Zb = Parameters.Zb
+
+    deterministicbasalton = (B, c1, c2, b1, k2, b2, v_kin, n_f, D_f15, g, Zb)
 
     # print(distributionbasalton)
     # print(deterministicbasalton)
