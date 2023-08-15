@@ -19,7 +19,7 @@ class HydraulicBoundary:
 # ----------------------------------------------------------------------------------------------------------------------
 # Hydraulic boundary conditions Loose Rock
 
-    def HydraulicBoundariesLR(Table = Hydraulic_BC.iloc[6:8, :]):
+    def HydraulicBoundariesLR(Table = Hydraulic_BC.iloc[6:32, :]):
         Loose_rock = Table
 
         data = []

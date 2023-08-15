@@ -98,7 +98,7 @@ class Parameters:
                           'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
 
     Data = []
-    for index, k in Hydraulic_BC.iloc[6:7, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[6:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -121,7 +121,7 @@ class Parameters:
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_LR)
     # Export the DataFrame to an Excel file
-    # parameter_combinations_LR.to_excel('parameter_combinations_LR.xlsx', index=False)
+    # parameter_combinations_LR.to_excel('Result_LR_TOTAL.xlsx', index=False)
 
     # ------------------------------------------------------------------------
     # Asphalt layer thickness d [m]
@@ -233,7 +233,7 @@ class Parameters:
                        'Elasticity modulus', 'Transverse contraction coefficient', 'gravity']
 
     hydra = []
-    for index, k in Hydraulic_BC.iloc[12:32, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[6:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -259,6 +259,7 @@ class Parameters:
     parameter_combinations_asphalt = pd.concat(hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_asphalt)
+    parameter_combinations_asphalt.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx', index=False)
 
     # -----------------------------------------------------------------------------------------
 
@@ -335,40 +336,43 @@ class Parameters:
     f_V = 0.88
 
     # Create parameter combinations Basalton
-    #
-    # columns_Basalton = ['Waterlevel +mNAP', 'Significant wave height', 'Peak period', 'Mean wave period',
-    #                     'Storm duration', 'Layer thickness Basalton', 'Density concrete', 'Slope angle',
-    #                     'Angle of incidence', 'Coefficient for length of loading c1',
-    #                     'Coefficient for length of loading c2', 'Thickness filter',
-    #                     'Permeability geotextile', 'Thickness geotextile', 'Kinematic viscosity water',
-    #                     'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
-    #
-    # Hydra = []
-    # for index, k in Hydraulic_BC.iloc[12:16, :].iterrows():
-    #     Hs = k[2]
-    #     Tp = k[4]
-    #     Tm = k[9]
-    #     t = k[7]
-    #     h = k[1]
-    #     a = k[16]
-    #     density = []
-    #     for i in mu_rho_c:
-    #         diameter = []
-    #         for j in mu_d_B:
-    #             input = {'Waterlevel +mNAP': h, 'Significant wave height': Hs, 'Peak period': Tp,
-    #                      'Mean wave period': Tm, 'Storm duration': t, 'Layer thickness Basalton': j,
-    #                      'Density concrete': i, 'Slope angle': a, 'Angle of incidence': B,
-    #                      'Coefficient for length of loading c1': c1, 'Coefficient for length of loading c2': c2,
-    #                      'Thickness filter': b1, 'Permeability geotextile': k2, 'Thickness geotextile': b2,
-    #                      'Kinematic viscosity water': kin_v, 'Porosity granular material': n_f,
-    #                      'Diameter filter material D15': D_f15, 'Upper level transition height': Zb}
-    #             diameter.append(input)
-    #         combinations_Basalton = pd.DataFrame(diameter, columns=columns_Basalton)
-    #         density.append(combinations_Basalton)
-    #     Hydra.append(pd.concat(density, ignore_index=True))
-    # parameter_combinations_Basalton = pd.concat(Hydra, ignore_index=True)
-    # pd.set_option('display.max_columns', None)
-    # # print(parameter_combinations_Basalton)
+
+    columns_Basalton = ['Waterlevel +mNAP', 'Significant wave height', 'Peak period', 'Mean wave period',
+                        'Storm duration', 'Layer thickness Basalton', 'Density concrete', 'Slope angle',
+                        'Angle of incidence', 'Coefficient for length of loading c1',
+                        'Coefficient for length of loading c2', 'Thickness filter',
+                        'Permeability geotextile', 'Thickness geotextile', 'Kinematic viscosity water',
+                        'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
+
+    Hydra = []
+    for index, k in Hydraulic_BC.iloc[12:16, :].iterrows():
+        Hs = k[2]
+        Tp = k[4]
+        Tm = k[9]
+        t = k[7]
+        h = k[1]
+        a = k[16]
+        density = []
+        for i in mu_rho_c:
+            diameter = []
+            for j in mu_d_B:
+                input = {'Waterlevel +mNAP': h, 'Significant wave height': Hs, 'Peak period': Tp,
+                         'Mean wave period': Tm, 'Storm duration': t, 'Layer thickness Basalton': j,
+                         'Density concrete': i, 'Slope angle': a, 'Angle of incidence': B,
+                         'Coefficient for length of loading c1': c1, 'Coefficient for length of loading c2': c2,
+                         'Thickness filter': b1, 'Permeability geotextile': k2, 'Thickness geotextile': b2,
+                         'Kinematic viscosity water': kin_v, 'Porosity granular material': n_f,
+                         'Diameter filter material D15': D_f15, 'Upper level transition height': Zb}
+                diameter.append(input)
+            combinations_Basalton = pd.DataFrame(diameter, columns=columns_Basalton)
+            density.append(combinations_Basalton)
+        Hydra.append(pd.concat(density, ignore_index=True))
+    parameter_combinations_Basalton = pd.concat(Hydra, ignore_index=True)
+    pd.set_option('display.max_columns', None)
+    # print(parameter_combinations_Basalton)
+    parameter_combinations_Basalton.to_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx',
+        index=False)
 
     # Create parameter combinations Verkalit
 
@@ -381,7 +385,7 @@ class Parameters:
                         'Factor Verkalit']
 
     Hydra2 = []
-    for index, k in Hydraulic_BC.iloc[8:9, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[6:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]
@@ -407,4 +411,7 @@ class Parameters:
     parameter_combinations_Verkalit = pd.concat(Hydra2, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_Verkalit)
+    parameter_combinations_Verkalit.to_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit complete.xlsx',
+        index=False)
 

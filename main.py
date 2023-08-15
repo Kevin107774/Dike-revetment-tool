@@ -64,7 +64,7 @@ Parameter_combinations['ECI'] = Parameter_combinations.apply(
         row['Nominal diameter rock'], ECILib.ECI_LR_maintenance), axis=1)
 
 print(Parameter_combinations)
-Parameter_combinations.to_excel("LooseRock_S16000000_9_8_Table(1.6-1.8mNAP).xlsx")
+Parameter_combinations.to_excel("LooseRock_S1600_tbv ECI(1.6-6.2mNAP).xlsx")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ASPHALT

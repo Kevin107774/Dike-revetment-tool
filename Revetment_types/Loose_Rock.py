@@ -131,7 +131,7 @@ class VdMeerFunc:
 
             nu = time.time()
             # pf = 0
-            sample_size = 16000000
+            sample_size = 1600
 
             probability, size = custom_montecarlo(sample_size, vect)
             # print(probability, size)
@@ -218,8 +218,8 @@ class VdMeerFunc:
         for j in VdMeerInput.deterministicvdmeer2:
             Pf_Loose_Rock.append(problooserock(i, j, 'custom_MC')[0])
             nr_samples.append(problooserock(i, j, 'custom_MC')[1])
-            print(len(Pf_Loose_Rock), Pf_Loose_Rock)
-            print(nr_samples)
+            # print(len(Pf_Loose_Rock), Pf_Loose_Rock)
+            # print(nr_samples)
 
     end_time = time.time()
     execution_time = end_time - start_time
