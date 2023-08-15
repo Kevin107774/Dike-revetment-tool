@@ -48,20 +48,20 @@ class ECIFunc:
         ECI_Verkalit = m2_ver + m3_ver * thickness
         return ECI_Verkalit
 
-    # def ECIBasalton(thickness, waterlevel, slope):
-    #     h = waterlevel
-    #     a = slope
-    #     if 1.79 < h <= 2.41:
-    #         slopelength_Bas = np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
-    #     else:
-    #         slopelength_Bas = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
-    #     filter_thickness = 0.2
-    #     m2_Bas = slopelength_Bas * (ECILib.ECI_installation_Bas + ECILib.ECI_Geotextile_Bas +
-    #                                 (ECILib.ECI_filter_Bas + ECILib.ECI_split_Bas) * filter_thickness +
-    #                                 ECILib.ECI_Installation_filter_Bas)
-    #     m3_Bas = slopelength_Bas * (ECILib.ECI_Transport_Bas + ECILib.ECI_Basalton)
-    #     ECI_Basalton = m2_Bas + m3_Bas * thickness
-    #     return ECI_Basalton
+    def ECIBasalton(thickness, waterlevel, slope):
+        h = waterlevel
+        a = slope
+        if 1.79 < h <= 2.41:
+            slopelength_Bas = np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
+        else:
+            slopelength_Bas = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
+        filter_thickness = 0.2
+        m2_Bas = slopelength_Bas * (ECILib.ECI_installation_Bas + ECILib.ECI_Geotextile_Bas +
+                                    (ECILib.ECI_filter_Bas + ECILib.ECI_split_Bas) * filter_thickness +
+                                    ECILib.ECI_Installation_filter_Bas)
+        m3_Bas = slopelength_Bas * (ECILib.ECI_Transport_Bas + ECILib.ECI_Basalton)
+        ECI_Basalton = m2_Bas + m3_Bas * thickness
+        return ECI_Basalton
 
     def ECIAsphalt(thickness, waterlevel, slope):
         h = waterlevel

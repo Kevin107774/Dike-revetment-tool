@@ -7,6 +7,9 @@ import time
 import openturns.viewer as viewer
 from matplotlib import pylab as plt
 from Input.Parameters_Class import ElementInput
+from ECI.ECI_class import ECIFunc
+from ECI.ECI_Library import ECILib
+from Input.Parameters import Parameters
 from scipy.optimize import fsolve
 from concurrent.futures import ProcessPoolExecutor
 
@@ -248,8 +251,8 @@ if __name__ == "__main__":
         for result, samples in results:
             Pf_basalton.append(result)
             nr_samples.append(samples)
-            # print(len(Pf_basalton), Pf_basalton)
-            # print(nr_samples)
+            print(len(Pf_basalton), Pf_basalton)
+            print(nr_samples)
 
     end_time = time.time()
     execution_time = end_time - start_time
@@ -259,6 +262,32 @@ if __name__ == "__main__":
 
     print("BASALTON:,", len(Pf_basalton), Pf_basalton)
     print("BASALTON:", nr_samples)
+
+
+    def pflifetime(probability):
+        # Poisson's distribution for probability of failure lifetime
+        lifetime = 50
+        probabilty_lft = 1 - (1 - probability) ** lifetime
+        return probabilty_lft
+
+    Parameter_combinations_Basalton = Parameters.parameter_combinations_Basalton
+
+    # Add the Pf as a column to the dataframe
+    Parameter_combinations_Basalton['Probability of failure Basalton'] = Pf_basalton
+
+    # Add the Pf for the design lifetime to the dataframe
+    Parameter_combinations_Basalton['Pf Basalton 50 year'] = pflifetime(
+        Parameter_combinations_Basalton['Probability of failure Basalton'])
+
+    # Add the number of samples to the dataframe
+    Parameter_combinations_Basalton['Number of samples'] = nr_samples
+
+    # Add ECI as column to the dataframe
+    Parameter_combinations_Basalton['ECI'] = Parameter_combinations_Basalton.apply(lambda row: ECIFunc.ECIBasalton(
+        row['Layer thickness Basalton'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
+
+    print(Parameter_combinations_Basalton)
+    Parameter_combinations_Basalton.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Test Basalton 1.xlsx')
 
 class VerkalitFunc:
 
@@ -511,8 +540,8 @@ if __name__ == "__main__":
         for result, samples in results:
             Pf_Verkalit.append(result)
             nr_samples.append(samples)
-            # print(len(Pf_Verkalit), Pf_Verkalit)
-            # print(nr_samples)
+            print(len(Pf_Verkalit), Pf_Verkalit)
+            print(nr_samples)
 
     end_time = time.time()
     execution_time = end_time - start_time
@@ -522,3 +551,28 @@ if __name__ == "__main__":
 
     print("VERKALIT:,", len(Pf_Verkalit), Pf_Verkalit)
     print("VERKALIT:", nr_samples)
+
+    def pflifetime(probability):
+        # Poisson's distribution for probability of failure lifetime
+        lifetime = 50
+        probabilty_lft = 1 - (1 - probability) ** lifetime
+        return probabilty_lft
+
+    Parameter_combinations_Verkalit = Parameters.parameter_combinations_Verkalit
+
+    # Add the Pf as a column to the dataframe
+    Parameter_combinations_Verkalit['Probability of failure Verkalit'] = Pf_Verkalit
+
+    # Add the Pf for the design lifetime to the dataframe
+    Parameter_combinations_Verkalit['Pf Verkalit 50 year'] = pflifetime(
+        Parameter_combinations_Verkalit['Probability of failure Verkalit'])
+
+    # Add the number of samples to the dataframe
+    Parameter_combinations_Verkalit['Number of samples'] = nr_samples
+
+    # Add ECI as column to the dataframe
+    Parameter_combinations_Verkalit['ECI'] = Parameter_combinations_Verkalit.apply(lambda row: ECIFunc.ECIVerkalit(
+        row['Layer thickness Verkalit'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
+
+    print(Parameter_combinations_Verkalit)
+    Parameter_combinations_Verkalit.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Test Verkalit 1.xlsx')

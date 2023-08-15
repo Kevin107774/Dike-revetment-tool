@@ -98,7 +98,7 @@ class Parameters:
                           'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
 
     Data = []
-    for index, k in Hydraulic_BC.iloc[6:32, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[6:8, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -233,7 +233,7 @@ class Parameters:
                        'Elasticity modulus', 'Transverse contraction coefficient', 'gravity']
 
     hydra = []
-    for index, k in Hydraulic_BC.iloc[6:32, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -345,7 +345,7 @@ class Parameters:
                         'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
 
     Hydra = []
-    for index, k in Hydraulic_BC.iloc[12:16, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]
@@ -385,7 +385,7 @@ class Parameters:
                         'Factor Verkalit']
 
     Hydra2 = []
-    for index, k in Hydraulic_BC.iloc[6:32, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]

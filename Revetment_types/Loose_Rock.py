@@ -7,6 +7,9 @@ import pandas as pd
 # import openturns.viewer as viewer
 # from matplotlib import pylab as plt
 from Input.Parameters_Class import VdMeerInput
+from Input.Parameters import Parameters
+from ECI.ECI_class import ECIFunc
+from ECI.ECI_Library import ECILib
 # from scipy.optimize import fsolve
 import threading
 # from concurrent.futures import ThreadPoolExecutor
@@ -212,6 +215,7 @@ class VdMeerFunc:
     # print(x, y)
     # print(Pf_for_alpha)
 
+
 def calculate_probabilities(args):
     i, j = args
     vdm_instance = VdMeerFunc()
@@ -234,8 +238,8 @@ if __name__ == "__main__":
         for result, samples in results:
             Pf_Loose_Rock.append(result)
             nr_samples.append(samples)
-            print(len(Pf_Loose_Rock), Pf_Loose_Rock)
-            print(nr_samples)
+            # print(len(Pf_Loose_Rock), Pf_Loose_Rock)
+            # print(nr_samples)
 
     end_time = time.time()
     execution_time = end_time - start_time
@@ -245,3 +249,37 @@ if __name__ == "__main__":
 
     print("Loose rock", len(Pf_Loose_Rock), Pf_Loose_Rock)
     print("Loose rock", nr_samples)
+
+    def pflifetime(probability):
+        # Poisson's distribution for probability of failure lifetime
+        lifetime = 10
+        probabilty_lft = 1 - (1 - probability) ** lifetime
+        return probabilty_lft
+
+    Parameter_combinations = Parameters.parameter_combinations_LR
+
+    # Add the Pf as a column to the dataframe
+    Parameter_combinations['Probability of failure'] = Pf_Loose_Rock
+    Parameter_combinations['Pf 50 years'] = pflifetime(Parameter_combinations['Probability of failure'])
+    Parameter_combinations['Number of samples'] = nr_samples
+
+
+    # Add the ECI as a column to the dataframe
+    def maintenance_lr(diameter, ECI_main):
+        amount_maintenance_year = 0.20
+        # eens per drie jaar onderhoud
+        design_lifetime = 50
+        maintenance = diameter * ECI_main * amount_maintenance_year * design_lifetime
+        return maintenance
+
+
+    Parameter_combinations['ECI'] = Parameter_combinations.apply(
+        lambda row: ECIFunc.ECILooseRock(row['Nominal diameter rock'], row['Waterlevel +mNAP'], row['Slope angle'])
+        if row['Damage number [S]'] <= 5
+        else ECIFunc.ECILooseRock(row['Nominal diameter rock'], row['Waterlevel +mNAP'],
+                                  row['Slope angle']) + maintenance_lr(
+            row['Nominal diameter rock'], ECILib.ECI_LR_maintenance), axis=1)
+
+    print(Parameter_combinations)
+    Parameter_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. '
+                                    r'Loose Rock\LooseRock_S1600_testje ECI(1.6-6.2mNAP).xlsx')

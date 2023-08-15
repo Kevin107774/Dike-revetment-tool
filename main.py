@@ -7,12 +7,12 @@ import time
 import openturns.viewer as viewer
 from matplotlib import pylab as plt
 from Revetment_types.Loose_Rock import VdMeerFunc
-from Input.Parameters import Parameters
 # from Revetment_types.Asphalt import AsphaltFunc
 # from Revetment_types.Placed_elements import BasaltonFunc
 # from Revetment_types.Placed_elements import VerkalitFunc
 from ECI.ECI_class import ECIFunc
 from ECI.ECI_Library import ECILib
+from Input.Parameters import Parameters
 
 Hydraulic_BC = pd.read_excel(
     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Hydra en Steentoets\Hydra-NL\Hydraulic boundary '
@@ -64,7 +64,7 @@ Parameter_combinations['ECI'] = Parameter_combinations.apply(
         row['Nominal diameter rock'], ECILib.ECI_LR_maintenance), axis=1)
 
 print(Parameter_combinations)
-Parameter_combinations.to_excel("LooseRock_S1600_tbv ECI(1.6-6.2mNAP).xlsx")
+Parameter_combinations.to_excel("LooseRock_S1600_testje ECI(1.6-6.2mNAP).xlsx")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ASPHALT
@@ -98,30 +98,30 @@ Parameter_combinations.to_excel("LooseRock_S1600_tbv ECI(1.6-6.2mNAP).xlsx")
 
 
 # ----------------------------------------------------------------------------------------------------------------------
-# # ELEMENTS (Basalton)
-# # Retrieve results from elements, Basalton
-#
-# Parameter_combinations_Basalton = Parameters.parameter_combinations_Basalton
-# Number_samples = BasaltonFunc.nr_samples
-# Probability_failure_Basalton = BasaltonFunc.Pf_Basalton
-#
-# # Add the Pf as a column to the dataframe
-# Parameter_combinations_Basalton['Probability of failure Basalton'] = Probability_failure_Basalton
-#
-#
-# # Add the Pf for the design lifetime to the dataframe
-# Parameter_combinations_Basalton['Pf Basalton 50 year'] = pflifetime(
-#     Parameter_combinations_Basalton['Probability of failure Basalton'])
-#
-# # Add the number of samples to the dataframe
-# Parameter_combinations_Basalton['Number of samples'] = Number_samples
-#
-# # Add ECI as column to the dataframe
-# Parameter_combinations_Basalton['ECI'] = Parameter_combinations_Basalton.apply(lambda row: ECIFunc.ECIBasalton(
-#     row['Layer thickness Basalton'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
-#
-# print(Parameter_combinations_Basalton)
-# Parameter_combinations_Basalton.to_excel("Test Basalton 1.xlsx")
+# ELEMENTS (Basalton)
+# Retrieve results from elements, Basalton
+
+Parameter_combinations_Basalton = Parameters.parameter_combinations_Basalton
+Number_samples = BasaltonFunc.nr_samples
+Probability_failure_Basalton = BasaltonFunc.Pf_Basalton
+
+# Add the Pf as a column to the dataframe
+Parameter_combinations_Basalton['Probability of failure Basalton'] = Probability_failure_Basalton
+
+
+# Add the Pf for the design lifetime to the dataframe
+Parameter_combinations_Basalton['Pf Basalton 50 year'] = pflifetime(
+    Parameter_combinations_Basalton['Probability of failure Basalton'])
+
+# Add the number of samples to the dataframe
+Parameter_combinations_Basalton['Number of samples'] = Number_samples
+
+# Add ECI as column to the dataframe
+Parameter_combinations_Basalton['ECI'] = Parameter_combinations_Basalton.apply(lambda row: ECIFunc.ECIBasalton(
+    row['Layer thickness Basalton'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
+
+print(Parameter_combinations_Basalton)
+Parameter_combinations_Basalton.to_excel("Test Basalton 1.xlsx")
 
 # ----------------------------------------------------------------------------------------------------------------------
 # ELEMENTS (Verkalit)
