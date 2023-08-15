@@ -45,7 +45,7 @@ class HydraulicBoundary:
     pd.set_option('display.max_columns', None)
     # print(Hb_LR)
 
-    def HydraulicBoundariesVerkalit(Table = Hydraulic_BC.iloc[8:9, :]):
+    def HydraulicBoundariesVerkalit(Table = Hydraulic_BC.iloc[8:7, :]):
         Verkalit = Table
 
         data = []

@@ -98,7 +98,7 @@ class Parameters:
                           'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
 
     Data = []
-    for index, k in Hydraulic_BC.iloc[6:8, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[6:7, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
