@@ -121,7 +121,7 @@ class Parameters:
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_LR)
     # Export the DataFrame to an Excel file
-    # parameter_combinations_LR.to_excel('Result_LR_TOTAL.xlsx', index=False)
+
 
     # ------------------------------------------------------------------------
     # Asphalt layer thickness d [m]
@@ -259,7 +259,6 @@ class Parameters:
     parameter_combinations_asphalt = pd.concat(hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_asphalt)
-    parameter_combinations_asphalt.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx', index=False)
 
     # -----------------------------------------------------------------------------------------
 
@@ -370,9 +369,7 @@ class Parameters:
     parameter_combinations_Basalton = pd.concat(Hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_Basalton)
-    # parameter_combinations_Basalton.to_excel(
-    #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx',
-    #     index=False)
+
 
     # Create parameter combinations Verkalit
 
@@ -411,7 +408,5 @@ class Parameters:
     parameter_combinations_Verkalit = pd.concat(Hydra2, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_Verkalit)
-    parameter_combinations_Verkalit.to_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit complete.xlsx',
-        index=False)
+
 
