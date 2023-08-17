@@ -370,9 +370,9 @@ class Parameters:
     parameter_combinations_Basalton = pd.concat(Hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_Basalton)
-    parameter_combinations_Basalton.to_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx',
-        index=False)
+    # parameter_combinations_Basalton.to_excel(
+    #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx',
+    #     index=False)
 
     # Create parameter combinations Verkalit
 
