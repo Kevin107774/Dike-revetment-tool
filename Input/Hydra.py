@@ -73,7 +73,7 @@ class HydraulicBoundary:
     pd.set_option('display.max_columns', None)
     # print(Hb_ver)
 
-    def HydraulicBoundariesBasalton(Table = Hydraulic_BC.iloc[8:12, :]):
+    def HydraulicBoundariesBasalton(Table = Hydraulic_BC.iloc[13:21, :]):
         Basalton = Table
 
         data = []

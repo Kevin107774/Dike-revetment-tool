@@ -287,7 +287,7 @@ if __name__ == "__main__":
         row['Layer thickness Basalton'], row['Waterlevel +mNAP'], row['Slope angle']), axis=1)
 
     print(Parameter_combinations_Basalton)
-    Parameter_combinations_Basalton.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\1.8-2.4 Basalton 14500000.xlsx')
+    Parameter_combinations_Basalton.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\2.6-4 Basalton 14500000.xlsx')
 
 # class VerkalitFunc:
 #

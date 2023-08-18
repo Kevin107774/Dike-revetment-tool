@@ -344,7 +344,7 @@ class Parameters:
                         'Porosity granular material', 'Diameter filter material D15', 'Upper level transition height']
 
     Hydra = []
-    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[13:21, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]
@@ -382,7 +382,7 @@ class Parameters:
                         'Factor Verkalit']
 
     Hydra2 = []
-    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[13:21, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         Tm = k[9]

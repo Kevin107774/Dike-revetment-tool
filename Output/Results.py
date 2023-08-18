@@ -25,9 +25,9 @@ class ResultTableLooseRock:
 ## Loose Rock
     Result_Raw_LR = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Result Loose Rock complete.xlsx')
 
-    Loose_rock_filtered = filterresults(Result_Raw_LR, 5)
-    # print(Loose_rock_filtered)
-    Loose_rock_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Filtered result table Loose rock test 17-8.xlsx')
+    Loose_rock_filtered = filterresults(Result_Raw_LR, 1)
+    print(Loose_rock_filtered)
+    Loose_rock_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Filtered result table Loose rock.xlsx')
 
 
     plt.scatter(Loose_rock_filtered['ECI'], Loose_rock_filtered['Probability of failure'])
@@ -44,19 +44,29 @@ class ResultTableLooseRock:
 
     Basalton_filtered = filterresults(Result_raw_Basalton, 5)
     # print(Basalton_filtered)
-    Basalton_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Filtered result table Basalton.xlsx')
+    # Basalton_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Filtered result table Basalton.xlsx')
 
 ## Verkalit
-    # Result_raw_Verkalit = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit complete.xlsx')
-    #
-    # Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
+    Result_raw_Verkalit = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit complete.xlsx')
+
+    Verkalit_filtered = filterresults(Result_raw_Verkalit, 1)
     # print(Verkalit_filtered)
     # Verkalit_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Filtered result table Verkalit.xlsx')
+
+    #Select the water levels in the original design
+    Verkalit_original_design = Verkalit_filtered.loc[Verkalit_filtered['Layer thickness Verkalit'].idxmax()]
+    Verkalit_original_design = pd.DataFrame([Verkalit_original_design])
+    # print(Verkalit_original_design)
+    # Verkalit_original_design.to_excel('the highest value.xlsx')
 
 ## Asphalt
     Result_raw_Asphalt = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
     # print(Result_raw_Asphalt)
 
-    Asphalt_filtered = filterresults(Result_raw_Asphalt, 5)
+    Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
     # print(Asphalt_filtered)
-    Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt.xlsx')
+    Asphalt_original_design = Asphalt_filtered.loc[Asphalt_filtered['Asphalt layer thickness'].idxmax()]
+    Asphalt_original_design = pd.DataFrame([Asphalt_original_design])
+    # print(Asphalt_original_design)
+
+    # Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt.xlsx')
