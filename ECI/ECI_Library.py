@@ -121,22 +121,22 @@ class ECILib:
     ECI_bulldozer_Gr = 0.03
     ECI_excavation_Gr = ECI_bulldozer_Gr + ECI_crawler_crane_Gr
 
-    # Transport soil to depot
+    # Transport soil to depot [m3]
     ECI_transport_depot_Gr = 0.17
 
-    # Processing soil in depot
+    # Processing soil in depot [m3]
     ECI_process_depot_Gr = 0.02
 
-    # Densify clay
+    # Densify clay [m3]
     ECI_densify_Gr = 0.02
 
-    # Profiling
+    # Profiling [m3]
     ECI_bulldozer_prof_Gr = 0.02
 
-    # Sowing grass
+    # Sowing grass [m2]
     ECI_sowing_Gr = 1.03
 
-    # Maintenance (sheep)
+    # Maintenance (sheep) [m2]
     ECI_maintenance_Gr = 0.00
 
 

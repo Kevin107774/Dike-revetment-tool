@@ -5,6 +5,8 @@ import openturns as ot
 import pandas as pd
 import matplotlib.pyplot as plt
 from Input.Parameters import Parameters
+from ECI.ECI_class import ECIFunc
+from ECI.ECI_Library import ECILib
 
 ot.Log.Show(ot.Log.NONE)
 
@@ -25,9 +27,9 @@ class ResultTableLooseRock:
 ## Loose Rock
     Result_Raw_LR = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Result Loose Rock complete.xlsx')
 
-    Loose_rock_filtered = filterresults(Result_Raw_LR, 1)
-    print(Loose_rock_filtered)
-    Loose_rock_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Filtered result table Loose rock.xlsx')
+    Loose_rock_filtered = filterresults(Result_Raw_LR, 8)
+    # print(Loose_rock_filtered)
+    # Loose_rock_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Filtered result table Loose rock.xlsx')
 
 
     plt.scatter(Loose_rock_filtered['ECI'], Loose_rock_filtered['Probability of failure'])
@@ -49,7 +51,7 @@ class ResultTableLooseRock:
 ## Verkalit
     Result_raw_Verkalit = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit complete.xlsx')
 
-    Verkalit_filtered = filterresults(Result_raw_Verkalit, 1)
+    Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
     # print(Verkalit_filtered)
     # Verkalit_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Filtered result table Verkalit.xlsx')
 
@@ -63,10 +65,22 @@ class ResultTableLooseRock:
     Result_raw_Asphalt = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
     # print(Result_raw_Asphalt)
 
-    Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
+    Asphalt_filtered = filterresults(Result_raw_Asphalt, 5)
     # print(Asphalt_filtered)
     Asphalt_original_design = Asphalt_filtered.loc[Asphalt_filtered['Asphalt layer thickness'].idxmax()]
     Asphalt_original_design = pd.DataFrame([Asphalt_original_design])
     # print(Asphalt_original_design)
 
     # Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt.xlsx')
+
+## Grass
+    Result_Grass = pd.read_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\GEBU results.xlsx',usecols='A:C', nrows=23)
+
+
+    Result_Grass['ECI'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'], Result_Grass['Transition height asphalt-grass (+mNAP)'])
+    print(Result_Grass)
+
+    Result_Grass.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\Result table Grass.xlsx')
+
+
+

@@ -17,7 +17,7 @@ class ECIFunc:
         h = waterlevel
         a = slope
         if h <= 1.79:
-            slopelength_LR = np.sqrt((h - 0.37) ** 2 + ((h - 0.37) * (1 / a)) ** 2)
+            slopelength_LR = np.sqrt((h + 0.37) ** 2 + ((h + 0.37) * (1 / a)) ** 2)
         elif 1.79 < h <= 2.41:
             slopelength_LR = 8.34 + np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
         else:
@@ -43,7 +43,7 @@ class ECIFunc:
             slopelength_Ver = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
         filter_thickness = 0.2
         m2_ver = slopelength_Ver * (ECILib.ECI_installation_Ver + ECILib.ECI_Geotextile_Ver +
-                                   ECILib.ECI_filter_Ver * filter_thickness + ECILib.ECI_Installation_filter_Ver)
+                                    ECILib.ECI_filter_Ver * filter_thickness + ECILib.ECI_Installation_filter_Ver)
         m3_ver = slopelength_Ver * (ECILib.ECI_Transport_Ver + ECILib.ECI_verkalit)
         ECI_Verkalit = m2_ver + m3_ver * thickness
         return ECI_Verkalit
@@ -78,10 +78,14 @@ class ECIFunc:
         ECI_Asphalt = m2_As + m3_As * thickness
         return ECI_Asphalt
 
-    # def ECIGrass(volume_Gr):
-    #     Slopelength_Gr = 8.49
-    #     m2_Gr = Slopelength_Gr * (ECILib.ECI_transport_depot_Gr + ECILib.ECI_process_depot_Gr + ECILib.ECI_densify_Gr +
-    #                               ECILib.ECI_bulldozer_prof_Gr + ECILib.ECI_sowing_Gr + ECILib.ECI_maintenance_Gr)
-    #     m3_Gr = ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_excavation_Gr
-    #     ECI_Grass = m2_Gr + m3_Gr * volume_Gr
-    #     return ECI_Grass
+    def ECIGrass(thickness, transition):
+        h = transition
+        a = 4
+        slopelength_Gr = np.sqrt((8.22 - h) ** 2 + ((8.22 - h) * a) ** 2)  # gemeten vanaf boven (8.22 mNAP). Hoe lager de
+        # transitie, hoe langer de slopelength.
+        print(slopelength_Gr)
+        m2_Gr = slopelength_Gr * (ECILib.ECI_sowing_Gr + ECILib.ECI_maintenance_Gr)
+        m3_Gr = slopelength_Gr * (
+                    ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_excavation_Gr + ECILib.ECI_transport_depot_Gr + ECILib.ECI_process_depot_Gr + ECILib.ECI_densify_Gr + ECILib.ECI_bulldozer_prof_Gr)
+        ECI_Grass = m2_Gr + m3_Gr * thickness
+        return ECI_Grass
