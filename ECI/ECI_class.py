@@ -83,7 +83,7 @@ class ECIFunc:
         a = 4
         slopelength_Gr = np.sqrt((8.22 - h) ** 2 + ((8.22 - h) * a) ** 2)  # gemeten vanaf boven (8.22 mNAP). Hoe lager de
         # transitie, hoe langer de slopelength.
-        print(slopelength_Gr)
+        # print(slopelength_Gr)
         m2_Gr = slopelength_Gr * (ECILib.ECI_sowing_Gr + ECILib.ECI_maintenance_Gr)
         m3_Gr = slopelength_Gr * (
                     ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_excavation_Gr + ECILib.ECI_transport_depot_Gr + ECILib.ECI_process_depot_Gr + ECILib.ECI_densify_Gr + ECILib.ECI_bulldozer_prof_Gr)
