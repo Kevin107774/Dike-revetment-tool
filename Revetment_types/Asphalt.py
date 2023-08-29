@@ -222,8 +222,9 @@ class AsphaltFunc:
                     1 - np.exp(-Beta * z) * ((np.cos(Beta * z)) + np.sin(Beta * z))) * (6 / d ** 2)
 
             Nf = 10 ** (B * (np.log10(sigma_b) - np.log10(sigma)) ** alpha)
-            # print(z, Beta, q, q_r, P_max, B, sigma_b, sigma, alpha, Nf)
+            # print(np.log10(sigma_b), np.log10(sigma), Nf)
             N = t / (Tp / 1.2)
+            # print(N)
 
             Z_impact = [Nf - N]
 
@@ -359,7 +360,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     # Create the ProcessPoolExecutor with the desired number of processes
-    num_processes = 6  # Adjust based on the system's capacity
+    num_processes = 1  # Adjust based on the system's capacity
     with ProcessPoolExecutor(max_workers=num_processes) as executor:
         args_list = [(i, AsphaltImpactInput.deterministic_impact_asphalt) for i in AsphaltImpactInput.distribution_impact_asphalt]
         results = executor.map(probability_asphalt_impact, args_list)

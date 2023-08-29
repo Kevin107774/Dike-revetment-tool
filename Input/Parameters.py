@@ -179,14 +179,14 @@ class Parameters:
     alpha = 0.5
 
     # Cracking strength [Mpa]
-    Expected_value_crackingstrength = 6.3 * 10**6
+    Expected_value_crackingstrength = 6.3*10**6
     COV = 0.2
     Standard_deviation = Expected_value_crackingstrength * COV
     # Distribution = 'Normal'
     crackingstrength = ot.Normal(Expected_value_crackingstrength, Standard_deviation)
 
     # Stiffness subsoil c [MPa/m]
-    Expected_value_c = 100
+    Expected_value_c = 100*10**6
     COV = 0.25
     Standard_deviation = COV * Expected_value_c
     mu = np.log(Expected_value_c ** 2 / np.sqrt(Standard_deviation ** 2 + Expected_value_c ** 2))
@@ -195,9 +195,9 @@ class Parameters:
     Stiffness_subsoil = ot.LogNormal(mu, sigma, 0)
 
     # Elasticity modulus asphalt E [MPa]
-    Expected_value_E = 7000
-    # COV = 0.3
-    Standard_deviation = 1400
+    Expected_value_E = 4260*10**6
+    COV = 0.2
+    Standard_deviation = COV * Expected_value_E
     # Distribution = 'Normal'
     Elasticity_modulus = ot.Normal(Expected_value_E, Standard_deviation)
 
@@ -233,7 +233,7 @@ class Parameters:
                        'Elasticity modulus', 'Transverse contraction coefficient', 'gravity']
 
     hydra = []
-    for index, k in Hydraulic_BC.iloc[8:12, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[12:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -258,7 +258,7 @@ class Parameters:
 
     parameter_combinations_asphalt = pd.concat(hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
-    # print(parameter_combinations_asphalt)
+    print(parameter_combinations_asphalt)
 
     # -----------------------------------------------------------------------------------------
 
@@ -332,7 +332,7 @@ class Parameters:
     Zb = 2.41
 
     # Factor for Verkalit calculation
-    f_V = 0.88
+    f_V = 1.14
 
     # Create parameter combinations Basalton
 

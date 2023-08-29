@@ -70,11 +70,12 @@ class ResultTableLooseRock:
     x = np.arange(len(Loose_rock_selection_high['Nominal diameter rock']))
     plt.bar(x - 0.1, Loose_rock_selection_low['ECI_slopelength'], color='b', width=0.2, label='Without maintenance')
     plt.bar(x + 0.1, Loose_rock_selection_high['ECI_slopelength'], color='r', width=0.2, label='With maintenance')
-    plt.xticks(x, Loose_rock_selection_high['Nominal diameter rock'])
-    plt.xlabel('Nominal diameter rock (m)')
+    labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000']
+    plt.xticks(x, labels_x)
+    plt.xlabel('Rock class (kg)')
     plt.ylabel('ECI (€)')
     plt.ylim(0, 170)
-    plt.title(textwrap.fill('ECI for each nominal diameter rock with (S>5) and without maintenance (S<5)', 50),
+    plt.title(textwrap.fill('ECI for each nominal diameter rock with (S>5) and without maintenance (S≤5)', 50),
               loc='center')
     plt.legend(loc='upper left')
 
@@ -87,7 +88,7 @@ class ResultTableLooseRock:
         if v != 0:
             plt.text(i + 0.1, v + 1, f'ECI: {v:.1f}\nS: {Loose_rock_selection_high["Damage number [S]"].iloc[i]}',
                      color='r', ha='center')
-    # plt.show()
+    plt.show()
 
     # Analysis for the transition heights
     Loose_rock_filtered = filterresults(Result_Raw_LR, 2)
