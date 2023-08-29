@@ -144,7 +144,7 @@ class Parameters:
         # Asphalt_thickness = ot.LogNormal(mu, sigma, 0)
         # d_a.append(Asphalt_thickness)
 
-    # print(d_a)
+
 
     # Slope depending factor Q_n [-] --> Depends on graph pg. 123 TAW 2002
     Slope_depending_uplift_factor = 1.005
@@ -258,7 +258,7 @@ class Parameters:
 
     parameter_combinations_asphalt = pd.concat(hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
-    print(parameter_combinations_asphalt)
+    # print(parameter_combinations_asphalt)
 
     # -----------------------------------------------------------------------------------------
 

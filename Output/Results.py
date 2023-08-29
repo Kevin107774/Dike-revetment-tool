@@ -249,7 +249,7 @@ class ResultTableLooseRock:
         if v != 0:
             plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
 
-    # Add legend for both plots using proxy artists
+
     plt.legend(loc='upper right')
 
     plt.show()

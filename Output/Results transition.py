@@ -41,7 +41,8 @@ class ResultTableLooseRock:
     Result_raw_Basalton = pd.read_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx')
 
-    Basalton_filtered = filterresults(Result_raw_Basalton, 1).reset_index(drop=True)
+    Basalton_filtered = filterresults(Result_raw_Basalton, 1)
+    Basalton_filtered = Basalton_filtered[Basalton_filtered['Waterlevel +mNAP'] < 4.1].reset_index(drop=True)
     Basalton_filtered['ECI Basalton flipped'] = Basalton_filtered['ECI'].sort_values(ascending=False).values
     # print(Basalton_filtered)
 
@@ -51,7 +52,7 @@ class ResultTableLooseRock:
 
     Transition_LR_BAS = pd.concat([Subset_LR, Subset_Basalton], axis=1)
     Transition_LR_BAS['Sum_ECI'] = Transition_LR_BAS['ECI'] + Transition_LR_BAS['ECI Basalton flipped']
-    print(Transition_LR_BAS)
+    # print(Transition_LR_BAS)
 
     plt.figure()
     x = np.arange(len(Transition_LR_BAS['Waterlevel +mNAP']))
@@ -64,70 +65,94 @@ class ResultTableLooseRock:
     plt.ylim(0, 300)
     plt.title(textwrap.fill('Transition height from Loose rock to Basalton', 50), loc='center')
     plt.legend(loc='upper left')
-    plt.show()
+    # plt.show()
 
     # ------------------------------------------------------------------------------------------------------------------
-    ## Verkalit
-    Result_raw_Verkalit = pd.read_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit complete.xlsx')
+    ## Transition from Basalton to Grass
 
-    Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
-    # print(Verkalit_filtered)
-    # Verkalit_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Filtered result table Verkalit.xlsx')
+    # Basalton
+    Result_raw_Basalton = pd.read_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx')
 
-    # Select the water levels in the original design
-    Verkalit_original_design = Verkalit_filtered.loc[Verkalit_filtered['Layer thickness Verkalit'].idxmax()]
-    Verkalit_original_design = pd.DataFrame([Verkalit_original_design])
-    # print(Verkalit_original_design)
-    # Verkalit_original_design.to_excel('the highest value.xlsx')
+    Basalton_filtered2 = filterresults(Result_raw_Basalton, 1)
+    Basalton_filtered2 = Basalton_filtered2[Basalton_filtered2['Waterlevel +mNAP'] > 4.9].reset_index(drop=True)
+    # print(Basalton_filtered)
 
-    # ------------------------------------------------------------------------------------------------------------------
-    ## Asphalt
-    Result_raw_Asphalt = pd.read_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
+    # Grass
 
-
-    Asphalt_filtered = filterresults(Result_raw_Asphalt, 5)
-    # print(Asphalt_filtered)
-    Asphalt_original_design = Asphalt_filtered.loc[Asphalt_filtered['Asphalt layer thickness'].idxmax()]
-    Asphalt_original_design = pd.DataFrame([Asphalt_original_design])
-    # print(Asphalt_original_design)
-
-    # Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt.xlsx')
-
-    ## Grass
     Result_Grass = pd.read_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\GEBU results.xlsx',
         usecols='A:C', nrows=23)
 
-    Result_Grass['ECI'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'],
+    Result_Grass['ECI_grass'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'],
                                            Result_Grass['Transition height asphalt-grass (+mNAP)'])
     # print(Result_Grass)
+    values_to_select = [5.0, 5.2, 5.4, 5.6, 5.8, 6.0]
+    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'].isin(values_to_select)]
+    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'] < 6.01].reset_index(drop=True)
+    # print(Result_Grass)
 
-    figure = plt.figure()
-    x = np.arange(len(Result_Grass['clay layer thickness']))
-    plt.bar(x, Result_Grass['ECI'], color='b', width=0.2, label='ECI clay')
-    plt.xticks(x, Result_Grass['clay layer thickness'])
-    plt.xlabel('clay layer thickness (m)')
+    # Merging the two dataframes
+    Subset_Basalton = Basalton_filtered2[['Waterlevel +mNAP', 'ECI']]
+    Subset_Grass = Result_Grass[['ECI_grass']]
+    Transition_BAS_Grass = pd.concat([Subset_Basalton, Subset_Grass], axis=1)
+    Transition_BAS_Grass['Sum_ECI'] = Transition_BAS_Grass['ECI'] + Transition_BAS_Grass['ECI_grass']
+    # print(Transition_BAS_Grass)
+
+    plt.figure()
+    x = np.arange(len(Transition_BAS_Grass['Waterlevel +mNAP']))
+    plt.plot(x, Transition_BAS_Grass['ECI_grass'], color='g', label='ECI Grass')
+    plt.plot(x, Transition_BAS_Grass['ECI'], color='r', label='ECI Basalton')
+    plt.plot(x, Transition_BAS_Grass['Sum_ECI'], color='black', linestyle='--', label='Total ECI')
+    plt.xticks(x, Transition_BAS_Grass['Waterlevel +mNAP'])
+    plt.xlabel('Waterlevel +mNAP')
     plt.ylabel('ECI (€)')
-    plt.ylim(0, 200)
-    plt.title(textwrap.fill('ECI for each clay layer thickness including the transition height', 50), loc='center')
+    plt.ylim(0, 400)
+    plt.title(textwrap.fill('Transition height from basalton to grass', 50), loc='center')
     plt.legend(loc='upper left')
-    # Add line graph with water level
-    ax2 = plt.twinx()
-    ax2.plot(x, Result_Grass['Transition height asphalt-grass (+mNAP)'], color='r', linestyle='-', marker='o',
-             label='Transition height')
-    ax2.set_ylabel('Transition height asphalt-grass (+mNAP)')
-
-    # Add y-values to the bars
-    for i, v in enumerate(Result_Grass['ECI']):
-        if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
-
-    # Add legend for both plots using proxy artists
-    plt.legend(loc='upper right')
-
     # plt.show()
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # Transition asphalt to grass
 
+    ## Asphalt
+    Result_raw_Asphalt = pd.read_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
 
+    Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
+    Asphalt_filtered = Asphalt_filtered[Asphalt_filtered['Waterlevel +mNAP'] > 4.99].reset_index(drop=True)
+    # print(Asphalt_filtered)
+
+    # Grass
+
+    Result_Grass = pd.read_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\GEBU results.xlsx',
+        usecols='A:C', nrows=23)
+
+    Result_Grass['ECI_grass'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'],
+                                                 Result_Grass['Transition height asphalt-grass (+mNAP)'])
+    # print(Result_Grass)
+    values_to_select = [5.0, 5.2, 5.4, 5.6, 5.8, 6.0]
+    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'].isin(values_to_select)]
+    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'] < 6.01].reset_index(drop=True)
+    # print(Result_Grass)
+
+    # Merging the two dataframes
+    Subset_Asphalt = Asphalt_filtered[['Waterlevel +mNAP', 'ECI']]
+    Subset_Grass = Result_Grass[['ECI_grass']]
+    Transition_ASP_Grass = pd.concat([Subset_Asphalt, Subset_Grass], axis=1)
+    Transition_ASP_Grass['Sum_ECI'] = Transition_ASP_Grass['ECI'] + Transition_ASP_Grass['ECI_grass']
+    print(Transition_ASP_Grass)
+
+    plt.figure()
+    x = np.arange(len(Transition_ASP_Grass['Waterlevel +mNAP']))
+    plt.plot(x, Transition_ASP_Grass['ECI_grass'], color='g', label='ECI Grass')
+    plt.plot(x, Transition_ASP_Grass['ECI'], color='y', label='ECI Asphalt')
+    plt.plot(x, Transition_ASP_Grass['Sum_ECI'], color='black', linestyle='--', label='Total ECI')
+    plt.xticks(x, Transition_ASP_Grass['Waterlevel +mNAP'])
+    plt.xlabel('Waterlevel +mNAP')
+    plt.ylabel('ECI (€)')
+    plt.ylim(0, 400)
+    plt.title(textwrap.fill('Transition height from Asphalt to grass', 50), loc='center')
+    plt.legend(loc='upper left')
+    plt.show()
