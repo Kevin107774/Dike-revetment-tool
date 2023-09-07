@@ -98,7 +98,7 @@ class Parameters:
                           'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
 
     Data = []
-    for index, k in Hydraulic_BC.iloc[6:8, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[21:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
@@ -184,6 +184,7 @@ class Parameters:
     Standard_deviation = Expected_value_crackingstrength * COV
     # Distribution = 'Normal'
     crackingstrength = ot.Normal(Expected_value_crackingstrength, Standard_deviation)
+    # crackingstrength = ot.TruncatedDistribution(crackingstrength, 2.4*10**6, ot.TruncatedDistribution.UPPER)
 
     # Stiffness subsoil c [MPa/m]
     Expected_value_c = 100*10**6
@@ -193,13 +194,16 @@ class Parameters:
     sigma = np.log(1 + Standard_deviation ** 2 / Expected_value_c ** 2)
     # Distribution = 'Lognormal'
     Stiffness_subsoil = ot.LogNormal(mu, sigma, 0)
+    # Stiffness_subsoil = ot.TruncatedDistribution(Stiffness_subsoil, 60*10**6, ot.TruncatedDistribution.LOWER)
 
     # Elasticity modulus asphalt E [MPa]
-    Expected_value_E = 4260*10**6
+    Expected_value_E = 7000*10**6
     COV = 0.2
     Standard_deviation = COV * Expected_value_E
     # Distribution = 'Normal'
     Elasticity_modulus = ot.Normal(Expected_value_E, Standard_deviation)
+    # Truncated distribution
+    # Elasticity_modulus = ot.TruncatedDistribution(Elasticity_modulus, 1000*10**6, ot.TruncatedDistribution.LOWER)
 
     # Transverse contraction coefficient v [-]
     v = 0.35

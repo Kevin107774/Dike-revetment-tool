@@ -136,7 +136,7 @@ class VdMeerFunc:
 
             # nu = time.time()
             # pf = 0
-            sample_size = 1600
+            sample_size = 16000000
 
             probability, size = custom_montecarlo(sample_size, vect)
             # print(probability, size)
@@ -282,4 +282,4 @@ if __name__ == "__main__":
 
     print(Parameter_combinations)
     Parameter_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. '
-                                    r'Loose Rock\LooseRock_S1600_testje ECI(1.6-6.2mNAP).xlsx')
+                                    r'Loose Rock\LooseRock_S16000000 ECI(4.2-6.2mNAP).xlsx')

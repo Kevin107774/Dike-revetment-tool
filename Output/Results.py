@@ -4,6 +4,7 @@ import numpy as np
 import openturns as ot
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib as matplotlib
 from Input.Parameters import Parameters
 from ECI.ECI_class import ECIFunc
 from ECI.ECI_Library import ECILib
@@ -67,6 +68,9 @@ class ResultTableLooseRock:
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Selection original design.xlsx')
 
     figure = plt.figure()
+    font = {'size': 15}
+
+    matplotlib.rc('font', **font)
     x = np.arange(len(Loose_rock_selection_high['Nominal diameter rock']))
     plt.bar(x - 0.1, Loose_rock_selection_low['ECI_slopelength'], color='b', width=0.2, label='Without maintenance')
     plt.bar(x + 0.1, Loose_rock_selection_high['ECI_slopelength'], color='r', width=0.2, label='With maintenance')
@@ -89,6 +93,8 @@ class ResultTableLooseRock:
             plt.text(i + 0.1, v + 1, f'ECI: {v:.1f}\nS: {Loose_rock_selection_high["Damage number [S]"].iloc[i]}',
                      color='r', ha='center')
     plt.show()
+
+
 
     # Analysis for the transition heights
     Loose_rock_filtered = filterresults(Result_Raw_LR, 2)
@@ -136,8 +142,8 @@ class ResultTableLooseRock:
     Verkalit_selection = Verkalit_selection.groupby('Layer thickness Verkalit').head(1)
     new_row = pd.DataFrame([[0] * len(Verkalit_selection.columns)], columns=Verkalit_selection.columns)
     Verkalit_selection = pd.concat([new_row, Verkalit_selection], ignore_index=True)
-    # print(Verkalit_selection)
-    # Verkalit_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Selection original design Verkalit.xlsx')
+    print(Verkalit_selection)
+    # Verkalit_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Selection original design Verkalit2.xlsx')
 
     figure = plt.figure()
     x = np.arange(len(Basalton_selection['Layer thickness Basalton']))
@@ -154,14 +160,14 @@ class ResultTableLooseRock:
     # Add y-values to the bars
     for i, v in enumerate(Basalton_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i - 0.1, v + 1, f'ECI: {v:.1f}\nρ: {Basalton_selection["Density concrete"].iloc[i]}',
+            plt.text(i - 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Basalton_selection["Density concrete"].iloc[i]}',
                      color='b', ha='center')
 
     for i, v in enumerate(Verkalit_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i + 0.1, v + 1, f'ECI: {v:.1f}\nρ: {Verkalit_selection["Density concrete"].iloc[i]}',
+            plt.text(i + 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Verkalit_selection["Density concrete"].iloc[i]}',
                      color='r', ha='center')
-    # plt.show()
+    plt.show()
 
     Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
     # print(Verkalit_filtered)
@@ -179,7 +185,7 @@ class ResultTableLooseRock:
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
 
     Result_raw_Asphalt['ECI_slopelength'] = ECIFunc.ECIAsphalt(Result_raw_Asphalt['Asphalt layer thickness'], 6.2,
-                                                                 Result_raw_Asphalt['slope asphalt'])
+                                                               Result_raw_Asphalt['slope asphalt'])
     # print(Result_raw_Asphalt)
     # Result_raw_Asphalt.to_excel(
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Raw for original design Asphalt.xlsx')
@@ -211,7 +217,6 @@ class ResultTableLooseRock:
             plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
     # plt.show()
 
-
     Asphalt_filtered = filterresults(Result_raw_Asphalt, 5)
     # print(Asphalt_filtered)
     Asphalt_original_design = Asphalt_filtered.loc[Asphalt_filtered['Asphalt layer thickness'].idxmax()]
@@ -235,8 +240,12 @@ class ResultTableLooseRock:
     plt.xticks(x, Result_Grass['clay layer thickness'])
     plt.xlabel('clay layer thickness (m)')
     plt.ylabel('ECI (€)')
-    plt.ylim(0, 200)
+    plt.ylim(0, 220)
     plt.title(textwrap.fill('ECI for each clay layer thickness including the transition height', 50), loc='center')
+    # Add y-values to the bars
+    for i, v in enumerate(Result_Grass['ECI']):
+        if v != 0:
+            plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
     plt.legend(loc='upper left')
     # Add line graph with water level
     ax2 = plt.twinx()
@@ -244,10 +253,6 @@ class ResultTableLooseRock:
              label='Transition height')
     ax2.set_ylabel('Transition height asphalt-grass (+mNAP)')
 
-    # Add y-values to the bars
-    for i, v in enumerate(Result_Grass['ECI']):
-        if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
 
 
     plt.legend(loc='upper right')
