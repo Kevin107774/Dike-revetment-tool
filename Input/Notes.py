@@ -42,3 +42,32 @@
     plt.title(textwrap.fill('Transition height from Loose rock to Basalton', 50), loc='center')
     plt.legend(loc='upper left')
     plt.show()
+
+columns_Loose_Rock = ['Waterlevel +mNAP', 'Significant wave height', 'Peak period', 'Storm duration',
+                      'Density rock', 'Density water', 'Nominal diameter rock', 'Porosity',
+                      'Damage number [S]', 'Uncertainty parameter C_pl', 'Uncertainty parameter C_s', 'Slope angle']
+
+Data = []
+for index, k in Hydraulic_BC.iloc[21:32, :].iterrows():
+    Hs = k[2]
+    Tp = k[4]
+    t = k[7]
+    h = k[1]
+    a = k[16]
+    dfs = []
+    for i in mu_Dn50:
+        rows = []
+        for j in Damage_number:
+            input = {'Waterlevel +mNAP': h, 'Significant wave height': Hs, 'Peak period': Tp, 'Storm duration': t,
+                     'Density rock': Expected_value_rho_s, 'Density water': Expected_value_rho_w,
+                     'Nominal diameter rock': i, 'Porosity': Expected_value_P, 'Damage number [S]': j,
+                     'Uncertainty parameter C_pl': Expected_value_a, 'Uncertainty parameter C_s': Expected_value_b,
+                     'Slope angle': a}
+            rows.append(input)
+        combinations_LR = pd.DataFrame(rows, columns=columns_Loose_Rock)
+        dfs.append(combinations_LR)
+    Data.append(pd.concat(dfs, ignore_index=True))
+parameter_combinations_LR = pd.concat(Data, ignore_index=True)
+pd.set_option('display.max_columns', None)
+# print(parameter_combinations_LR)
+# Export the DataFrame to an Excel file
