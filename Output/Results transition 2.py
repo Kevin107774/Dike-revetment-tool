@@ -2,6 +2,7 @@ import numpy as np
 import openturns as ot
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib
 from Input.Parameters import Parameters
 from ECI.ECI_class import ECIFunc
 from ECI.ECI_Library import ECILib
@@ -123,43 +124,97 @@ class ResultTableLooseRock:
     design_combinations['Bottom_ECI_Ver'] = design_combinations.apply(calculate_ECI_Ver, axis=1)
     design_combinations['TOTAL_ECI'] = design_combinations['ECI_LR'] + design_combinations['ECI_Ver'] - design_combinations['Bottom_ECI_Ver'] + design_combinations['ECI_grass']
     design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
-    # design_combinations = design_combinations.head(10)
+    design_combinations = design_combinations.head(20)
 
     # Print the resulting dataframe
-    print(design_combinations)
+    # print(design_combinations)
     # design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_Ver_Grass.xlsx')
 
-
-    plt.figure()
+    # Create the figure and axes
     fig, ax1 = plt.subplots()
+    font = {'size': 20}
+
+    matplotlib.rc('font', **font)
 
     # Define x-axis values (design 1 to 91)
-    x = np.arange(1, 92)
+    x = np.arange(0, len(design_combinations['TOTAL_ECI']))
 
-    # Calculate the stacked bar values for the water level
-    water_level = design_combinations['height_Ver'] + design_combinations['height_Grass'] + design_combinations[
-        'height_LR']
+    # Define the water level components
+    height_LR = design_combinations['height_LR']
+    height_Ver = design_combinations['height_Ver']
+    height_Grass = design_combinations['height_Grass']
 
-    # Create the stacked bar chart on the left y-axis
-    ax1.bar(x, water_level, label='Water Level', color='blue')
+    # Create the bar chart on the left y-axis
+    ax1.bar(x, height_LR, width=0.6, label='Loose rock', color='cornflowerblue')
+    ax1.bar(x, height_Ver, bottom=height_LR, width=0.6, label='Verkalit', color='peachpuff')
+    ax1.bar(x, height_Grass, bottom=height_LR + height_Ver, width=0.6, label='Grass', color='mediumseagreen')
 
     # Set the labels for the left y-axis and the title for the chart
-    ax1.set_ylabel('Water Level')
-    ax1.set_title('Water Level and TOTAL ECI')
+    ax1.set_ylabel('Height (+mNAP)')
+    ax1.set_xlabel('Design option')
+    ax1.set_title('Design options with varying transition heights and their corresponding ECI')
+
+    # Add a legend to the left y-axis bars
+    ax1.legend(loc='upper left')
 
     # Create the right y-axis
     ax2 = ax1.twinx()
 
-    # Create the bar for the TOTAL_ECI on the right y-axis
-    ax2.bar(x, design_combinations['TOTAL_ECI'], label='TOTAL ECI', color='green')
+    # Create the line plot for the TOTAL_ECI on the right y-axis
+    ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o', label='Total ECI')
 
     # Set the label for the right y-axis
-    ax2.set_ylabel('TOTAL ECI')
+    ax2.set_ylabel('Total ECI for the combinations (€)')
 
-    # Combine the legends from both axes
-    lines, labels = ax1.get_legend_handles_labels()
-    lines2, labels2 = ax2.get_legend_handles_labels()
-    ax1.legend(lines + lines2, labels + labels2, loc='best')
+    # Add a legend to the right y-axis line plot
+    ax2.legend(loc='lower right')
+
+    # Adjust the layout to prevent overlapping of bars
+    fig.tight_layout()
+
+    # Show the plot
+    plt.show()
+
+    # Create the figure and axes
+    fig, ax1 = plt.subplots()
+
+    # Define x-axis values (design 1 to 91)
+    x = np.arange(0, len(design_combinations['TOTAL_ECI']))
+
+    # Define the water level components
+    height_LR = design_combinations['height_LR']
+    height_Ver = design_combinations['height_Ver']
+    height_Grass = design_combinations['height_Grass']
+
+    # Create the bar chart on the left y-axis
+    ax1.bar(x-0.2, height_LR, width=0.2, label='Loose rock', color='cornflowerblue')
+    ax1.bar(x, height_Ver, width=0.2, label='Verkalit', color='peachpuff')
+    ax1.bar(x+0.2, height_Grass, width=0.2, label='Grass', color='mediumseagreen')
+
+    # Set the labels for the left y-axis and the title for the chart
+    ax1.set_ylabel('Height (+mNAP)')
+    ax1.set_xlabel('Design option')
+    ax1.set_title('Design options with varying transition heights and their corresponding ECI')
+
+    # Add a legend to the left y-axis bars
+    ax1.legend(loc='upper left')
+
+    # Create the right y-axis
+    ax2 = ax1.twinx()
+
+    # Create the line plot for the TOTAL_ECI on the right y-axis
+    ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
+             label='Total ECI')
+
+    # Set the label for the right y-axis
+    ax2.set_ylabel('Total ECI for the combinations (€)')
+
+    # Add a legend to the right y-axis line plot
+    ax2.legend(loc='lower right')
+
+    # Adjust the layout to prevent overlapping of bars
+    fig.tight_layout()
+
     # Show the plot
     plt.show()
 

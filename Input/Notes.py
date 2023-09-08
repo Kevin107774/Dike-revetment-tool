@@ -71,3 +71,35 @@ parameter_combinations_LR = pd.concat(Data, ignore_index=True)
 pd.set_option('display.max_columns', None)
 # print(parameter_combinations_LR)
 # Export the DataFrame to an Excel file
+
+
+Result_Grass = pd.read_excel(
+    r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\GEBU results.xlsx',
+    usecols='A:C', nrows=23)
+
+Result_Grass['ECI'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'],
+                                       Result_Grass['Transition height asphalt-grass (+mNAP)'])
+# print(Result_Grass)
+
+figure = plt.figure()
+x = np.arange(len(Result_Grass['clay layer thickness']))
+plt.bar(x, Result_Grass['ECI'], color='b', width=0.2, label='ECI clay')
+plt.xticks(x, Result_Grass['clay layer thickness'])
+plt.xlabel('clay layer thickness (m)')
+plt.ylabel('ECI (€)')
+plt.ylim(0, 220)
+plt.title(textwrap.fill('ECI for each clay layer thickness including the transition height', 50), loc='center')
+# Add y-values to the bars
+for i, v in enumerate(Result_Grass['ECI']):
+    if v != 0:
+        plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
+plt.legend(loc='upper left')
+# Add line graph with water level
+ax2 = plt.twinx()
+ax2.plot(x, Result_Grass['Transition height asphalt-grass (+mNAP)'], color='r', linestyle='-', marker='o',
+         label='Transition height')
+ax2.set_ylabel('Transition height asphalt-grass (+mNAP)')
+
+plt.legend(loc='upper right')
+
+plt.show()
