@@ -39,6 +39,7 @@ class VdMeerFunc:
             Hs = vector[8]
             Tp = vector[9]
             h = vector[10]
+            print(Dn50)
 
             def Wavelength(g, Tp, h):
 
@@ -136,7 +137,7 @@ class VdMeerFunc:
 
             # nu = time.time()
             # pf = 0
-            sample_size = 16000000
+            sample_size = 1600
 
             probability, size = custom_montecarlo(sample_size, vect)
             # print(probability, size)

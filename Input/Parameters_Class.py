@@ -143,7 +143,7 @@ class AsphaltImpactInput:
             E = Parameters.Elasticity_modulus
             d = i
             sigma_b = Parameters.crackingstrength
-
+            # print(d)
             distribution_impact_asphalt2 = ot.ComposedDistribution([Hs, Tp, t, a, q_r, rho_w, c, E, d, sigma_b, h])
             distribution_impact_asphalt.append(distribution_impact_asphalt2)
 

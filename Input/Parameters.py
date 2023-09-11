@@ -125,7 +125,7 @@ class Parameters:
 
     # ------------------------------------------------------------------------
     # Asphalt layer thickness d [m]
-    Asphalt_layer_thickness = np.array([0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5])
+    Asphalt_layer_thickness = np.array([0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7])
     d_a = []
     mu_da = []
     for i in Asphalt_layer_thickness:
@@ -218,6 +218,7 @@ class Parameters:
     Standard_deviation = COV * Expected_value_q_r
     mu = np.log(Expected_value_q_r ** 2 / np.sqrt(Standard_deviation ** 2 + Expected_value_q_r ** 2))
     sigma = np.log(1 + Standard_deviation ** 2 / Expected_value_q_r ** 2)
+    print(mu, sigma)
     # Distribution = 'Lognormal'
     Slope_impact_factor = ot.LogNormal(mu, sigma, 0)
 
@@ -237,7 +238,7 @@ class Parameters:
                        'Elasticity modulus', 'Transverse contraction coefficient', 'gravity']
 
     hydra = []
-    for index, k in Hydraulic_BC.iloc[12:32, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[8:32, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]

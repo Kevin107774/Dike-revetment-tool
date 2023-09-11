@@ -7,8 +7,11 @@ import openturns.viewer as viewer
 from matplotlib import pylab as plt
 from Input.Parameters_Class import AsphaltUpliftInput
 from Input.Parameters_Class import AsphaltImpactInput
+from Input.Parameters import Parameters
 from scipy.optimize import fsolve
 from concurrent.futures import ProcessPoolExecutor
+from ECI.ECI_class import ECIFunc
+from ECI.ECI_Library import ECILib
 
 ot.Log.Show(ot.Log.NONE)
 
@@ -282,7 +285,7 @@ class AsphaltFunc:
                 # print(samples)
                 return pf, samples
 
-            sample_size = 1450
+            sample_size = 145000
             probability_impact, size = custom_montecarlo(sample_size, vector)
             # print(probability_impact, size)
 
@@ -360,7 +363,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     # Create the ProcessPoolExecutor with the desired number of processes
-    num_processes = 1  # Adjust based on the system's capacity
+    num_processes = 6  # Adjust based on the system's capacity
     with ProcessPoolExecutor(max_workers=num_processes) as executor:
         args_list = [(i, AsphaltImpactInput.deterministic_impact_asphalt) for i in AsphaltImpactInput.distribution_impact_asphalt]
         results = executor.map(probability_asphalt_impact, args_list)
@@ -380,3 +383,38 @@ if __name__ == "__main__":
 
     print("Asphalt impact", Pf_asphalt_impact, len(Pf_asphalt_impact))
     print("Asphalt imapct", nr_samples)
+
+# Retrieve results from Asphalt uplift model
+
+    def pflifetime(probability):
+        # Poisson's distribution for probability of failure lifetime
+        lifetime = 10
+        probabilty_lft = 1 - (1 - probability) ** lifetime
+        return probabilty_lft
+
+    Parameter_combinations_asphalt = Parameters.parameter_combinations_asphalt
+
+    # Number_samples = AsphaltFunc.nr_samples
+    # Probability_failure_uplift = AsphaltFunc.Pf_asphalt_uplift
+    # Probability_failure_impact = AsphaltFunc.Pf_asphalt_impact
+
+    # Add the Pf as a column to the dataframe
+    # Parameter_combinations_asphalt['Probability of failure uplift'] = Probability_failure_uplift
+    Parameter_combinations_asphalt['Probability of failure impact'] = Pf_asphalt_impact
+
+    # Add the Pf for the design lifetime to the dataframe
+    # Parameter_combinations_asphalt['Pf uplift 50 year'] = pflifetime(Parameter_combinations_asphalt['Probability of '
+    #                                                                                                 'failure uplift'])
+    Parameter_combinations_asphalt['Pf impact 50 year'] = pflifetime(Parameter_combinations_asphalt['Probability of '
+                                                                                                    'failure impact'])
+    # Add the number of samples to the dataframe
+    Parameter_combinations_asphalt['Number of samples (impact)'] = nr_samples
+
+    # Add ECI as column to the dataframe
+    Parameter_combinations_asphalt['ECI'] = Parameter_combinations_asphalt.apply(lambda row: ECIFunc.ECIAsphalt(row[
+        'Asphalt layer thickness'], row['Water level +mNAP'], row['slope asphalt']), axis=1)
+
+    print(Parameter_combinations_asphalt)
+    # Parameter_combinations_asphalt.to_excel(
+        # r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_test.xlsx')
+    # Parameter_combinations_asphalt.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_S14500000_21-7_Table(1.8-6.2mNAP).xlsx')
