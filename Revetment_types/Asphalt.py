@@ -285,7 +285,7 @@ class AsphaltFunc:
                 # print(samples)
                 return pf, samples
 
-            sample_size = 145000
+            sample_size = 14500000
             probability_impact, size = custom_montecarlo(sample_size, vector)
             # print(probability_impact, size)
 
@@ -363,7 +363,7 @@ if __name__ == "__main__":
     start_time = time.time()
 
     # Create the ProcessPoolExecutor with the desired number of processes
-    num_processes = 6  # Adjust based on the system's capacity
+    num_processes = 1  # Adjust based on the system's capacity
     with ProcessPoolExecutor(max_workers=num_processes) as executor:
         args_list = [(i, AsphaltImpactInput.deterministic_impact_asphalt) for i in AsphaltImpactInput.distribution_impact_asphalt]
         results = executor.map(probability_asphalt_impact, args_list)
@@ -415,6 +415,6 @@ if __name__ == "__main__":
         'Asphalt layer thickness'], row['Water level +mNAP'], row['slope asphalt']), axis=1)
 
     print(Parameter_combinations_asphalt)
-    # Parameter_combinations_asphalt.to_excel(
-        # r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_test.xlsx')
-    # Parameter_combinations_asphalt.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_S14500000_21-7_Table(1.8-6.2mNAP).xlsx')
+    Parameter_combinations_asphalt.to_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_test.xlsx')
+    Parameter_combinations_asphalt.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_1.8-6.2 14.5M 15-9-23.xlsx')

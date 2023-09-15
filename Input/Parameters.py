@@ -1,8 +1,11 @@
 # Library for all (non-hydraulic) parameters
+from __future__ import print_function
 
 import numpy as np
 import openturns as ot
 import pandas as pd
+import openturns.viewer as viewer
+import matplotlib.pyplot as plt
 
 ot.Log.Show(ot.Log.NONE)
 
@@ -74,7 +77,7 @@ class Parameters:
     Standard_deviation = COV * Expected_value_t
     mu = np.log(Expected_value_t ** 2 / np.sqrt(Standard_deviation ** 2 + Expected_value_t ** 2))
     sigma = np.log(1 + Standard_deviation ** 2 / Expected_value_t ** 2)
-    Distribution = 'Lognormal'
+    # Distribution = 'Lognormal'
     Storm_duration = ot.LogNormal(mu, sigma, 0)
     # print(mu, sigma)
 
@@ -125,7 +128,7 @@ class Parameters:
 
     # ------------------------------------------------------------------------
     # Asphalt layer thickness d [m]
-    Asphalt_layer_thickness = np.array([0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7])
+    Asphalt_layer_thickness = np.array([0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.4])
     d_a = []
     mu_da = []
     for i in Asphalt_layer_thickness:
@@ -143,8 +146,6 @@ class Parameters:
         # mu_da.append(Expected_value)
         # Asphalt_thickness = ot.LogNormal(mu, sigma, 0)
         # d_a.append(Asphalt_thickness)
-
-
 
     # Slope depending factor Q_n [-] --> Depends on graph pg. 123 TAW 2002
     Slope_depending_uplift_factor = 1.005
@@ -167,6 +168,7 @@ class Parameters:
     Standard_deviation = 10
     # Distribution = 'Normal'
     Density_asphalt = ot.Normal(Expected_value_rho_a, Standard_deviation)
+    Density_asphalt = ot.TruncatedDistribution(Density_asphalt, 2300, ot.TruncatedDistribution.UPPER)
 
     # Reduction factor due to the relative position of the outer water level to the phreatic surface R_w [-] --> From
     # graph pg 121 TAW 2002, depends on a and v.
@@ -184,7 +186,9 @@ class Parameters:
     Standard_deviation = Expected_value_crackingstrength * COV
     # Distribution = 'Normal'
     crackingstrength = ot.Normal(Expected_value_crackingstrength, Standard_deviation)
-    # crackingstrength = ot.TruncatedDistribution(crackingstrength, 2.4*10**6, ot.TruncatedDistribution.UPPER)
+    crackingstrength = ot.TruncatedDistribution(crackingstrength, 3.83*10**6, 8.76*10**6)
+    # crackingstrength.drawPDF()
+    # plt.show()
 
     # Stiffness subsoil c [MPa/m]
     Expected_value_c = 100*10**6
@@ -199,11 +203,13 @@ class Parameters:
     # Elasticity modulus asphalt E [MPa]
     Expected_value_E = 7000*10**6
     COV = 0.2
-    Standard_deviation = COV * Expected_value_E
+    Standard_deviation_E = COV * Expected_value_E
+    # mu = np.log(np.log(Expected_value_E ** 2 / np.sqrt(Standard_deviation_E ** 2 + Expected_value_E ** 2)))
+    # sigma = np.log(1 + Standard_deviation_E ** 2 / Expected_value_E ** 2)
     # Distribution = 'Normal'
-    Elasticity_modulus = ot.Normal(Expected_value_E, Standard_deviation)
+    Elasticity_modulus = ot.Normal(Expected_value_E, Standard_deviation_E,)
     # Truncated distribution
-    # Elasticity_modulus = ot.TruncatedDistribution(Elasticity_modulus, 1000*10**6, ot.TruncatedDistribution.LOWER)
+    # Elasticity_modulus = ot.TruncatedDistribution(Elasticity_modulus, 4000*10**6, 10000*10**6)
 
     # Transverse contraction coefficient v [-]
     v = 0.35
@@ -220,6 +226,7 @@ class Parameters:
     sigma = np.log(1 + Standard_deviation ** 2 / Expected_value_q_r ** 2)
     # Distribution = 'Lognormal'
     Slope_impact_factor = ot.LogNormal(mu, sigma, 0)
+    Slope_impact_factor = ot.TruncatedDistribution(Slope_impact_factor, 5.2, ot.TruncatedDistribution.UPPER)
 
     # Slope Asphalt layer a3 [-]
     Expected_value_a3 = 1 / 3.75
