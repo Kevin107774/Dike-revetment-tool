@@ -92,7 +92,7 @@ class ResultTableLooseRock:
         if v != 0:
             plt.text(i + 0.1, v + 1, f'ECI: {v:.1f}\nS: {Loose_rock_selection_high["Damage number [S]"].iloc[i]}',
                      color='r', ha='center')
-    plt.show()
+    # plt.show()
 
 
 
@@ -142,7 +142,7 @@ class ResultTableLooseRock:
     Verkalit_selection = Verkalit_selection.groupby('Layer thickness Verkalit').head(1)
     new_row = pd.DataFrame([[0] * len(Verkalit_selection.columns)], columns=Verkalit_selection.columns)
     Verkalit_selection = pd.concat([new_row, Verkalit_selection], ignore_index=True)
-    print(Verkalit_selection)
+    # print(Verkalit_selection)
     # Verkalit_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Selection original design Verkalit2.xlsx')
 
     figure = plt.figure()
@@ -167,7 +167,7 @@ class ResultTableLooseRock:
         if v != 0:
             plt.text(i + 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Verkalit_selection["Density concrete"].iloc[i]}',
                      color='r', ha='center')
-    plt.show()
+    # plt.show()
 
     Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
     # print(Verkalit_filtered)
@@ -191,8 +191,8 @@ class ResultTableLooseRock:
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Raw for original design Asphalt.xlsx')
 
     Asphalt_selection = Result_raw_Asphalt[Result_raw_Asphalt['Probability of failure'] < 1 / 60000]
-    Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] == 2.4]
-    # Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] < 2.6]
+    # Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] == 2.4]
+    Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] < 6.2]
     Asphalt_selection = Asphalt_selection.sort_values(
         ['Asphalt layer thickness', 'ECI_slopelength'], ascending=[True, True])
 
@@ -217,13 +217,13 @@ class ResultTableLooseRock:
             plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
     # plt.show()
 
-    Asphalt_filtered = filterresults(Result_raw_Asphalt, 5)
-    # print(Asphalt_filtered)
+    Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
+    print(Asphalt_filtered)
     Asphalt_original_design = Asphalt_filtered.loc[Asphalt_filtered['Asphalt layer thickness'].idxmax()]
     Asphalt_original_design = pd.DataFrame([Asphalt_original_design])
     # print(Asphalt_original_design)
 
-    # Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt.xlsx')
+    Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt only best option per WL.xlsx')
 
     ## Grass
     Result_Grass = pd.read_excel(
@@ -257,6 +257,6 @@ class ResultTableLooseRock:
 
     plt.legend(loc='upper right')
 
-    plt.show()
+    # plt.show()
 
     # Result_Grass.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\Result table Grass.xlsx')

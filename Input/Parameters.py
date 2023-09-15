@@ -218,7 +218,6 @@ class Parameters:
     Standard_deviation = COV * Expected_value_q_r
     mu = np.log(Expected_value_q_r ** 2 / np.sqrt(Standard_deviation ** 2 + Expected_value_q_r ** 2))
     sigma = np.log(1 + Standard_deviation ** 2 / Expected_value_q_r ** 2)
-    print(mu, sigma)
     # Distribution = 'Lognormal'
     Slope_impact_factor = ot.LogNormal(mu, sigma, 0)
 
