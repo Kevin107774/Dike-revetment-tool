@@ -76,6 +76,10 @@ class ResultTableLooseRock:
             # Change the current density concrete to the previous value
             Basalton_filtered.loc[i, 'Density concrete_Bas'] = Basalton_filtered.loc[i - 1, 'Density concrete_Bas']
 
+    # Calculate the ECI based on the new designs.
+    Basalton_filtered['ECI_Bas'] = Basalton_filtered.apply(lambda row: ECIFunc.ECIBasalton(row[
+        'Layer thickness Basalton_Bas'], row['Waterlevel +mNAP_Bas'], row['Slope angle_Bas']), axis=1)
+
     # print(Basalton_filtered)
     # Basalton_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen ('
     # 'Schijf)\Python scripts\Results\Transitions\Basalton filtered for transiton grass2.xlsx')
