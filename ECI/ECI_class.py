@@ -51,8 +51,8 @@ class ECIFunc:
     def ECIBasalton(thickness, waterlevel, slope):
         h = waterlevel
         a = slope
-        if 1.79 < h <= 2.41:
-            slopelength_Bas = np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
+        if 1.80 <= h <= 2.41:
+            slopelength_Bas = np.sqrt((h - 1.8) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
         else:
             slopelength_Bas = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
         filter_thickness = 0.2
@@ -66,10 +66,11 @@ class ECIFunc:
     def ECIAsphalt(thickness, waterlevel, slope):
         h = waterlevel
         a = slope
-        if 2.40 <= h <= 6.2:
-            slopelength_As = np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
-        else:
-            slopelength_As = 14.54 + (4.81 - (np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)))
+        if 1.80 <= h < 2.4:
+            slopelength_As = np.sqrt((h - 1.8) ** 2 + ((h - 1.80) * (1 / a)) ** 2)
+        elif 2.40 <= h <= 6.2:
+            slopelength_As = 4.81 + np.sqrt((h - 2.4) ** 2 + ((h - 2.4) * (1 / a)) ** 2)
+
         sandlayer_thickness = 0.2
         m2_As = slopelength_As * (ECILib.ECI_crusher_As + ECILib.ECI_installation_sand_As + ECILib.ECI_densify_sand_As +
                                   ECILib.ECI_crawler_crane_As + ECILib.ECI_roller_As + ECILib.ECI_coating_As +
