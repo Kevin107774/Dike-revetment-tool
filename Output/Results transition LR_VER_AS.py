@@ -64,7 +64,19 @@ class ResultTableLooseRock:
         columns={'Waterlevel +mNAP': 'Waterlevel +mNAP_Ver', 'Layer thickness Verkalit': 'Layer thickness Verkalit_Ver',
                  'Density concrete': 'Density concrete_Ver', 'Slope angle': 'Slope angle_Ver',
                  'Probability of failure': 'Probability of failure_Ver', 'ECI': 'ECI_Ver'})
-    # print(Verkalit_filtered)
+
+    # Make sure that the thickness is only increasing. Otherwise designs with varying thicknesses.
+    for i in range(1, len(Verkalit_filtered)):
+        # Check if the current layer thickness is higher than the previous layer thickness
+        if Verkalit_filtered.loc[i, 'Layer thickness Verkalit_Ver'] < Verkalit_filtered.loc[
+            i - 1, 'Layer thickness Verkalit_Ver']:
+            # Change the current layer thickness to the previous value
+            Verkalit_filtered.loc[i, 'Layer thickness Verkalit_Ver'] = Verkalit_filtered.loc[
+                i - 1, 'Layer thickness Verkalit_Ver']
+            # Change the current density concrete to the previous value
+            Verkalit_filtered.loc[i, 'Density concrete_Ver'] = Verkalit_filtered.loc[i - 1, 'Density concrete_Ver']
+    
+    print(Verkalit_filtered)
     # print(Verkalit_filtered) Verkalit_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (
     # Schijf)\Python scripts\Results\Transitions\Verkalit filtered for transiton grass.xlsx')
 
@@ -142,7 +154,7 @@ class ResultTableLooseRock:
     # design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_Ver_Grass.xlsx')
 
     #-------------------------------------------------------------------------------------------------------------------
-    # Create the figure and axes
+    # Create the figure and axes (STACKED BAR CHART)
     font = {'size': 20}
     matplotlib.rc('font', **font)
 
@@ -188,135 +200,46 @@ class ResultTableLooseRock:
     # Show the plot
     plt.show()
     # ------------------------------------------------------------------------------------------------------------------
-    # Create the figure and axes
-    fig, ax1 = plt.subplots()
-
-    # Define x-axis values (design 1 to 91)
-    x = np.arange(0, len(design_combinations['TOTAL_ECI']))
-
-    # Define the water level components
-    height_LR = design_combinations['height_LR']
-    height_Ver = design_combinations['height_Ver']
-    height_Grass = design_combinations['height_Grass']
-
-    # Create the bar chart on the left y-axis
-    ax1.bar(x - 0.2, height_LR, width=0.2, label='Loose rock', color='cornflowerblue')
-    ax1.bar(x, height_Ver, width=0.2, label='Verkalit', color='peachpuff')
-    ax1.bar(x + 0.2, height_Grass, width=0.2, label='Grass', color='mediumseagreen')
-
-    # Set the labels for the left y-axis and the title for the chart
-    ax1.set_ylabel('Height (+mNAP)')
-    ax1.set_xlabel('Design option')
-    ax1.set_title('Design options with varying transition heights and their corresponding ECI')
-
-    # Add a legend to the left y-axis bars
-    ax1.legend(loc='upper left')
-
-    # Create the right y-axis
-    ax2 = ax1.twinx()
-
-    # Create the line plot for the TOTAL_ECI on the right y-axis
-    ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
-             label='Total ECI')
-
-    # Set the label for the right y-axis
-    ax2.set_ylabel('Total ECI for the combinations (€)')
-
-    # Add a legend to the right y-axis line plot
-    ax2.legend(loc='lower right')
-
-    # Adjust the layout to prevent overlapping of bars
-    fig.tight_layout()
-
-    # Show the plot
-    plt.show()
-
-    # ------------------------------------------------------------------------------------------------------------------
-    ## Transition from Basalton to Grass
-
-    # Basalton
-    Result_raw_Basalton = pd.read_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Result Basalton complete.xlsx')
-
-    Basalton_filtered2 = filterresults(Result_raw_Basalton, 1)
-    Basalton_filtered2 = Basalton_filtered2[Basalton_filtered2['Waterlevel +mNAP'] > 4.9].reset_index(drop=True)
-    # print(Basalton_filtered)
-
-    # Grass
-
-    Result_Grass = pd.read_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\GEBU results.xlsx',
-        usecols='A:C', nrows=23)
-
-    Result_Grass['ECI_grass'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'],
-                                                 Result_Grass['Transition height asphalt-grass (+mNAP)'])
-    # print(Result_Grass)
-    values_to_select = [5.0, 5.2, 5.4, 5.6, 5.8, 6.0]
-    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'].isin(values_to_select)]
-    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'] < 6.01].reset_index(drop=True)
-    # print(Result_Grass)
-
-    # Merging the two dataframes
-    Subset_Basalton = Basalton_filtered2[['Waterlevel +mNAP', 'ECI']]
-    Subset_Grass = Result_Grass[['ECI_grass']]
-    Transition_BAS_Grass = pd.concat([Subset_Basalton, Subset_Grass], axis=1)
-    Transition_BAS_Grass['Sum_ECI'] = Transition_BAS_Grass['ECI'] + Transition_BAS_Grass['ECI_grass']
-    # print(Transition_BAS_Grass)
-
-    plt.figure()
-    x = np.arange(len(Transition_BAS_Grass['Waterlevel +mNAP']))
-    plt.plot(x, Transition_BAS_Grass['ECI_grass'], color='g', label='ECI Grass')
-    plt.plot(x, Transition_BAS_Grass['ECI'], color='r', label='ECI Basalton')
-    plt.plot(x, Transition_BAS_Grass['Sum_ECI'], color='black', linestyle='--', label='Total ECI')
-    plt.xticks(x, Transition_BAS_Grass['Waterlevel +mNAP'])
-    plt.xlabel('Waterlevel +mNAP')
-    plt.ylabel('ECI (€)')
-    plt.ylim(0, 400)
-    plt.title(textwrap.fill('Transition height from basalton to grass', 50), loc='center')
-    plt.legend(loc='upper left')
+    # Create the figure and axes (BAR chart traditional)
+    # fig, ax1 = plt.subplots()
+    #
+    # # Define x-axis values (design 1 to 91)
+    # x = np.arange(0, len(design_combinations['TOTAL_ECI']))
+    #
+    # # Define the water level components
+    # height_LR = design_combinations['height_LR']
+    # height_Ver = design_combinations['height_Ver']
+    # height_Grass = design_combinations['height_Grass']
+    #
+    # # Create the bar chart on the left y-axis
+    # ax1.bar(x - 0.2, height_LR, width=0.2, label='Loose rock', color='cornflowerblue')
+    # ax1.bar(x, height_Ver, width=0.2, label='Verkalit', color='peachpuff')
+    # ax1.bar(x + 0.2, height_Grass, width=0.2, label='Grass', color='mediumseagreen')
+    #
+    # # Set the labels for the left y-axis and the title for the chart
+    # ax1.set_ylabel('Height (+mNAP)')
+    # ax1.set_xlabel('Design option')
+    # ax1.set_title('Design options with varying transition heights and their corresponding ECI')
+    #
+    # # Add a legend to the left y-axis bars
+    # ax1.legend(loc='upper left')
+    #
+    # # Create the right y-axis
+    # ax2 = ax1.twinx()
+    #
+    # # Create the line plot for the TOTAL_ECI on the right y-axis
+    # ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
+    #          label='Total ECI')
+    #
+    # # Set the label for the right y-axis
+    # ax2.set_ylabel('Total ECI for the combinations (€)')
+    #
+    # # Add a legend to the right y-axis line plot
+    # ax2.legend(loc='lower right')
+    #
+    # # Adjust the layout to prevent overlapping of bars
+    # fig.tight_layout()
+    #
+    # # Show the plot
     # plt.show()
 
-    # ------------------------------------------------------------------------------------------------------------------
-    # Transition asphalt to grass
-
-    ## Asphalt
-    Result_raw_Asphalt = pd.read_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
-
-    Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
-    Asphalt_filtered = Asphalt_filtered[Asphalt_filtered['Waterlevel +mNAP'] > 4.99].reset_index(drop=True)
-    # print(Asphalt_filtered)
-
-    # Grass
-
-    Result_Grass = pd.read_excel(
-        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\5. Grass\GEBU results.xlsx',
-        usecols='A:C', nrows=23)
-
-    Result_Grass['ECI_grass'] = ECIFunc.ECIGrass(Result_Grass['clay layer thickness'],
-                                                 Result_Grass['Transition height asphalt-grass (+mNAP)'])
-    # print(Result_Grass)
-    values_to_select = [5.0, 5.2, 5.4, 5.6, 5.8, 6.0]
-    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'].isin(values_to_select)]
-    Result_Grass = Result_Grass[Result_Grass['Transition height asphalt-grass (+mNAP)'] < 6.01].reset_index(drop=True)
-    # print(Result_Grass)
-
-    # Merging the two dataframes
-    Subset_Asphalt = Asphalt_filtered[['Waterlevel +mNAP', 'ECI']]
-    Subset_Grass = Result_Grass[['ECI_grass']]
-    Transition_ASP_Grass = pd.concat([Subset_Asphalt, Subset_Grass], axis=1)
-    Transition_ASP_Grass['Sum_ECI'] = Transition_ASP_Grass['ECI'] + Transition_ASP_Grass['ECI_grass']
-    # print(Transition_ASP_Grass)
-
-    plt.figure()
-    x = np.arange(len(Transition_ASP_Grass['Waterlevel +mNAP']))
-    plt.plot(x, Transition_ASP_Grass['ECI_grass'], color='g', label='ECI Grass')
-    plt.plot(x, Transition_ASP_Grass['ECI'], color='y', label='ECI Asphalt')
-    plt.plot(x, Transition_ASP_Grass['Sum_ECI'], color='black', linestyle='--', label='Total ECI')
-    plt.xticks(x, Transition_ASP_Grass['Waterlevel +mNAP'])
-    plt.xlabel('Waterlevel +mNAP')
-    plt.ylabel('ECI (€)')
-    plt.ylim(0, 400)
-    plt.title(textwrap.fill('Transition height from Asphalt to grass', 50), loc='center')
-    plt.legend(loc='upper left')
-    # plt.show()
