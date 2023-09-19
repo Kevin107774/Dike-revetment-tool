@@ -20,6 +20,13 @@ def maintenance_lr(diameter, ECI_main):
     maintenance = diameter * ECI_main * amount_maintenance_year * design_lifetime
     return maintenance
 
+def maintenance_LR_2(diameter, ECI_maintenance, S):
+    Treshold_S = 6
+    design_lifetime = 50
+    frequency = 0.2
+    maintenance = diameter * ECI_maintenance * (S / Treshold_S) * design_lifetime * frequency
+    return maintenance
+
 
 class ResultTableLooseRock:
 
@@ -38,10 +45,10 @@ class ResultTableLooseRock:
 
     Result_Raw_LR['ECI_slopelength'] = Result_Raw_LR.apply(
         lambda row: ECIFunc.ECILooseRock(row['Nominal diameter rock'], 1.79, row['Slope angle'])
-        if row['Damage number [S]'] <= 5
+        if row['Damage number [S]'] <= 1
         else ECIFunc.ECILooseRock(row['Nominal diameter rock'], 1.79,
-                                  row['Slope angle']) + maintenance_lr(
-            row['Nominal diameter rock'], ECILib.ECI_LR_maintenance), axis=1)
+                                  row['Slope angle']) + maintenance_LR_2(
+            row['Nominal diameter rock'], ECILib.ECI_LR_maintenance, row['Damage number [S]']), axis=1)
 
     # Result_Raw_LR.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Result raw with extra column.xlsx')
 
@@ -92,7 +99,7 @@ class ResultTableLooseRock:
         if v != 0:
             plt.text(i + 0.1, v + 1, f'ECI: {v:.1f}\nS: {Loose_rock_selection_high["Damage number [S]"].iloc[i]}',
                      color='r', ha='center')
-    # plt.show()
+    plt.show()
 
 
 
