@@ -134,10 +134,10 @@ class ResultTableLooseRock:
 
     # Add the height for Verkalit
     design_combinations['height_Ver'] = design_combinations['Waterlevel_Ver +mNAP_Ver'] - design_combinations[
-        'height_LR']
+        'Waterlevel_LR +mNAP_LR']
     design_combinations['TOTAL_height'] = design_combinations['height_Ver'] + design_combinations['height_Grass'] + \
                                           design_combinations['height_LR']
-    design_combinations = design_combinations[design_combinations['TOTAL_height'] == 8.22]
+    design_combinations = design_combinations[design_combinations['TOTAL_height'] == 8.59]
 
     # Remove the bottom section of the ECI for the Verkalit part
     def calculate_ECI_Ver(row):

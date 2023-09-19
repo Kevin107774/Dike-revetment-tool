@@ -22,7 +22,7 @@ def maintenance_lr(diameter, ECI_main):
 
 class ResultTableLooseRock:
 
-    # Transition Loose rock to Asphalt to Grass
+    # Transition Loose rock to Verkalit to Grass
 
     def filterresults(Result_Raw, selected_amount, Req_pf=1 / 60000):
         Result_filtered = Result_Raw[Result_Raw['Probability of failure'] < Req_pf]
@@ -50,6 +50,40 @@ class ResultTableLooseRock:
     Loose_rock_filtered.to_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Loose rock filtered for transiton grass.xlsx')
 
+    ## Verkalit
+    Result_Raw_Ver = pd.read_excel(
+        r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Result Verkalit '
+        r'complete.xlsx')
+
+    Verkalit_filtered = filterresults(Result_Raw_Ver, 1)
+    Verkalit_filtered = Verkalit_filtered[Verkalit_filtered['Waterlevel +mNAP'] >= 1.8].reset_index(drop=True)
+    Verkalit_filtered = Verkalit_filtered[
+        ['Waterlevel +mNAP', 'Layer thickness Verkalit', 'Density concrete', 'Slope angle',
+         'Probability of failure', 'ECI']]
+    Verkalit_filtered = Verkalit_filtered.rename(
+        columns={'Waterlevel +mNAP': 'Waterlevel +mNAP_Ver', 'Layer thickness Verkalit': 'Layer thickness Verkalit_Ver',
+                 'Density concrete': 'Density concrete_Ver', 'Slope angle': 'Slope angle_Ver',
+                 'Probability of failure': 'Probability of failure_Ver', 'ECI': 'ECI_Ver'})
+
+    # Make sure that the thickness is only increasing. Otherwise designs with varying thicknesses.
+    for i in range(1, len(Verkalit_filtered)):
+        # Check if the current layer thickness is higher than the previous layer thickness
+        if Verkalit_filtered.loc[i, 'Layer thickness Verkalit_Ver'] < Verkalit_filtered.loc[
+            i - 1, 'Layer thickness Verkalit_Ver']:
+            # Change the current layer thickness to the previous value
+            Verkalit_filtered.loc[i, 'Layer thickness Verkalit_Ver'] = Verkalit_filtered.loc[
+                i - 1, 'Layer thickness Verkalit_Ver']
+            # Change the current density concrete to the previous value
+            Verkalit_filtered.loc[i, 'Density concrete_Ver'] = Verkalit_filtered.loc[i - 1, 'Density concrete_Ver']
+
+    # Calculate the ECI based on the new designs.
+    Verkalit_filtered['ECI_Ver'] = Verkalit_filtered.apply(lambda row: ECIFunc.ECIVerkalit(
+        row['Layer thickness Verkalit_Ver'], row['Waterlevel +mNAP_Ver'], row['Slope angle_Ver']), axis=1)
+
+    # print(Verkalit_filtered)
+    # print(Verkalit_filtered) Verkalit_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (
+    # Schijf)\Python scripts\Results\Transitions\Verkalit filtered for transiton grass.xlsx')
+
     ## Asphalt
     Result_Raw_As = pd.read_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\AsphaltImpact_test.xlsx')
@@ -68,15 +102,16 @@ class ResultTableLooseRock:
     for i in range(1, len(Asphalt_filtered)):
         # Check if the current layer thickness is higher than the previous layer thickness
         if Asphalt_filtered.loc[i, 'Layer thickness Asphalt_As'] < Asphalt_filtered.loc[
-                i - 1, 'Layer thickness Asphalt_As']:
+            i - 1, 'Layer thickness Asphalt_As']:
             # Change the current layer thickness to the previous value
             Asphalt_filtered.loc[i, 'Layer thickness Asphalt_As'] = Asphalt_filtered.loc[
                 i - 1, 'Layer thickness Asphalt_As']
             # Change the current density concrete to the previous value
             Asphalt_filtered.loc[i, 'Density concrete_As'] = Asphalt_filtered.loc[i - 1, 'Density concrete_As']
 
-    Asphalt_filtered['ECI_As'] = Asphalt_filtered.apply(lambda row: ECIFunc.ECIAsphalt(row[
-        'Layer thickness Asphalt_As'], row['Waterlevel +mNAP_As'], row['Slope angle_As']), axis=1)
+    Asphalt_filtered['ECI_As'] = Asphalt_filtered.apply(
+        lambda row: ECIFunc.ECIAsphalt(row['Layer thickness Asphalt_As'],
+                                       row['Waterlevel +mNAP_As'], row['Slope angle_As']), axis=1)
 
     # print(Asphalt_filtered)
     # print(Asphalt_filtered) Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (
@@ -99,57 +134,92 @@ class ResultTableLooseRock:
     Result_Grass = Result_Grass.rename(
         columns={'height': 'height_Grass', 'clay layer thickness': 'clay layer thickness_Grass',
                  'pf 1/66.666': 'Probability of failure_Grass'})
+    # print(Result_Grass)
 
-    # Merge the two dataframes
+    # Merge the three dataframes
 
     # Get unique water levels from each dataframe
     water_levels_LR = Loose_rock_filtered['Waterlevel +mNAP_LR'].unique()
+    water_levels_Ver = Verkalit_filtered['Waterlevel +mNAP_Ver'].unique()
     water_levels_As = Asphalt_filtered['Waterlevel +mNAP_As'].unique()
     water_levels_Grass = Result_Grass['Transition height asphalt-grass (+mNAP)'].unique()
 
     # Create all possible combinations of water levels using itertools.product
-    combinations = list(itertools.product(water_levels_LR, water_levels_As, water_levels_Grass))
+    combinations = list(itertools.product(water_levels_LR, water_levels_Ver, water_levels_As, water_levels_Grass))
+    # print(len(combinations))
+    # print(combinations)
 
     # Create a new dataframe to store the combinations
-    columns_combination = ['Waterlevel_LR +mNAP_LR', 'Waterlevel_As +mNAP_As', 'Waterlevel_Grass']
+    columns_combination = ['Waterlevel_LR +mNAP_LR', 'Waterlevel_Ver +mNAP_Ver', 'Waterlevel_As +mNAP',
+                           'Waterlevel_Grass']
     design_combinations = pd.DataFrame(combinations, columns=columns_combination)
+
+    # Remove the rows where Verkalit is lower than Loose rock
+    design_combinations = design_combinations[design_combinations['Waterlevel_Ver +mNAP_Ver'] >= design_combinations['Waterlevel_LR +mNAP_LR']]
+
+    # Remove the rows where Asphalt is lower than Verkalit
+    design_combinations = design_combinations[
+        design_combinations['Waterlevel_As +mNAP'] >= design_combinations['Waterlevel_Ver +mNAP_Ver']]
+
+    # Remove the rows where Grass is lower than Asphalt
+    design_combinations = design_combinations[
+        design_combinations['Waterlevel_Grass'] >= design_combinations['Waterlevel_As +mNAP']].reset_index(drop=True)
 
     # Merge the other columns from the original dataframes based on the waterstand values
     design_combinations = pd.merge(design_combinations, Loose_rock_filtered, left_on='Waterlevel_LR +mNAP_LR',
                                    right_on='Waterlevel +mNAP_LR', how='left')
-    design_combinations = pd.merge(design_combinations, Asphalt_filtered, left_on='Waterlevel_As +mNAP_As',
+    design_combinations = pd.merge(design_combinations, Verkalit_filtered, left_on='Waterlevel_Ver +mNAP_Ver',
+                                   right_on='Waterlevel +mNAP_Ver', how='left')
+    design_combinations = pd.merge(design_combinations, Asphalt_filtered, left_on='Waterlevel_As +mNAP',
                                    right_on='Waterlevel +mNAP_As', how='left')
     design_combinations = pd.merge(design_combinations, Result_Grass, left_on='Waterlevel_Grass',
                                    right_on='Transition height asphalt-grass (+mNAP)', how='left')
 
     # Remove the duplicate waterstand columns
     design_combinations = design_combinations.drop(
-        columns=['Waterlevel +mNAP_LR', 'Waterlevel +mNAP_As', 'Transition height asphalt-grass (+mNAP)'])
+        columns=['Waterlevel +mNAP_LR', 'Waterlevel +mNAP_Ver', 'Waterlevel +mNAP_As',
+                 'Transition height asphalt-grass (+mNAP)'])
 
-    # Add the height for Asphalt
-    design_combinations['height_As'] = design_combinations['Waterlevel_As +mNAP_As'] - design_combinations[
-        'Waterlevel_LR +mNAP_LR']
-    design_combinations['TOTAL_height'] = design_combinations['height_As'] + design_combinations['height_Grass'] + \
-                                          design_combinations['height_LR']
-    design_combinations = design_combinations[design_combinations['TOTAL_height'] == 8.59]
+    # Add the height for Verkalit and Asphalt
+    design_combinations['height_Ver'] = design_combinations['Waterlevel_Ver +mNAP_Ver'] - \
+                                        design_combinations['Waterlevel_LR +mNAP_LR']
 
-    # Remove the bottom section of the ECI for the Asphalt part
+    design_combinations['height_As'] = design_combinations['Waterlevel_As +mNAP'] - \
+                                       design_combinations['Waterlevel_Ver +mNAP_Ver']
+
+    design_combinations['TOTAL_height'] = design_combinations['height_LR'] + design_combinations['height_Ver'] + \
+                                          design_combinations['height_As'] + design_combinations['height_Grass']
+
+    design_combinations = design_combinations[design_combinations['TOTAL_height'] == 8.59].reset_index(drop=True)
+
+    # Remove the bottom section of the ECI for the Verkalit part
+    def calculate_ECI_Ver(row):
+        thickness = row['Layer thickness Verkalit_Ver']
+        waterlevel = row['Waterlevel_LR +mNAP_LR']
+        slope = row['Slope angle_Ver']  # Or use the corresponding value from the row if needed
+        return ECIFunc.ECIVerkalit(thickness, waterlevel, slope)
+
+    # Apply the calculate_ECI_Ver function to each row using apply
+    design_combinations['Bottom_ECI_Ver'] = design_combinations.apply(calculate_ECI_Ver, axis=1)
+
     def calculate_ECI_As(row):
         thickness = row['Layer thickness Asphalt_As']
-        waterlevel = row['Waterlevel_LR +mNAP_LR']
+        waterlevel = row['Waterlevel_Ver +mNAP_Ver']
         slope = row['Slope angle_As']  # Or use the corresponding value from the row if needed
         return ECIFunc.ECIAsphalt(thickness, waterlevel, slope)
 
     # Apply the calculate_ECI_As function to each row using apply
     design_combinations['Bottom_ECI_As'] = design_combinations.apply(calculate_ECI_As, axis=1)
-    design_combinations['TOTAL_ECI'] = design_combinations['ECI_LR'] + design_combinations['ECI_As'] - \
+
+    design_combinations['TOTAL_ECI'] = design_combinations['ECI_LR'] + design_combinations['ECI_As'] + \
+                                       design_combinations['ECI_Ver'] - design_combinations['Bottom_ECI_Ver'] - \
                                        design_combinations['Bottom_ECI_As'] + design_combinations['ECI_grass']
     design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
-    # design_combinations = design_combinations.head(20)
+    design_combinations = design_combinations.tail(500)
 
     # Print the resulting dataframe
-    # print(design_combinations)
-    # design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_As_Grass.xlsx')
+    print(design_combinations)
+    # design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_Ver_As_Grass.xlsx')
 
     # -------------------------------------------------------------------------------------------------------------------
     # Create the figure and axes (STACKED BAR CHART)
@@ -158,18 +228,20 @@ class ResultTableLooseRock:
 
     fig, ax1 = plt.subplots()
 
-    # Define x-axis values (design 1 to 91)
+    # Define x-axis values
     x = np.arange(0, len(design_combinations['TOTAL_ECI']))
 
     # Define the water level components
     height_LR = design_combinations['height_LR']
+    height_Ver = design_combinations['height_Ver']
     height_As = design_combinations['height_As']
     height_Grass = design_combinations['height_Grass']
 
     # Create the bar chart on the left y-axis
-    ax1.bar(x, height_LR, width=0.6, label='Loose rock', color='cornflowerblue')
-    ax1.bar(x, height_As, bottom=height_LR, width=0.6, label='Asphalt', color='dimgrey')
-    ax1.bar(x, height_Grass, bottom=height_LR + height_As, width=0.6, label='Grass', color='mediumseagreen')
+    ax1.bar(x, height_LR, width=0.5, label='Loose rock', color='cornflowerblue')
+    ax1.bar(x, height_Ver, bottom=height_LR, width=0.5, label='Verkalit', color='peachpuff')
+    ax1.bar(x, height_As, bottom=height_LR + height_Ver, width=0.5, label='Asphalt', color='dimgrey')
+    ax1.bar(x, height_Grass, bottom=height_LR + height_Ver + height_As, width=0.5, label='Grass', color='mediumseagreen')
 
     # Set the labels for the left y-axis and the title for the chart
     ax1.set_ylabel('Height (+mNAP)')
@@ -197,7 +269,6 @@ class ResultTableLooseRock:
 
     # Show the plot
     plt.show()
-
     # ------------------------------------------------------------------------------------------------------------------
     # Create the figure and axes (BAR chart traditional)
     # fig, ax1 = plt.subplots()
@@ -207,12 +278,12 @@ class ResultTableLooseRock:
     #
     # # Define the water level components
     # height_LR = design_combinations['height_LR']
-    # height_As = design_combinations['height_As']
+    # height_Ver = design_combinations['height_Ver']
     # height_Grass = design_combinations['height_Grass']
     #
     # # Create the bar chart on the left y-axis
     # ax1.bar(x - 0.2, height_LR, width=0.2, label='Loose rock', color='cornflowerblue')
-    # ax1.bar(x, height_As, width=0.2, label='Asphalt', color='dimgrey')
+    # ax1.bar(x, height_Ver, width=0.2, label='Verkalit', color='peachpuff')
     # ax1.bar(x + 0.2, height_Grass, width=0.2, label='Grass', color='mediumseagreen')
     #
     # # Set the labels for the left y-axis and the title for the chart

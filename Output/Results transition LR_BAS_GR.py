@@ -132,10 +132,10 @@ class ResultTableLooseRock:
 
     # Add the height for Basalton
     design_combinations['height_Bas'] = design_combinations['Waterlevel_Bas +mNAP_Bas'] - design_combinations[
-        'height_LR']
+        'Waterlevel_LR +mNAP_LR']
     design_combinations['TOTAL_height'] = design_combinations['height_Bas'] + design_combinations['height_Grass'] + \
                                           design_combinations['height_LR']
-    design_combinations = design_combinations[design_combinations['TOTAL_height'] == 8.22]
+    design_combinations = design_combinations[design_combinations['TOTAL_height'] == 8.59]
 
     # Remove the bottom section of the ECI for the Basalton part
     def calculate_ECI_Bas(row):
