@@ -270,6 +270,7 @@ class Parameters:
     parameter_combinations_asphalt = pd.concat(hydra, ignore_index=True)
     pd.set_option('display.max_columns', None)
     # print(parameter_combinations_asphalt)
+    parameter_combinations_asphalt.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Leeg asphalt.xlsx')
 
     # -----------------------------------------------------------------------------------------
 

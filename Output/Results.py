@@ -50,6 +50,7 @@ class ResultTableLooseRock:
                                   row['Slope angle']) + maintenance_LR_2(
             row['Nominal diameter rock'], ECILib.ECI_LR_maintenance, row['Damage number [S]']), axis=1)
 
+
     # Result_Raw_LR.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Result raw with extra column.xlsx')
 
     # Analysis for the original design
@@ -59,6 +60,8 @@ class ResultTableLooseRock:
     Loose_rock_selection = Loose_rock_selection.sort_values(
         ['Nominal diameter rock', 'Damage number [S]', 'ECI_slopelength'],
         ascending=[True, True, True])
+    # print(Loose_rock_selection)
+
 
     # Without maintenance (S<5)
     Loose_rock_selection_low = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] < 5]
@@ -74,34 +77,185 @@ class ResultTableLooseRock:
     # Loose_rock_selection.to_excel(
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Selection original design.xlsx')
 
-    figure = plt.figure()
-    font = {'size': 15}
+    Loose_rock_selection_S2 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 2]
+    Loose_rock_selection_S2 = Loose_rock_selection_S2.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S2.columns)
+    Loose_rock_selection_S2 = pd.concat([zeros_df, Loose_rock_selection_S2]).reset_index(drop=True)
 
+    Loose_rock_selection_S3 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 3]
+    Loose_rock_selection_S3 = Loose_rock_selection_S3.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S3.columns)
+    Loose_rock_selection_S3 = pd.concat([zeros_df, Loose_rock_selection_S3]).reset_index(drop=True)
+
+    Loose_rock_selection_S4 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 4]
+    Loose_rock_selection_S4 = Loose_rock_selection_S4.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S4.columns)
+    Loose_rock_selection_S4 = pd.concat([zeros_df, Loose_rock_selection_S4]).reset_index(drop=True)
+
+    Loose_rock_selection_S5 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 5]
+    Loose_rock_selection_S5 = Loose_rock_selection_S5.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S5.columns)
+    Loose_rock_selection_S5 = pd.concat([zeros_df, Loose_rock_selection_S5]).reset_index(drop=True)
+
+    Loose_rock_selection_S6 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 6]
+    Loose_rock_selection_S6 = Loose_rock_selection_S6.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S6.columns)
+    Loose_rock_selection_S6 = pd.concat([zeros_df, Loose_rock_selection_S6]).reset_index(drop=True)
+
+    Loose_rock_selection_S7 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 7]
+    Loose_rock_selection_S7 = Loose_rock_selection_S7.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S7.columns)
+    Loose_rock_selection_S7 = pd.concat([zeros_df, Loose_rock_selection_S7]).reset_index(drop=True)
+
+    Loose_rock_selection_S8 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 8]
+    Loose_rock_selection_S8 = Loose_rock_selection_S8.groupby('Nominal diameter rock').head(1)
+
+
+    Loose_rock_selection_S9 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 9]
+    Loose_rock_selection_S9 = Loose_rock_selection_S9.groupby('Nominal diameter rock').head(1)
+    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S9.columns)
+    # Loose_rock_selection_S9 = pd.concat([zeros_df, Loose_rock_selection_S9]).reset_index(drop=True)
+
+    Loose_rock_selection_S10 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 10]
+    Loose_rock_selection_S10 = Loose_rock_selection_S10.groupby('Nominal diameter rock').head(1)
+    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S10.columns)
+    # Loose_rock_selection_S10 = pd.concat([zeros_df, Loose_rock_selection_S10]).reset_index(drop=True)
+
+    Loose_rock_selection_S11 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 11]
+    Loose_rock_selection_S11 = Loose_rock_selection_S11.groupby('Nominal diameter rock').head(1)
+    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S11.columns)
+    # Loose_rock_selection_S11 = pd.concat([zeros_df, Loose_rock_selection_S11]).reset_index(drop=True)
+
+    Loose_rock_selection_S12 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 12]
+    Loose_rock_selection_S12 = Loose_rock_selection_S12.groupby('Nominal diameter rock').head(1)
+    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S12.columns)
+    # Loose_rock_selection_S12 = pd.concat([zeros_df, Loose_rock_selection_S12]).reset_index(drop=True)
+
+    Loose_rock_selection_S13 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 13]
+    Loose_rock_selection_S13 = Loose_rock_selection_S13.groupby('Nominal diameter rock').head(1)
+    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S13.columns)
+    # Loose_rock_selection_S13 = pd.concat([zeros_df, Loose_rock_selection_S13]).reset_index(drop=True)
+
+    Loose_rock_selection_S14 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 14]
+    Loose_rock_selection_S14 = Loose_rock_selection_S14.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S14.columns)
+    Loose_rock_selection_S14 = pd.concat([zeros_df, Loose_rock_selection_S14]).reset_index(drop=True)
+
+    Loose_rock_selection_S15 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 15]
+    Loose_rock_selection_S15 = Loose_rock_selection_S15.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S15.columns)
+    Loose_rock_selection_S15 = pd.concat([zeros_df, Loose_rock_selection_S15]).reset_index(drop=True)
+
+
+    Loose_rock_selection_S16 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 16]
+    Loose_rock_selection_S16 = Loose_rock_selection_S16.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S16.columns)
+    Loose_rock_selection_S16 = pd.concat([zeros_df, Loose_rock_selection_S16]).reset_index(drop=True)
+
+    Loose_rock_selection_S17 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 17]
+    Loose_rock_selection_S17 = Loose_rock_selection_S17.groupby('Nominal diameter rock').head(1)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S17.columns)
+    Loose_rock_selection_S17 = pd.concat([zeros_df, Loose_rock_selection_S17]).reset_index(drop=True)
+    # print(Loose_rock_selection_S9, Loose_rock_selection_S10, Loose_rock_selection_S11, Loose_rock_selection_S12)
+
+    figure = plt.figure(figsize=(12, 6))
+    font = {'size': 12}
     matplotlib.rc('font', **font)
-    x = np.arange(len(Loose_rock_selection_high['Nominal diameter rock']))
-    plt.bar(x - 0.1, Loose_rock_selection_low['ECI_slopelength'], color='b', width=0.2, label='Without maintenance')
-    plt.bar(x + 0.1, Loose_rock_selection_high['ECI_slopelength'], color='r', width=0.2, label='With maintenance')
+
+    x = np.arange(len(Loose_rock_selection_S2['Nominal diameter rock']))
+    plt.bar(x - 8/20, Loose_rock_selection_S2['ECI_slopelength'], width=1/20, label='S = 2')
+    plt.bar(x - 7/20, Loose_rock_selection_S3['ECI_slopelength'], width=1/20, label='S = 3')
+    plt.bar(x - 6/20, Loose_rock_selection_S4['ECI_slopelength'], width=1/20, label='S = 4')
+    plt.bar(x - 5/20, Loose_rock_selection_S5['ECI_slopelength'], width=1/20, label='S = 5')
+    plt.bar(x - 4/20, Loose_rock_selection_S6['ECI_slopelength'], width=1/20, label='S = 6')
+    plt.bar(x - 3/20, Loose_rock_selection_S7['ECI_slopelength'], width=1/20, label='S = 7')
+    plt.bar(x - 2/20, Loose_rock_selection_S8['ECI_slopelength'], width=1/20, label='S = 8')
+    plt.bar(x - 1/20, Loose_rock_selection_S9['ECI_slopelength'], width=1/20, label='S = 9')
+    plt.bar(x, Loose_rock_selection_S10['ECI_slopelength'], width=1/20, label='S = 10')
+    plt.bar(x + 1/20, Loose_rock_selection_S11['ECI_slopelength'], width=1/20, label='S = 11')
+    plt.bar(x + 2/20, Loose_rock_selection_S12['ECI_slopelength'], width=1 / 20, label='S = 12')
+    plt.bar(x + 3/20, Loose_rock_selection_S13['ECI_slopelength'], width=1 / 20, label='S = 13')
+    plt.bar(x + 4/20, Loose_rock_selection_S14['ECI_slopelength'], width=1 / 20, label='S = 14')
+    plt.bar(x + 5/20, Loose_rock_selection_S15['ECI_slopelength'], width=1 / 20, label='S = 15')
+    plt.bar(x + 6/20, Loose_rock_selection_S16['ECI_slopelength'], width=1 / 20, label='S = 16')
+    plt.bar(x + 7/20, Loose_rock_selection_S17['ECI_slopelength'], width=1 / 20, label='S = 17')
+
     labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000']
     plt.xticks(x, labels_x)
     plt.xlabel('Rock class (kg)')
     plt.ylabel('ECI (€)')
-    plt.ylim(0, 170)
+    plt.ylim(0, 300)
     plt.title(textwrap.fill('ECI for each nominal diameter rock with (S>5) and without maintenance (S≤5)', 50),
               loc='center')
     plt.legend(loc='upper left')
 
     # Add y-values to the bars
-    for i, v in enumerate(Loose_rock_selection_low['ECI_slopelength']):
+    for i, v in enumerate(Loose_rock_selection_S2['ECI_slopelength']):
         if v != 0:
-            plt.text(i - 0.1, v + 0.1, f'ECI: {v:.1f}\nS: {Loose_rock_selection_low["Damage number [S]"].iloc[i]}',
-                     color='b', ha='center')
-    for i, v in enumerate(Loose_rock_selection_high['ECI_slopelength']):
-        if v != 0:
-            plt.text(i + 0.1, v + 1, f'ECI: {v:.1f}\nS: {Loose_rock_selection_high["Damage number [S]"].iloc[i]}',
+            plt.text(i-8/20, v + 1, f'S: {Loose_rock_selection_S2["Damage number [S]"].iloc[i]}',
                      color='r', ha='center')
-    plt.show()
+    for i, v in enumerate(Loose_rock_selection_S3['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-7/20, v + 1, f'S: {Loose_rock_selection_S3["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S4['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-6/20, v + 1, f'S: {Loose_rock_selection_S4["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S5['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-5/20, v + 1, f'S: {Loose_rock_selection_S5["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S6['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-4/20, v + 1, f'S: {Loose_rock_selection_S6["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S7['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-3/20, v + 1, f'S: {Loose_rock_selection_S7["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S8['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-2/20, v + 1, f'S: {Loose_rock_selection_S8["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S9['ECI_slopelength']):
+        if v != 0:
+            plt.text(i-1/20, v + 1, f'S: {Loose_rock_selection_S9["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S10['ECI_slopelength']):
+        if v != 0:
+            plt.text(i, v + 1, f'S: {Loose_rock_selection_S10["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S11['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+1/20, v + 1, f'S: {Loose_rock_selection_S11["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S12['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+2/20, v + 1, f'S: {Loose_rock_selection_S12["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S13['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+3/20, v + 1, f'S: {Loose_rock_selection_S13["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S14['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+4/20, v + 1, f'S: {Loose_rock_selection_S14["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S15['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+5/20, v + 1, f'S: {Loose_rock_selection_S15["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S16['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+6/20, v + 1, f'S: {Loose_rock_selection_S16["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
+    for i, v in enumerate(Loose_rock_selection_S17['ECI_slopelength']):
+        if v != 0:
+            plt.text(i+7/20, v + 1, f'S: {Loose_rock_selection_S17["Damage number [S]"].iloc[i]}',
+                     color='r', ha='center')
 
-
+    # plt.show()
 
     # Analysis for the transition heights
     Loose_rock_filtered = filterresults(Result_Raw_LR, 2)
@@ -199,38 +353,38 @@ class ResultTableLooseRock:
 
     Asphalt_selection = Result_raw_Asphalt[Result_raw_Asphalt['Probability of failure'] < 1 / 60000]
     # Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] == 2.4]
-    Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] < 6.2]
+    Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] == 6.2]
     Asphalt_selection = Asphalt_selection.sort_values(
         ['Asphalt layer thickness', 'ECI_slopelength'], ascending=[True, True])
 
     Asphalt_selection = Asphalt_selection.groupby('Asphalt layer thickness').head(1)
-    # print(Asphalt_selection)
+    print(Asphalt_selection)
     # Asphalt_selection.to_excel(
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Selection original design Asphalt.xlsx')
 
     figure = plt.figure()
     x = np.arange(len(Asphalt_selection['Asphalt layer thickness']))
-    plt.bar(x, Asphalt_selection['ECI_slopelength'], color='b', width=0.2, label='Asphalt')
+    plt.bar(x, Asphalt_selection['ECI_slopelength'], color='b', width=0.2, label='Hydraulic asphalt concrete')
     plt.xticks(x, Asphalt_selection['Asphalt layer thickness'])
-    plt.xlabel('Asphalt layer thickness (m)')
+    plt.xlabel('Hydraulic asphalt concrete layer thickness (m)')
     plt.ylabel('ECI (€)')
     plt.ylim(0, 550)
-    plt.title(textwrap.fill('ECI for each asphalt layer thickness', 50), loc='center')
+    plt.title(textwrap.fill('ECI for each hydraulic asphalt concrete layer thickness', 50), loc='center')
     plt.legend(loc='upper left')
 
     # Add y-values to the bars
     for i, v in enumerate(Asphalt_selection['ECI_slopelength']):
         if v != 0:
             plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
-    # plt.show()
+    plt.show()
 
     Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
-    print(Asphalt_filtered)
+    # print(Asphalt_filtered)
     Asphalt_original_design = Asphalt_filtered.loc[Asphalt_filtered['Asphalt layer thickness'].idxmax()]
     Asphalt_original_design = pd.DataFrame([Asphalt_original_design])
     # print(Asphalt_original_design)
 
-    Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt only best option per WL.xlsx')
+    # Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Filtered result table Asphalt only best option per WL.xlsx')
 
     ## Grass
     Result_Grass = pd.read_excel(

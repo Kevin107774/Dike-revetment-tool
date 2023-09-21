@@ -24,7 +24,7 @@ class ECILib:
     # Installation loose rock [m2]
     ECI_crawler_crane_LR = 0.04
     ECI_excavator_LR = 0.003
-    ECI_installation = 0.043
+    ECI_installation_LR = 0.043
 
 
     # Filter layer [m3]
@@ -33,7 +33,7 @@ class ECILib:
     # Pie chart Data
     labels = ['Transport', 'Loose Rock [m3]', 'Installation Loose Rock [m2]',
               'Filter Layer [m3]']
-    sizes = [ECI_Transport_LR, ECI_LR, ECI_installation, ECI_filter_LR]
+    sizes = [ECI_Transport_LR, ECI_LR, ECI_installation_LR, ECI_filter_LR]
 
     # Create a pie chart
     plt.figure(figsize=(20, 20))
@@ -231,5 +231,5 @@ class ECILib:
 
     # Display the pie chart
     plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-    plt.show()
+    # plt.show()
 

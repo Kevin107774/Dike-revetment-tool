@@ -215,10 +215,10 @@ class ResultTableLooseRock:
                                        design_combinations['ECI_Ver'] - design_combinations['Bottom_ECI_Ver'] - \
                                        design_combinations['Bottom_ECI_As'] + design_combinations['ECI_grass']
     design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
-    design_combinations = design_combinations.tail(500)
+    # design_combinations = design_combinations.tail(500)
 
     # Print the resulting dataframe
-    print(design_combinations)
+    # print(design_combinations)
     # design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_Ver_As_Grass.xlsx')
 
     # -------------------------------------------------------------------------------------------------------------------
