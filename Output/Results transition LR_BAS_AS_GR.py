@@ -215,7 +215,7 @@ class ResultTableLooseRock:
                                        design_combinations['ECI_Bas'] - design_combinations['Bottom_ECI_Bas'] - \
                                        design_combinations['Bottom_ECI_As'] + design_combinations['ECI_grass']
     design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
-    design_combinations = design_combinations.head(100)
+    # design_combinations = design_combinations.head(100)
 
     # Print the resulting dataframe
     print(design_combinations)

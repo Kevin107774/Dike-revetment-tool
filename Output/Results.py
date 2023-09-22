@@ -163,22 +163,22 @@ class ResultTableLooseRock:
     matplotlib.rc('font', **font)
 
     x = np.arange(len(Loose_rock_selection_S2['Nominal diameter rock']))
-    plt.bar(x - 8/20, Loose_rock_selection_S2['ECI_slopelength'], width=1/20, label='S = 2')
-    plt.bar(x - 7/20, Loose_rock_selection_S3['ECI_slopelength'], width=1/20, label='S = 3')
-    plt.bar(x - 6/20, Loose_rock_selection_S4['ECI_slopelength'], width=1/20, label='S = 4')
-    plt.bar(x - 5/20, Loose_rock_selection_S5['ECI_slopelength'], width=1/20, label='S = 5')
-    plt.bar(x - 4/20, Loose_rock_selection_S6['ECI_slopelength'], width=1/20, label='S = 6')
-    plt.bar(x - 3/20, Loose_rock_selection_S7['ECI_slopelength'], width=1/20, label='S = 7')
-    plt.bar(x - 2/20, Loose_rock_selection_S8['ECI_slopelength'], width=1/20, label='S = 8')
-    plt.bar(x - 1/20, Loose_rock_selection_S9['ECI_slopelength'], width=1/20, label='S = 9')
-    plt.bar(x, Loose_rock_selection_S10['ECI_slopelength'], width=1/20, label='S = 10')
-    plt.bar(x + 1/20, Loose_rock_selection_S11['ECI_slopelength'], width=1/20, label='S = 11')
-    plt.bar(x + 2/20, Loose_rock_selection_S12['ECI_slopelength'], width=1 / 20, label='S = 12')
-    plt.bar(x + 3/20, Loose_rock_selection_S13['ECI_slopelength'], width=1 / 20, label='S = 13')
-    plt.bar(x + 4/20, Loose_rock_selection_S14['ECI_slopelength'], width=1 / 20, label='S = 14')
-    plt.bar(x + 5/20, Loose_rock_selection_S15['ECI_slopelength'], width=1 / 20, label='S = 15')
-    plt.bar(x + 6/20, Loose_rock_selection_S16['ECI_slopelength'], width=1 / 20, label='S = 16')
-    plt.bar(x + 7/20, Loose_rock_selection_S17['ECI_slopelength'], width=1 / 20, label='S = 17')
+    plt.bar(x - 8/20, Loose_rock_selection_S2['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 2')
+    plt.bar(x - 7/20, Loose_rock_selection_S3['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 3')
+    plt.bar(x - 6/20, Loose_rock_selection_S4['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 4')
+    plt.bar(x - 5/20, Loose_rock_selection_S5['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 5')
+    plt.bar(x - 4/20, Loose_rock_selection_S6['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 6')
+    plt.bar(x - 3/20, Loose_rock_selection_S7['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 7')
+    plt.bar(x - 2/20, Loose_rock_selection_S8['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 8')
+    plt.bar(x - 1/20, Loose_rock_selection_S9['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 9')
+    plt.bar(x, Loose_rock_selection_S10['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 10')
+    plt.bar(x + 1/20, Loose_rock_selection_S11['ECI_slopelength'], width=1/20, color='cornflowerblue', label='S = 11')
+    plt.bar(x + 2/20, Loose_rock_selection_S12['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 12')
+    plt.bar(x + 3/20, Loose_rock_selection_S13['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 13')
+    plt.bar(x + 4/20, Loose_rock_selection_S14['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 14')
+    plt.bar(x + 5/20, Loose_rock_selection_S15['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 15')
+    plt.bar(x + 6/20, Loose_rock_selection_S16['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 16')
+    plt.bar(x + 7/20, Loose_rock_selection_S17['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 17')
 
     labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000']
     plt.xticks(x, labels_x)
@@ -308,8 +308,8 @@ class ResultTableLooseRock:
 
     figure = plt.figure()
     x = np.arange(len(Basalton_selection['Layer thickness Basalton']))
-    plt.bar(x - 0.1, Basalton_selection['ECI_slopelength'], color='b', width=0.2, label='Basalton')
-    plt.bar(x + 0.1, Verkalit_selection['ECI_slopelength'], color='r', width=0.2, label='Verkalit')
+    plt.bar(x-0.1, Basalton_selection['ECI_slopelength'], color='lightsalmon', width=0.2, label='Basalton')
+    plt.bar(x+0.1, Verkalit_selection['ECI_slopelength'], color='peachpuff', width=0.2, label='Verkalit')
     plt.xticks(x, Basalton_selection['Layer thickness Basalton'])
     plt.xlabel('Element thickness placed revetment (m)')
     plt.ylabel('ECI (€)')
@@ -328,7 +328,7 @@ class ResultTableLooseRock:
         if v != 0:
             plt.text(i + 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Verkalit_selection["Density concrete"].iloc[i]}',
                      color='r', ha='center')
-    # plt.show()
+    plt.show()
 
     Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
     # print(Verkalit_filtered)
@@ -364,7 +364,7 @@ class ResultTableLooseRock:
 
     figure = plt.figure()
     x = np.arange(len(Asphalt_selection['Asphalt layer thickness']))
-    plt.bar(x, Asphalt_selection['ECI_slopelength'], color='b', width=0.2, label='Hydraulic asphalt concrete')
+    plt.bar(x, Asphalt_selection['ECI_slopelength'], color='dimgrey', width=0.2, label='Hydraulic asphalt concrete')
     plt.xticks(x, Asphalt_selection['Asphalt layer thickness'])
     plt.xlabel('Hydraulic asphalt concrete layer thickness (m)')
     plt.ylabel('ECI (€)')
@@ -375,7 +375,7 @@ class ResultTableLooseRock:
     # Add y-values to the bars
     for i, v in enumerate(Asphalt_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
+            plt.text(i, v, f'ECI: {v:.1f}\n', color='r', ha='center')
     plt.show()
 
     Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
@@ -397,7 +397,7 @@ class ResultTableLooseRock:
 
     figure = plt.figure()
     x = np.arange(len(Result_Grass['clay layer thickness']))
-    plt.bar(x, Result_Grass['ECI'], color='b', width=0.2, label='ECI clay')
+    plt.bar(x, Result_Grass['ECI'], color='mediumseagreen', width=0.2, label='ECI clay')
     plt.xticks(x, Result_Grass['clay layer thickness'])
     plt.xlabel('clay layer thickness (m)')
     plt.ylabel('ECI (€)')
