@@ -8,6 +8,7 @@ from ECI.ECI_class import ECIFunc
 from ECI.ECI_Library import ECILib
 import textwrap
 import itertools
+from Financial_costs.Financial_costs_rev import CostFunc
 
 ot.Log.Show(ot.Log.NONE)
 
@@ -46,6 +47,12 @@ class ResultTableLooseRock:
                  'Nominal diameter rock': 'Nomnal diameter rock_LR', 'Damage number [S]': 'Damage number S_LR',
                  'Slope angle': 'Slope angle_LR',
                  'Probability of failure': 'Probability of failure_LR', 'ECI': 'ECI_LR'})
+
+    # Costs
+    Loose_rock_filtered['costs_LR'] = Loose_rock_filtered.apply(
+        lambda row: CostFunc.costLooseRock(row['Nomnal diameter rock_LR'], row['Waterlevel +mNAP_LR'],
+                                           row['Slope angle_LR']), axis=1)
+
     # print(Loose_rock_filtered)
     Loose_rock_filtered.to_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Loose rock filtered for transiton grass.xlsx')
@@ -80,6 +87,9 @@ class ResultTableLooseRock:
     Verkalit_filtered['ECI_Ver'] = Verkalit_filtered.apply(lambda row: ECIFunc.ECIVerkalit(row[
         'Layer thickness Verkalit_Ver'], row['Waterlevel +mNAP_Ver'], row['Slope angle_Ver']), axis=1)
 
+    Verkalit_filtered['costs_Verkalit'] = Verkalit_filtered.apply(
+        lambda row: CostFunc.costverkalit(row['Layer thickness Verkalit_Ver'], row['Waterlevel +mNAP_Ver'], row['Slope angle_Ver']), axis=1)
+
     # print(Verkalit_filtered)
     # print(Verkalit_filtered) Verkalit_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (
     # Schijf)\Python scripts\Results\Transitions\Verkalit filtered for transiton grass.xlsx')
@@ -101,6 +111,10 @@ class ResultTableLooseRock:
     Result_Grass = Result_Grass.rename(
         columns={'height': 'height_Grass', 'clay layer thickness': 'clay layer thickness_Grass',
                  'pf 1/66.666': 'Probability of failure_Grass'})
+
+    Result_Grass['costs_Grass'] = Result_Grass.apply(
+        lambda row: CostFunc.costGrass(row['clay layer thickness_Grass'], row['height_Grass']), axis=1)
+
     # print(Result_Grass)
 
     # Merge the two dataframes
@@ -150,6 +164,17 @@ class ResultTableLooseRock:
     design_combinations['Bottom_ECI_Ver'] = design_combinations.apply(calculate_ECI_Ver, axis=1)
     design_combinations['TOTAL_ECI'] = design_combinations['ECI_LR'] + design_combinations['ECI_Ver'] - \
                                        design_combinations['Bottom_ECI_Ver'] + design_combinations['ECI_grass']
+
+    def calculate_costs_Ver(row):
+        thickness = row['Layer thickness Verkalit_Ver']
+        waterlevel = row['Waterlevel_LR +mNAP_LR']
+        slope = row['Slope angle_Ver']
+        return CostFunc.costverkalit(thickness, waterlevel, slope)
+    design_combinations['Bottom_costs'] = design_combinations.apply(calculate_costs_Ver, axis=1)
+    design_combinations['Total costs'] = design_combinations['costs_LR'] + design_combinations['costs_Grass'] + \
+                                         design_combinations['costs_Verkalit'] - design_combinations['Bottom_costs']
+
+
     design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
     # design_combinations = design_combinations.head(20)
 
@@ -191,6 +216,8 @@ class ResultTableLooseRock:
     # Create the line plot for the TOTAL_ECI on the right y-axis
     ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
              label='Total ECI')
+    ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
+
 
     # Set the label for the right y-axis
     ax2.set_ylabel('Total ECI for the combinations (€)')

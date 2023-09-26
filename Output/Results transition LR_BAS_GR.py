@@ -8,6 +8,7 @@ from ECI.ECI_class import ECIFunc
 from ECI.ECI_Library import ECILib
 import textwrap
 import itertools
+from Financial_costs.Financial_costs_rev import CostFunc
 
 ot.Log.Show(ot.Log.NONE)
 
@@ -46,6 +47,12 @@ class ResultTableLooseRock:
                  'Nominal diameter rock': 'Nomnal diameter rock_LR', 'Damage number [S]': 'Damage number S_LR',
                  'Slope angle': 'Slope angle_LR',
                  'Probability of failure': 'Probability of failure_LR', 'ECI': 'ECI_LR'})
+
+    # Costs
+    Loose_rock_filtered['costs_LR'] = Loose_rock_filtered.apply(
+        lambda row: CostFunc.costLooseRock(row['Nomnal diameter rock_LR'], row['Waterlevel +mNAP_LR'],
+                                           row['Slope angle_LR']), axis=1)
+
     # print(Loose_rock_filtered)
     Loose_rock_filtered.to_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Loose rock filtered for transiton grass.xlsx')
@@ -80,7 +87,10 @@ class ResultTableLooseRock:
     Basalton_filtered['ECI_Bas'] = Basalton_filtered.apply(lambda row: ECIFunc.ECIBasalton(row[
         'Layer thickness Basalton_Bas'], row['Waterlevel +mNAP_Bas'], row['Slope angle_Bas']), axis=1)
 
-    print(Basalton_filtered)
+    Basalton_filtered['costs_Basalton'] = Basalton_filtered.apply(
+        lambda row: CostFunc.costBasalton(row['Layer thickness Basalton_Bas'], row['Waterlevel +mNAP_Bas'], row['Slope angle_Bas']), axis=1)
+
+    # print(Basalton_filtered)
     # Basalton_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen ('
     # 'Schijf)\Python scripts\Results\Transitions\Basalton filtered for transiton grass2.xlsx')
 
@@ -101,6 +111,10 @@ class ResultTableLooseRock:
     Result_Grass = Result_Grass.rename(
         columns={'height': 'height_Grass', 'clay layer thickness': 'clay layer thickness_Grass',
                  'pf 1/66.666': 'Probability of failure_Grass'})
+
+    Result_Grass['costs_Grass'] = Result_Grass.apply(
+        lambda row: CostFunc.costGrass(row['clay layer thickness_Grass'], row['height_Grass']), axis=1)
+
     # print(Result_Grass)
 
     # Merge the two dataframes
@@ -148,7 +162,18 @@ class ResultTableLooseRock:
     design_combinations['Bottom_ECI_Bas'] = design_combinations.apply(calculate_ECI_Bas, axis=1)
     design_combinations['TOTAL_ECI'] = design_combinations['ECI_LR'] + design_combinations['ECI_Bas'] - \
                                        design_combinations['Bottom_ECI_Bas'] + design_combinations['ECI_grass']
+
+    def calculate_costs_Bas(row):
+        thickness = row['Layer thickness Basalton_Bas']
+        waterlevel = row['Waterlevel_LR +mNAP_LR']
+        slope = row['Slope angle_Bas']
+        return CostFunc.costBasalton(thickness, waterlevel, slope)
+    design_combinations['Bottom_costs_bas'] = design_combinations.apply(calculate_costs_Bas, axis=1)
+    design_combinations['Total costs'] = design_combinations['costs_LR'] + design_combinations['costs_Grass'] + \
+                                         design_combinations['costs_Basalton'] - design_combinations['Bottom_costs_bas']
+
     design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
+
     # design_combinations = design_combinations.head(20)
 
     # Print the resulting dataframe
@@ -189,6 +214,8 @@ class ResultTableLooseRock:
     # Create the line plot for the TOTAL_ECI on the right y-axis
     ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
              label='Total ECI')
+    ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
+
 
     # Set the label for the right y-axis
     ax2.set_ylabel('Total ECI for the combinations (€)')

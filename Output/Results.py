@@ -278,7 +278,7 @@ class ResultTableLooseRock:
         ['Layer thickness Basalton', 'ECI_slopelength'], ascending=[True, True])
 
     Basalton_selection = Basalton_selection.groupby('Layer thickness Basalton').head(1)
-    # print(Basalton_selection)
+    print(Basalton_selection)
     # Basalton_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Selection original design Basalton.xlsx')
 
     Basalton_filtered = filterresults(Result_raw_Basalton, 5)
@@ -301,9 +301,9 @@ class ResultTableLooseRock:
         ['Layer thickness Verkalit', 'ECI_slopelength'], ascending=[True, True])
 
     Verkalit_selection = Verkalit_selection.groupby('Layer thickness Verkalit').head(1)
-    new_row = pd.DataFrame([[0] * len(Verkalit_selection.columns)], columns=Verkalit_selection.columns)
-    Verkalit_selection = pd.concat([new_row, Verkalit_selection], ignore_index=True)
-    # print(Verkalit_selection)
+    # new_row = pd.DataFrame([[0] * len(Verkalit_selection.columns)], columns=Verkalit_selection.columns)
+    # Verkalit_selection = pd.concat([new_row, Verkalit_selection], ignore_index=True)
+    print(Verkalit_selection)
     # Verkalit_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Selection original design Verkalit2.xlsx')
 
     figure = plt.figure()
@@ -358,7 +358,7 @@ class ResultTableLooseRock:
         ['Asphalt layer thickness', 'ECI_slopelength'], ascending=[True, True])
 
     Asphalt_selection = Asphalt_selection.groupby('Asphalt layer thickness').head(1)
-    print(Asphalt_selection)
+    # print(Asphalt_selection)
     # Asphalt_selection.to_excel(
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Selection original design Asphalt.xlsx')
 
@@ -376,7 +376,7 @@ class ResultTableLooseRock:
     for i, v in enumerate(Asphalt_selection['ECI_slopelength']):
         if v != 0:
             plt.text(i, v, f'ECI: {v:.1f}\n', color='r', ha='center')
-    plt.show()
+    # plt.show()
 
     Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
     # print(Asphalt_filtered)

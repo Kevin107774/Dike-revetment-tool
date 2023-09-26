@@ -25,7 +25,7 @@ class ECIFunc:
         filter_thickness = 0.2
         m2_LR = slopelength_LR * (ECILib.ECI_installation_LR + ECILib.ECI_filter_LR * filter_thickness)
         m3_LR = slopelength_LR * (ECILib.ECI_Transport_LR + ECILib.ECI_LR)
-        ECI_Loose_Rock1 = m2_LR + m3_LR * thickness
+        ECI_Loose_Rock1 = m2_LR + m3_LR * thickness * 2
         return ECI_Loose_Rock1
 
     # for index, i in Hydraulic_BC.iloc[0:8, :].iterrows():
@@ -51,7 +51,7 @@ class ECIFunc:
     def ECIBasalton(thickness, waterlevel, slope):
         h = waterlevel
         a = slope
-        if 1.80 <= h <= 2.41:
+        if 1.79 < h <= 2.41:
             slopelength_Bas = np.sqrt((h - 1.8) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
         else:
             slopelength_Bas = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)

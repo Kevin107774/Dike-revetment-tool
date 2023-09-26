@@ -170,6 +170,6 @@ Parameter_combinations_Basalton.to_excel("Test Basalton 1.xlsx")
 # plt.ylabel('Clay layer thickness')
 # plt.title('Clay layer thickness per transition height')
 # plt.show()
-#
-# # print(GEBU_results)
+
+# print(GEBU_results)
 #

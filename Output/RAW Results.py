@@ -60,12 +60,13 @@ class ResultTableLooseRock:
                                         Result_Raw_LR['Nominal diameter rock'])
 
     # Analysis for the original design
+
     Result_Raw_LR_S2 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 2]
     Result_Raw_LR_S6 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 6]
     Result_Raw_LR_S11 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 11]
     Result_Raw_LR_S17 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 17]
     # Result_Raw_LR_S2.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\RAW\Loose rock raw.xlsx')
-    # print(Result_Raw_LR_S2)
+
 
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
@@ -127,7 +128,7 @@ class ResultTableLooseRock:
         textwrap.fill('Probability of failure corresponding to the stability number and wave height for S = 17', 50),
         loc='center')
 
-    # plt.show()
+    plt.show()
 
     # ------------------------------------------------------------------------------------------------------------------
     ## Basalton
@@ -337,9 +338,9 @@ class ResultTableLooseRock:
             'Probability of failure Asphalt corresponding to the layer thickness and wave height', 50),
         loc='center')
 
-    plt.show()
+    # plt.show()
 
-    print(Result_raw_Asphalt)
+    # print(Result_raw_Asphalt)
 
     # ------------------------------------------------------------------------------------------------------------------
     ## Grass
