@@ -43,7 +43,7 @@ class ECIFunc:
             slopelength_Ver = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
         filter_thickness = 0.2
         m2_ver = slopelength_Ver * (ECILib.ECI_installation_Ver + ECILib.ECI_Geotextile_Ver +
-                                    ECILib.ECI_filter_Ver * filter_thickness + ECILib.ECI_Installation_filter_Ver)
+                                    ECILib.ECI_filter_Ver * filter_thickness)
         m3_ver = slopelength_Ver * (ECILib.ECI_Transport_Ver + ECILib.ECI_verkalit)
         ECI_Verkalit = m2_ver + m3_ver * thickness
         return ECI_Verkalit
@@ -57,8 +57,7 @@ class ECIFunc:
             slopelength_Bas = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
         filter_thickness = 0.2
         m2_Bas = slopelength_Bas * (ECILib.ECI_installation_Bas + ECILib.ECI_Geotextile_Bas +
-                                    (ECILib.ECI_filter_Bas + ECILib.ECI_split_Bas) * filter_thickness +
-                                    ECILib.ECI_Installation_filter_Bas)
+                                    (ECILib.ECI_filter_Bas * filter_thickness) + ECILib.ECI_split_Bas * 0.1)
         m3_Bas = slopelength_Bas * (ECILib.ECI_Transport_Bas + ECILib.ECI_Basalton)
         ECI_Basalton = m2_Bas + m3_Bas * thickness
         return ECI_Basalton
@@ -72,8 +71,7 @@ class ECIFunc:
             slopelength_As = 4.81 + np.sqrt((h - 2.4) ** 2 + ((h - 2.4) * (1 / a)) ** 2)
 
         sandlayer_thickness = 0.2
-        m2_As = slopelength_As * (ECILib.ECI_crusher_As + ECILib.ECI_installation_sand_As + ECILib.ECI_densify_sand_As +
-                                  ECILib.ECI_crawler_crane_As + ECILib.ECI_roller_As + ECILib.ECI_coating_As +
+        m2_As = slopelength_As * (ECILib.ECI_installation_As + ECILib.ECI_coating_As +
                                   ECILib.ECI_sand_As * sandlayer_thickness)
         m3_As = slopelength_As * (ECILib.ECI_Transport_As + ECILib.ECI_Asphalt)
         ECI_Asphalt = m2_As + m3_As * thickness
@@ -87,6 +85,6 @@ class ECIFunc:
         # print(slopelength_Gr)
         m2_Gr = slopelength_Gr * (ECILib.ECI_sowing_Gr + ECILib.ECI_maintenance_Gr)
         m3_Gr = slopelength_Gr * (
-                    ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_excavation_Gr + ECILib.ECI_transport_depot_Gr + ECILib.ECI_process_depot_Gr + ECILib.ECI_densify_Gr + ECILib.ECI_bulldozer_prof_Gr)
+                    ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_apply_clay_GR)
         ECI_Grass = m2_Gr + m3_Gr * thickness
         return ECI_Grass
