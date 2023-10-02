@@ -20,7 +20,7 @@ def ECILooseRock2(thickness, waterlevel, slope):
     h = waterlevel
     a = slope
     slopelength_LR = np.sqrt((h + 0.37) ** 2 + ((h + 0.37) * (1 / a)) ** 2)
-    print(slopelength_LR)
+    print('loose rock', slopelength_LR)
 
     filter_thickness = 0.2
     m2_LR = slopelength_LR * (ECILib.ECI_installation_LR + ECILib.ECI_filter_LR * filter_thickness)
@@ -31,53 +31,52 @@ def ECILooseRock2(thickness, waterlevel, slope):
 ECI_LR_aanleg = ECILooseRock2(0.59, 2.2, 1/4)
 ECI_LR_maintenance = maintenance_LR_2(0.59, ECILib.ECI_LR_maintenance, 10)
 ECI_LR = ECI_LR_maintenance + ECI_LR_aanleg
-print(ECI_LR)
+print('ECI loose rock', ECI_LR)
 
 def ECIVerkalit2(thickness, waterlevel, slope):
     h = waterlevel
     a = slope
     slopelength_Ver = np.sqrt((h - 2.2) ** 2 + ((h - 2.2) * (1 / a)) ** 2)
-    print(slopelength_Ver)
+    print('verkalit', slopelength_Ver)
     filter_thickness = 0.2
     m2_ver = slopelength_Ver * (ECILib.ECI_installation_Ver + ECILib.ECI_Geotextile_Ver +
-                                ECILib.ECI_filter_Ver * filter_thickness + ECILib.ECI_Installation_filter_Ver)
+                                ECILib.ECI_filter_Ver * filter_thickness)
     m3_ver = slopelength_Ver * (ECILib.ECI_Transport_Ver + ECILib.ECI_verkalit)
     ECI_Verkalit = m2_ver + m3_ver * thickness
     return ECI_Verkalit
 
 ECI_Ver = ECIVerkalit2(0.3, 3.1, 1/4.1)
-print(ECI_Ver)
+print('ECI Verkalit', ECI_Ver)
 
 def ECIAsphalt2(thickness, waterlevel, slope):
     h = waterlevel
     a = slope
-    slopelength_As = np.sqrt((h - 3.1) ** 2 + ((h - 3.1) * (1 / a)) ** 2)
-
+    slopelength_As = np.sqrt((h - 3.1) ** 2 + ((h - 3.1) * (1 / a)) ** 2) + 4
+    print('asphalt', slopelength_As)
     sandlayer_thickness = 0.2
-    m2_As = slopelength_As * (ECILib.ECI_crusher_As + ECILib.ECI_installation_sand_As + ECILib.ECI_densify_sand_As +
-                              ECILib.ECI_crawler_crane_As + ECILib.ECI_roller_As + ECILib.ECI_coating_As +
+    m2_As = slopelength_As * (ECILib.ECI_installation_As + ECILib.ECI_coating_As +
                               ECILib.ECI_sand_As * sandlayer_thickness)
     m3_As = slopelength_As * (ECILib.ECI_Transport_As + ECILib.ECI_Asphalt)
     ECI_Asphalt = m2_As + m3_As * thickness
     return ECI_Asphalt
 
 ECI_As = ECIAsphalt2(0.15, 5.5, 1/4.1)
-print(ECI_As)
+print('ECI asphalt', ECI_As)
 
 def ECIGrass2(thickness, transition, slope):
     h = transition
     a = slope
     slopelength_Gr = np.sqrt((8.80 - h) ** 2 + ((8.80 - h) * 1 / a) ** 2)  # gemeten vanaf boven (8.80 mNAP). Hoe lager de
     # transitie, hoe langer de slopelength.
-    # print(slopelength_Gr)
+    print('grass', slopelength_Gr)
     m2_Gr = slopelength_Gr * (ECILib.ECI_sowing_Gr + ECILib.ECI_maintenance_Gr)
     m3_Gr = slopelength_Gr * (
-            ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_excavation_Gr + ECILib.ECI_transport_depot_Gr + ECILib.ECI_process_depot_Gr + ECILib.ECI_densify_Gr + ECILib.ECI_bulldozer_prof_Gr)
+            ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_apply_clay_GR)
     ECI_Grass = m2_Gr + m3_Gr * thickness
     return ECI_Grass
 
 ECI_Grass = ECIGrass2(1.4, 5.5, 1/3)
-print(ECI_Grass)
+print('ECI grass', ECI_Grass)
 
 ECI_Arcadis_design = ECI_LR + ECI_Ver + ECI_As + ECI_Grass
 print(ECI_Arcadis_design)

@@ -26,13 +26,8 @@ class ECIFunc:
         m2_LR = slopelength_LR * (ECILib.ECI_installation_LR + ECILib.ECI_filter_LR * filter_thickness)
         m3_LR = slopelength_LR * (ECILib.ECI_Transport_LR + ECILib.ECI_LR)
         ECI_Loose_Rock1 = m2_LR + m3_LR * thickness * 2
-        return ECI_Loose_Rock1
 
-    # for index, i in Hydraulic_BC.iloc[0:8, :].iterrows():
-    #     h = i[1]
-    #     a = i[16]
-    #     x = ECILooseRock0(0.17, h, a)
-    # print(x)
+        return ECI_Loose_Rock1
 
     def ECIVerkalit(thickness, waterlevel, slope):
         h = waterlevel
@@ -41,12 +36,15 @@ class ECIFunc:
             slopelength_Ver = np.sqrt((h - 1.79) ** 2 + ((h - 1.79) * (1 / a)) ** 2)
         else:
             slopelength_Ver = 4.81 + np.sqrt((h - 2.41) ** 2 + ((h - 2.41) * (1 / a)) ** 2)
+
         filter_thickness = 0.2
         m2_ver = slopelength_Ver * (ECILib.ECI_installation_Ver + ECILib.ECI_Geotextile_Ver +
                                     ECILib.ECI_filter_Ver * filter_thickness)
         m3_ver = slopelength_Ver * (ECILib.ECI_Transport_Ver + ECILib.ECI_verkalit)
         ECI_Verkalit = m2_ver + m3_ver * thickness
         return ECI_Verkalit
+    # x1 = ECIVerkalit(0.3, 2.4, 1/7.7)
+    # print('ECI ver', x1)
 
     def ECIBasalton(thickness, waterlevel, slope):
         h = waterlevel
@@ -76,11 +74,14 @@ class ECIFunc:
         m3_As = slopelength_As * (ECILib.ECI_Transport_As + ECILib.ECI_Asphalt)
         ECI_Asphalt = m2_As + m3_As * thickness
         return ECI_Asphalt
+    # x2 = ECIAsphalt(0.30, 6.15, 1/3.75)
+    # print('ECI as', x2[0])
 
     def ECIGrass(thickness, transition):
         h = transition
         a = 4
         slopelength_Gr = np.sqrt((8.22 - h) ** 2 + ((8.22 - h) * a) ** 2)  # gemeten vanaf boven (8.22 mNAP). Hoe lager de
+
         # transitie, hoe langer de slopelength.
         # print(slopelength_Gr)
         m2_Gr = slopelength_Gr * (ECILib.ECI_sowing_Gr + ECILib.ECI_maintenance_Gr)
@@ -88,3 +89,6 @@ class ECIFunc:
                     ECILib.ECI_Transport_Gr + ECILib.ECI_clay_Gr + ECILib.ECI_apply_clay_GR)
         ECI_Grass = m2_Gr + m3_Gr * thickness
         return ECI_Grass
+    #
+    # x3 = ECIGrass(1.4, 6.15)
+    # print('ECI gr', x3)
