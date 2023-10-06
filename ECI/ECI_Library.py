@@ -14,9 +14,9 @@ class ECILib:
 
     kuubs = 8.34 * 2 * 0.59
     vierkant = 8.34
-    Maintenance_S2 = 0.59 * (2 / 6) * 50 * 0.2
+    Maintenance_S2 = 0.59 * (8 / 10) * 50 * 0.2
     kuubs90 = 8.34 * 2 * 0.90
-    Maintenance_S290 = 0.90 * (2 / 6) * 50 * 0.2
+    Maintenance_S290 = 0.90 * (8 / 10) * 50 * 0.2
 
     # Loose Rock
     # Transport per bulk carrier from Norway [m3]
@@ -59,16 +59,16 @@ class ECILib:
     a[2].pie(sizes90, labels=sizes90, autopct='%0.1f%%', startangle=0)
     # a[1, 1].pie(sizeselec, labels=sizeselec, autopct='%0.1f%%', startangle=0)
 
-    a[0].set_title("Original ECI distribution, ECI = 88.4 Euro")
-    a[1].set_title("Transport distance to 100 km, ECI = 56 Euro")
-    a[2].set_title("Nominal rock diameter of 0.90 m, ECI = 127.9 Euro")
+    a[0].set_title("Original ECI distribution, ECI = 99.3 Euro")
+    a[1].set_title("Transport distance to 100 km, ECI = 66.9 Euro")
+    a[2].set_title("Nominal rock diameter of 0.90 m, ECI = 144.5 Euro")
     # a[1, 1].set_title("Sustainable installation, ECI = 88 Euro")
 
     plt.legend(labels=labels, bbox_to_anchor=(1.7, 0.5), fontsize="12", loc='center right')
 
     # Display the pie chart
     f.tight_layout()
-    # plt.show()
+    plt.show()
 
 # ------------------------------------------------------------------------
     # Placed elements (Verkalit)

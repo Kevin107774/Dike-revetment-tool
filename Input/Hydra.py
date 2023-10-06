@@ -101,7 +101,7 @@ class HydraulicBoundary:
     pd.set_option('display.max_columns', None)
     # # print(Hb_bas)
 
-    def HydraulicBoundariesAsphalt(Table = Hydraulic_BC.iloc[8:32, :]):
+    def HydraulicBoundariesAsphalt(Table = Hydraulic_BC.iloc[12:18, :]):
         Asphalt = Table
 
         data = []

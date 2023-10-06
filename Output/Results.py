@@ -21,7 +21,7 @@ def maintenance_lr(diameter, ECI_main):
     return maintenance
 
 def maintenance_LR_2(diameter, ECI_maintenance, S):
-    Treshold_S = 6
+    Treshold_S = 10
     design_lifetime = 50
     frequency = 0.2
     maintenance = diameter * ECI_maintenance * (S / Treshold_S) * design_lifetime * frequency
@@ -56,12 +56,11 @@ class ResultTableLooseRock:
     # Analysis for the original design
 
     Loose_rock_selection = Result_Raw_LR[Result_Raw_LR['Probability of failure'] < 1 / 60000]
-    Loose_rock_selection = Loose_rock_selection[Loose_rock_selection['Waterlevel +mNAP'] < 1.8]
+    Loose_rock_selection = Loose_rock_selection[Loose_rock_selection['Waterlevel +mNAP'] == 1.6]
     Loose_rock_selection = Loose_rock_selection.sort_values(
         ['Nominal diameter rock', 'Damage number [S]', 'ECI_slopelength'],
         ascending=[True, True, True])
     # print(Loose_rock_selection)
-
 
     # Without maintenance (S<5)
     Loose_rock_selection_low = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] < 5]
@@ -184,8 +183,8 @@ class ResultTableLooseRock:
     plt.xticks(x, labels_x)
     plt.xlabel('Rock class (kg)')
     plt.ylabel('ECI (€)')
-    plt.ylim(0, 300)
-    plt.title(textwrap.fill('ECI for each nominal diameter rock with (S>5) and without maintenance (S≤5)', 50),
+    plt.ylim(0, 400)
+    plt.title(textwrap.fill('ECI for each nominal diameter rock with different damage number S', 50),
               loc='center')
     plt.legend(loc='upper left')
 
@@ -193,69 +192,84 @@ class ResultTableLooseRock:
     for i, v in enumerate(Loose_rock_selection_S2['ECI_slopelength']):
         if v != 0:
             plt.text(i-8/20, v + 1, f'S: {Loose_rock_selection_S2["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S3['ECI_slopelength']):
         if v != 0:
             plt.text(i-7/20, v + 1, f'S: {Loose_rock_selection_S3["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S4['ECI_slopelength']):
         if v != 0:
             plt.text(i-6/20, v + 1, f'S: {Loose_rock_selection_S4["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S5['ECI_slopelength']):
         if v != 0:
             plt.text(i-5/20, v + 1, f'S: {Loose_rock_selection_S5["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S6['ECI_slopelength']):
         if v != 0:
             plt.text(i-4/20, v + 1, f'S: {Loose_rock_selection_S6["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S7['ECI_slopelength']):
         if v != 0:
             plt.text(i-3/20, v + 1, f'S: {Loose_rock_selection_S7["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S8['ECI_slopelength']):
         if v != 0:
             plt.text(i-2/20, v + 1, f'S: {Loose_rock_selection_S8["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S9['ECI_slopelength']):
         if v != 0:
             plt.text(i-1/20, v + 1, f'S: {Loose_rock_selection_S9["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S10['ECI_slopelength']):
         if v != 0:
             plt.text(i, v + 1, f'S: {Loose_rock_selection_S10["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S11['ECI_slopelength']):
         if v != 0:
             plt.text(i+1/20, v + 1, f'S: {Loose_rock_selection_S11["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S12['ECI_slopelength']):
         if v != 0:
             plt.text(i+2/20, v + 1, f'S: {Loose_rock_selection_S12["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S13['ECI_slopelength']):
         if v != 0:
             plt.text(i+3/20, v + 1, f'S: {Loose_rock_selection_S13["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S14['ECI_slopelength']):
         if v != 0:
             plt.text(i+4/20, v + 1, f'S: {Loose_rock_selection_S14["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S15['ECI_slopelength']):
         if v != 0:
             plt.text(i+5/20, v + 1, f'S: {Loose_rock_selection_S15["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S16['ECI_slopelength']):
         if v != 0:
             plt.text(i+6/20, v + 1, f'S: {Loose_rock_selection_S16["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
     for i, v in enumerate(Loose_rock_selection_S17['ECI_slopelength']):
         if v != 0:
             plt.text(i+7/20, v + 1, f'S: {Loose_rock_selection_S17["Damage number [S]"].iloc[i]}',
-                     color='r', ha='center')
+                     color='cornflowerblue', ha='center')
 
-    # plt.show()
+    Loose_rock_selection = Loose_rock_selection.groupby('Nominal diameter rock').head(1)
+    print(Loose_rock_selection)
+
+    figure = plt.figure()
+    x = np.arange(len(Loose_rock_selection['Nominal diameter rock']))
+    plt.bar(x, Loose_rock_selection['ECI_slopelength'], color='cornflowerblue', width=0.4, label='Loose rock')
+    labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000']
+    plt.xticks(x, labels_x)
+    plt.xlabel('Rock class (kg)')
+    plt.ylabel('ECI (€)')
+    plt.ylim(0, 200)
+    plt.title(textwrap.fill('ECI for each nominal diameter rock with lowest damage number S', 50),
+              loc='center')
+    plt.legend(loc='upper left')
+
+    plt.show()
 
     # Analysis for the transition heights
     Loose_rock_filtered = filterresults(Result_Raw_LR, 2)
@@ -322,13 +336,13 @@ class ResultTableLooseRock:
     for i, v in enumerate(Basalton_selection['ECI_slopelength']):
         if v != 0:
             plt.text(i - 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Basalton_selection["Density concrete"].iloc[i]}',
-                     color='b', ha='center')
+                     color='lightsalmon', ha='center')
 
     for i, v in enumerate(Verkalit_selection['ECI_slopelength']):
         if v != 0:
             plt.text(i + 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Verkalit_selection["Density concrete"].iloc[i]}',
-                     color='r', ha='center')
-    plt.show()
+                     color='peachpuff', ha='center')
+    # plt.show()
 
     Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
     # print(Verkalit_filtered)
@@ -351,7 +365,7 @@ class ResultTableLooseRock:
     # Result_raw_Asphalt.to_excel(
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Raw for original design Asphalt.xlsx')
 
-    Asphalt_selection = Result_raw_Asphalt[Result_raw_Asphalt['Probability of failure'] < 1 / 60000]
+    Asphalt_selection = Result_raw_Asphalt[Result_raw_Asphalt['Probability of failure2'] < 1 / 60000]
     # Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] == 2.4]
     Asphalt_selection = Asphalt_selection[Asphalt_selection['Waterlevel +mNAP'] == 6.2]
     Asphalt_selection = Asphalt_selection.sort_values(
@@ -375,7 +389,7 @@ class ResultTableLooseRock:
     # Add y-values to the bars
     for i, v in enumerate(Asphalt_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='r', ha='center')
+            plt.text(i, v, f'ECI: {v:.1f}\n', color='dimgrey', ha='center')
     # plt.show()
 
     Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
@@ -406,7 +420,7 @@ class ResultTableLooseRock:
     # Add y-values to the bars
     for i, v in enumerate(Result_Grass['ECI']):
         if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='b', ha='center')
+            plt.text(i, v, f'ECI: {v:.1f}\n', color='mediumseagreen', ha='center')
     plt.legend(loc='upper left')
     # Add line graph with water level
     ax2 = plt.twinx()

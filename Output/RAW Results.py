@@ -128,7 +128,7 @@ class ResultTableLooseRock:
         textwrap.fill('Probability of failure corresponding to the stability number and wave height for S = 17', 50),
         loc='center')
 
-    plt.show()
+    # plt.show()
 
     # ------------------------------------------------------------------------------------------------------------------
     ## Basalton
@@ -338,8 +338,50 @@ class ResultTableLooseRock:
             'Probability of failure Asphalt corresponding to the layer thickness and wave height', 50),
         loc='center')
 
-    # plt.show()
+    # Uplift
+    figure = plt.figure(figsize=(20, 10))
+    font = {'size': 12}
+    matplotlib.rc('font', **font)
 
+    Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
+                          [Result_raw_Asphalt['Waterlevel +mNAP']],
+                          c=[np.maximum(Result_raw_Asphalt['Pf uplift'], 1e-7)], cmap='viridis',
+                          marker='o',
+                          norm=mcolors.LogNorm())
+    cbar = plt.colorbar(Plot_S2)
+    cbar.set_label('Probability of Failure')
+    plt.xlabel('Layer thickness, d [m]')
+    plt.ylabel('Waterlevel, [mNAP]')
+    plt.ylim(1.2, 7)
+    plt.xlim(0, 0.5)
+    plt.title(
+        textwrap.fill(
+            'Probability of failure Asphalt due to uplift corresponding to the layer thickness and water level', 50),
+        loc='center')
+
+    # Uplift and impact
+    # Uplift
+    figure = plt.figure(figsize=(20, 10))
+    font = {'size': 12}
+    matplotlib.rc('font', **font)
+
+    Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
+                          [Result_raw_Asphalt['Significant wave height']],
+                          c=[np.maximum(Result_raw_Asphalt['Probability of failure2'], 1e-7)], cmap='viridis',
+                          marker='o',
+                          norm=mcolors.LogNorm())
+    cbar = plt.colorbar(Plot_S2)
+    cbar.set_label('Probability of Failure')
+    plt.xlabel('Layer thickness, d [m]')
+    plt.ylabel('Significant wave height, Hs [m]')
+    plt.ylim(0.8, 2.5)
+    plt.xlim(0, 0.5)
+    plt.title(
+        textwrap.fill(
+            'Probability of failure Asphalt for both wave impact and uplift corresponding to the layer thickness and wave height', 50),
+        loc='center')
+
+    plt.show()
     # print(Result_raw_Asphalt)
 
     # ------------------------------------------------------------------------------------------------------------------

@@ -294,7 +294,7 @@ class ResultTableLooseRock:
     # Create the line plot for the TOTAL_ECI on the right y-axis
     ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
              label='Total ECI')
-    # ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
+    ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
 
 
     # Set the label for the right y-axis

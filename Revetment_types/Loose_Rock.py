@@ -284,3 +284,4 @@ if __name__ == "__main__":
     print(Parameter_combinations)
     Parameter_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. '
                                     r'Loose Rock\LooseRock_S16000000 ECI(4.2-6.2mNAP).xlsx')
+

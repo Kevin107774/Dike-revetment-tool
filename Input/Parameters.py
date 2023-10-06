@@ -244,7 +244,7 @@ class Parameters:
                        'Elasticity modulus', 'Transverse contraction coefficient', 'gravity']
 
     hydra = []
-    for index, k in Hydraulic_BC.iloc[8:32, :].iterrows():
+    for index, k in Hydraulic_BC.iloc[12:18, :].iterrows():
         Hs = k[2]
         Tp = k[4]
         t = k[7]
