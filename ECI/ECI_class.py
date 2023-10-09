@@ -28,6 +28,7 @@ class ECIFunc:
         ECI_Loose_Rock1 = m2_LR + m3_LR * thickness * 2
 
         return ECI_Loose_Rock1
+    print(ECILooseRock(1.44, 2, 4))
 
     def ECIVerkalit(thickness, waterlevel, slope):
         h = waterlevel

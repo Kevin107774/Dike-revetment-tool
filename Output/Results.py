@@ -56,11 +56,11 @@ class ResultTableLooseRock:
     # Analysis for the original design
 
     Loose_rock_selection = Result_Raw_LR[Result_Raw_LR['Probability of failure'] < 1 / 60000]
-    Loose_rock_selection = Loose_rock_selection[Loose_rock_selection['Waterlevel +mNAP'] == 1.6]
+    Loose_rock_selection = Loose_rock_selection[Loose_rock_selection['Waterlevel +mNAP'] < 1.9]
     Loose_rock_selection = Loose_rock_selection.sort_values(
         ['Nominal diameter rock', 'Damage number [S]', 'ECI_slopelength'],
         ascending=[True, True, True])
-    # print(Loose_rock_selection)
+    print(Loose_rock_selection)
 
     # Without maintenance (S<5)
     Loose_rock_selection_low = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] < 5]
@@ -93,62 +93,62 @@ class ResultTableLooseRock:
 
     Loose_rock_selection_S5 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 5]
     Loose_rock_selection_S5 = Loose_rock_selection_S5.groupby('Nominal diameter rock').head(1)
-    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S5.columns)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S5.columns)
     Loose_rock_selection_S5 = pd.concat([zeros_df, Loose_rock_selection_S5]).reset_index(drop=True)
 
     Loose_rock_selection_S6 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 6]
     Loose_rock_selection_S6 = Loose_rock_selection_S6.groupby('Nominal diameter rock').head(1)
-    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S6.columns)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S6.columns)
     Loose_rock_selection_S6 = pd.concat([zeros_df, Loose_rock_selection_S6]).reset_index(drop=True)
 
     Loose_rock_selection_S7 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 7]
     Loose_rock_selection_S7 = Loose_rock_selection_S7.groupby('Nominal diameter rock').head(1)
-    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S7.columns)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S7.columns)
     Loose_rock_selection_S7 = pd.concat([zeros_df, Loose_rock_selection_S7]).reset_index(drop=True)
 
     Loose_rock_selection_S8 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 8]
     Loose_rock_selection_S8 = Loose_rock_selection_S8.groupby('Nominal diameter rock').head(1)
-
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S8.columns)
+    Loose_rock_selection_S8 = pd.concat([zeros_df, Loose_rock_selection_S8]).reset_index(drop=True)
 
     Loose_rock_selection_S9 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 9]
     Loose_rock_selection_S9 = Loose_rock_selection_S9.groupby('Nominal diameter rock').head(1)
-    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S9.columns)
-    # Loose_rock_selection_S9 = pd.concat([zeros_df, Loose_rock_selection_S9]).reset_index(drop=True)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S9.columns)
+    Loose_rock_selection_S9 = pd.concat([zeros_df, Loose_rock_selection_S9]).reset_index(drop=True)
 
     Loose_rock_selection_S10 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 10]
     Loose_rock_selection_S10 = Loose_rock_selection_S10.groupby('Nominal diameter rock').head(1)
-    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S10.columns)
-    # Loose_rock_selection_S10 = pd.concat([zeros_df, Loose_rock_selection_S10]).reset_index(drop=True)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S10.columns)
+    Loose_rock_selection_S10 = pd.concat([zeros_df, Loose_rock_selection_S10]).reset_index(drop=True)
 
     Loose_rock_selection_S11 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 11]
     Loose_rock_selection_S11 = Loose_rock_selection_S11.groupby('Nominal diameter rock').head(1)
-    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S11.columns)
-    # Loose_rock_selection_S11 = pd.concat([zeros_df, Loose_rock_selection_S11]).reset_index(drop=True)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S11.columns)
+    Loose_rock_selection_S11 = pd.concat([zeros_df, Loose_rock_selection_S11]).reset_index(drop=True)
 
     Loose_rock_selection_S12 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 12]
     Loose_rock_selection_S12 = Loose_rock_selection_S12.groupby('Nominal diameter rock').head(1)
-    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S12.columns)
-    # Loose_rock_selection_S12 = pd.concat([zeros_df, Loose_rock_selection_S12]).reset_index(drop=True)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S12.columns)
+    Loose_rock_selection_S12 = pd.concat([zeros_df, Loose_rock_selection_S12]).reset_index(drop=True)
 
     Loose_rock_selection_S13 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 13]
     Loose_rock_selection_S13 = Loose_rock_selection_S13.groupby('Nominal diameter rock').head(1)
-    # zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S13.columns)
-    # Loose_rock_selection_S13 = pd.concat([zeros_df, Loose_rock_selection_S13]).reset_index(drop=True)
+    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S13.columns)
+    Loose_rock_selection_S13 = pd.concat([zeros_df, Loose_rock_selection_S13]).reset_index(drop=True)
 
     Loose_rock_selection_S14 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 14]
     Loose_rock_selection_S14 = Loose_rock_selection_S14.groupby('Nominal diameter rock').head(1)
-    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S14.columns)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S14.columns)
     Loose_rock_selection_S14 = pd.concat([zeros_df, Loose_rock_selection_S14]).reset_index(drop=True)
 
     Loose_rock_selection_S15 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 15]
     Loose_rock_selection_S15 = Loose_rock_selection_S15.groupby('Nominal diameter rock').head(1)
-    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S15.columns)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S15.columns)
     Loose_rock_selection_S15 = pd.concat([zeros_df, Loose_rock_selection_S15]).reset_index(drop=True)
-
 
     Loose_rock_selection_S16 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 16]
     Loose_rock_selection_S16 = Loose_rock_selection_S16.groupby('Nominal diameter rock').head(1)
-    zeros_df = pd.DataFrame(0, index=range(1), columns=Loose_rock_selection_S16.columns)
+    zeros_df = pd.DataFrame(0, index=range(2), columns=Loose_rock_selection_S16.columns)
     Loose_rock_selection_S16 = pd.concat([zeros_df, Loose_rock_selection_S16]).reset_index(drop=True)
 
     Loose_rock_selection_S17 = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] == 17]
@@ -179,7 +179,7 @@ class ResultTableLooseRock:
     plt.bar(x + 6/20, Loose_rock_selection_S16['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 16')
     plt.bar(x + 7/20, Loose_rock_selection_S17['ECI_slopelength'], width=1 / 20, color='cornflowerblue', label='S = 17')
 
-    labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000']
+    labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000', '0']
     plt.xticks(x, labels_x)
     plt.xlabel('Rock class (kg)')
     plt.ylabel('ECI (€)')
@@ -260,14 +260,17 @@ class ResultTableLooseRock:
     figure = plt.figure()
     x = np.arange(len(Loose_rock_selection['Nominal diameter rock']))
     plt.bar(x, Loose_rock_selection['ECI_slopelength'], color='cornflowerblue', width=0.4, label='Loose rock')
-    labels_x = ['HMa 300-1000', 'HMa 1000-3000', 'HMa 3000-6000', 'HMa 6000-10000']
+    labels_x = ['HMa 300-1000, Dn50 = 0.59m', 'HMa 1000-3000, Dn50 = 0.90m', 'HMa 3000-6000, Dn50 = 1.18m', 'HMa 6000-10000, Dn50 = 1.44m']
     plt.xticks(x, labels_x)
     plt.xlabel('Rock class (kg)')
     plt.ylabel('ECI (€)')
     plt.ylim(0, 200)
-    plt.title(textwrap.fill('ECI for each nominal diameter rock with lowest damage number S', 50),
+    plt.title(textwrap.fill('ECI for each rock class with corresponding lowest damage number S', 50),
               loc='center')
     plt.legend(loc='upper left')
+
+
+
 
     plt.show()
 

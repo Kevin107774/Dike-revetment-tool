@@ -68,7 +68,7 @@ class ECILib:
 
     # Display the pie chart
     f.tight_layout()
-    plt.show()
+    # plt.show()
 
 # ------------------------------------------------------------------------
     # Placed elements (Verkalit)

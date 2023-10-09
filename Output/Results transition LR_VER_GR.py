@@ -13,11 +13,11 @@ from Financial_costs.Financial_costs_rev import CostFunc
 ot.Log.Show(ot.Log.NONE)
 
 
-def maintenance_lr(diameter, ECI_main):
-    amount_maintenance_year = 0.20
-    # eens per drie jaar onderhoud
+def maintenance_LR_2(diameter, ECI_maintenance, S):
+    Treshold_S = 10
     design_lifetime = 50
-    maintenance = diameter * ECI_main * amount_maintenance_year * design_lifetime
+    frequency = 0.2
+    maintenance = diameter * ECI_maintenance * (S / Treshold_S) * design_lifetime * frequency
     return maintenance
 
 
@@ -36,17 +36,24 @@ class ResultTableLooseRock:
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Result Loose Rock '
         r'complete.xlsx')
 
+    Result_Raw_LR['ECI_slopelength'] = Result_Raw_LR.apply(
+        lambda row: ECIFunc.ECILooseRock(row['Nominal diameter rock'], row['Waterlevel +mNAP'], row['Slope angle'])
+        if row['Damage number [S]'] <= 1
+        else ECIFunc.ECILooseRock(row['Nominal diameter rock'], row['Waterlevel +mNAP'],
+                                  row['Slope angle']) + maintenance_LR_2(
+            row['Nominal diameter rock'], ECILib.ECI_LR_maintenance, row['Damage number [S]']), axis=1)
+
     Loose_rock_filtered = filterresults(Result_Raw_LR, 1)
     Loose_rock_filtered = Loose_rock_filtered[Loose_rock_filtered['Waterlevel +mNAP'] > 1.7].reset_index(drop=True)
     Loose_rock_filtered['height'] = Loose_rock_filtered['Waterlevel +mNAP'] + 0.37
     Loose_rock_filtered = Loose_rock_filtered[
         ['Waterlevel +mNAP', 'height', 'Nominal diameter rock', 'Damage number [S]', 'Slope angle',
-         'Probability of failure', 'ECI']]
+         'Probability of failure', 'ECI_slopelength']]
     Loose_rock_filtered = Loose_rock_filtered.rename(
         columns={'Waterlevel +mNAP': 'Waterlevel +mNAP_LR', 'height': 'height_LR',
                  'Nominal diameter rock': 'Nomnal diameter rock_LR', 'Damage number [S]': 'Damage number S_LR',
                  'Slope angle': 'Slope angle_LR',
-                 'Probability of failure': 'Probability of failure_LR', 'ECI': 'ECI_LR'})
+                 'Probability of failure': 'Probability of failure_LR', 'ECI_slopelength': 'ECI_LR'})
 
     # Costs
     Loose_rock_filtered['costs_LR'] = Loose_rock_filtered.apply(
@@ -180,7 +187,7 @@ class ResultTableLooseRock:
 
     # Print the resulting dataframe
     # print(design_combinations)
-    # design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_Ver_Grass.xlsx')
+    design_combinations.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\Transitions\Design combinations LR_Ver_Grass.xlsx')
 
     #-------------------------------------------------------------------------------------------------------------------
     # Create the figure and axes (STACKED BAR CHART)
@@ -193,7 +200,7 @@ class ResultTableLooseRock:
     x = np.arange(0, len(design_combinations['TOTAL_ECI']))
 
     # Define the water level components
-    height_LR = design_combinations['height_LR']
+    height_LR = design_combinations['height_LR'] - 0.37
     height_Ver = design_combinations['height_Ver']
     height_Grass = design_combinations['height_Grass']
 
@@ -216,7 +223,7 @@ class ResultTableLooseRock:
     # Create the line plot for the TOTAL_ECI on the right y-axis
     ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
              label='Total ECI')
-    ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
+    # ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
 
 
     # Set the label for the right y-axis
