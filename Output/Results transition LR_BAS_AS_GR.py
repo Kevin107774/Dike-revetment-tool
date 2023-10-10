@@ -95,7 +95,7 @@ class ResultTableLooseRock:
         row['Layer thickness Basalton_Bas'], row['Waterlevel +mNAP_Bas'], row['Slope angle_Bas']), axis=1)
 
     Basalton_filtered['costs_Basalton'] = Basalton_filtered.apply(
-        lambda row: CostFunc.costBasalton(row['Layer thickness Basalton_Bas'], row['Waterlevel +mNAP_Bas'], row['Slope angle_Bas']), axis=1)
+        lambda row: CostFunc.costBasalton(row['Layer thickness Basalton_Bas'], row['Waterlevel +mNAP_Bas'], 1/row['Slope angle_Bas']), axis=1)
 
     # print(Basalton_filtered)
     # print(Basalton_filtered) Basalton_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (
@@ -136,7 +136,7 @@ class ResultTableLooseRock:
 
     Asphalt_filtered['costs_As_max'] = Asphalt_filtered.apply(
         lambda row: CostFunc.costasphalt(row['Layer thickness Asphalt_As'], row['Waterlevel +mNAP_As'],
-                                         row['Slope angle_As']), axis=1)
+                                         1 / row['Slope angle_As']), axis=1)
 
     # print(Asphalt_filtered)
     # print(Asphalt_filtered) Asphalt_filtered.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (
@@ -161,7 +161,7 @@ class ResultTableLooseRock:
                  'pf 1/66.666': 'Probability of failure_Grass'})
 
     Result_Grass['costs_Grass'] = Result_Grass.apply(
-        lambda row: CostFunc.costGrass(row['clay layer thickness_Grass'], row['height_Grass']), axis=1)
+        lambda row: CostFunc.costGrass(row['clay layer thickness_Grass'], row['Transition height asphalt-grass (+mNAP)']), axis=1)
 
     # print(Result_Grass)
 
@@ -247,14 +247,14 @@ class ResultTableLooseRock:
     def calculate_costs_Bas(row):
         thickness = row['Layer thickness Basalton_Bas']
         waterlevel = row['Waterlevel_LR +mNAP_LR']
-        slope = row['Slope angle_Bas']
+        slope = 1 / row['Slope angle_Bas']
         return CostFunc.costBasalton(thickness, waterlevel, slope)
     design_combinations['Bottom_costs_bas'] = design_combinations.apply(calculate_costs_Bas, axis=1)
 
     def calculate_costs_As(row):
         thickness = row['Layer thickness Asphalt_As']
-        waterlevel = row['Waterlevel_LR +mNAP_LR']
-        slope = row['Slope angle_As']
+        waterlevel = row['Waterlevel_Bas +mNAP_Bas']
+        slope = 1 / row['Slope angle_As']
         return CostFunc.costasphalt(thickness, waterlevel, slope)
     design_combinations['Bottom_costs_As'] = design_combinations.apply(calculate_costs_As, axis=1)
 
@@ -262,7 +262,7 @@ class ResultTableLooseRock:
                                          design_combinations['costs_Basalton'] + design_combinations['costs_As_max']- \
                                          design_combinations['Bottom_costs_bas'] - design_combinations['Bottom_costs_As']
 
-    design_combinations = design_combinations.sort_values('TOTAL_ECI', ascending=True).reset_index(drop=True)
+    design_combinations = design_combinations.sort_values('Total costs', ascending=True).reset_index(drop=True)
     design_combinations = design_combinations.head(100)
 
     # Print the resulting dataframe
@@ -294,7 +294,7 @@ class ResultTableLooseRock:
     # Set the labels for the left y-axis and the title for the chart
     ax1.set_ylabel('Height (+mNAP)')
     ax1.set_xlabel('Design option')
-    ax1.set_title('Design options with varying transition heights and their corresponding ECI')
+    ax1.set_title('Design options with varying transition heights and their corresponding costs')
 
     # Add a legend to the left y-axis bars
     ax1.legend(loc='upper left')
@@ -305,11 +305,11 @@ class ResultTableLooseRock:
     # Create the line plot for the TOTAL_ECI on the right y-axis
     ax2.plot(x, design_combinations['TOTAL_ECI'], color='red', linewidth=2.5, linestyle='-', marker='o',
              label='Total ECI')
-    # ax2.plot(x, design_combinations['Total costs']*10**-2, color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
+    ax2.plot(x, design_combinations['Total costs'], color='blue', linewidth=2.5, linestyle='-', marker='o', label='Total costs')
 
 
     # Set the label for the right y-axis
-    ax2.set_ylabel('Total ECI for the combinations (€)')
+    ax2.set_ylabel('Costs for the combinations (€)')
 
     # Add a legend to the right y-axis line plot
     ax2.legend(loc='lower right')

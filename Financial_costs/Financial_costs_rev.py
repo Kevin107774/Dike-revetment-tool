@@ -50,7 +50,7 @@ class CostFunc:
         return costs_LR
 
     cost = costLooseRock(0.59, 1.8, 3.73)
-    print(cost)
+    print('cost LR', cost)
 
     def costverkalit(thickness, waterlevel, slope):
         h = waterlevel
@@ -69,6 +69,8 @@ class CostFunc:
         costs_Ver = (slopelength_Ver * thickness * Verkalit) + (slopelength_Ver * filter_ver) + (slopelength_Ver * (geotextile + apply_ver))
         return costs_Ver
 
+    print('cost Ver', costverkalit(0.35, 6, 4.5))
+
     def costBasalton(thickness, waterlevel, slope):
         h = waterlevel
         a = slope
@@ -85,6 +87,7 @@ class CostFunc:
 
         costs_bas = (slopelength_Bas * thickness * Basalton) + (slopelength_Bas * filter_bas) + (slopelength_Bas * geotextile) + (slopelength_Bas * 0.1 * Split)
         return costs_bas
+    print('cost Bas', costBasalton(0.35, 6, 4.5))
 
     def costasphalt(thickness, waterlevel, slope):
         h = waterlevel
@@ -118,3 +121,6 @@ class CostFunc:
         costs_grass = (Volume_Gr * (clay + apply_clay)) + (slopelength_Gr * grass)
 
         return costs_grass
+    print('cost grass', costGrass(1.5, 6))
+    print('cost total Bas', cost + costBasalton(0.35, 6, 4.5) + costGrass(1.5, 6))
+    print('cost total ver', cost + costverkalit(0.35, 6, 4.5) + costGrass(1.5, 6))

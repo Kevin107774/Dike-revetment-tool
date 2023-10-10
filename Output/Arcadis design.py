@@ -10,7 +10,7 @@ import textwrap
 
 
 def maintenance_LR_2(diameter, ECI_maintenance, S):
-    Treshold_S = 6
+    Treshold_S = 10
     design_lifetime = 50
     frequency = 0.2
     maintenance = diameter * ECI_maintenance * (S / Treshold_S) * design_lifetime * frequency
@@ -60,7 +60,7 @@ def ECIAsphalt2(thickness, waterlevel, slope):
     ECI_Asphalt = m2_As + m3_As * thickness
     return ECI_Asphalt
 
-ECI_As = ECIAsphalt2(0.15, 5.5, 1/4.1)
+ECI_As = ECIAsphalt2(0.3, 5.5, 1/4.1)
 print('ECI asphalt', ECI_As)
 
 def ECIGrass2(thickness, transition, slope):
@@ -79,4 +79,4 @@ ECI_Grass = ECIGrass2(1.4, 5.5, 1/3)
 print('ECI grass', ECI_Grass)
 
 ECI_Arcadis_design = ECI_LR + ECI_Ver + ECI_As + ECI_Grass
-print(ECI_Arcadis_design)
+print('ECI Arcadis design', ECI_Arcadis_design)

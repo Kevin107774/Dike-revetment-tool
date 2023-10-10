@@ -88,7 +88,7 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 2)
     Plot_S6 = plt.scatter([Result_Raw_LR_S6['Stability number']], [Result_Raw_LR_S6['Significant wave height']],
-                          c=[np.maximum(Result_Raw_LR_S6['Probability of failure'], 1e-7)], cmap='viridis', marker='s', label='S = 6',
+                          c=[np.maximum(Result_Raw_LR_S6['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 6',
                           norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S6)
     cbar.set_label('Probability of Failure')
@@ -102,7 +102,7 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 3)
     Plot_S11 = plt.scatter([Result_Raw_LR_S11['Stability number']], [Result_Raw_LR_S11['Significant wave height']],
-                           c=[np.maximum(Result_Raw_LR_S11['Probability of failure'], 1e-7)], cmap='viridis', marker='^', label='S = 11',
+                           c=[np.maximum(Result_Raw_LR_S11['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 11',
                            norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S11)
     cbar.set_label('Probability of Failure')
@@ -116,7 +116,7 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 4)
     Plot_S17 = plt.scatter([Result_Raw_LR_S17['Stability number']], [Result_Raw_LR_S17['Significant wave height']],
-                           c=[np.maximum(Result_Raw_LR_S17['Probability of failure'], 1e-7)], cmap='viridis', marker='*', label='S = 17',
+                           c=[np.maximum(Result_Raw_LR_S17['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 17',
                            norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S17)
     cbar.set_label('Probability of Failure')
@@ -166,7 +166,7 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 2)
     Plot_S6 = plt.scatter([Basalton_RAW_BAS_rho2750['Stability number']], [Basalton_RAW_BAS_rho2750['Significant wave height']],
-                          c=[np.maximum(Basalton_RAW_BAS_rho2750['Probability of failure'], 1e-7)], cmap='viridis', marker='s', label='S = 6',
+                          c=[np.maximum(Basalton_RAW_BAS_rho2750['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 6',
                           norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S6)
     cbar.set_label('Probability of Failure')
@@ -180,7 +180,7 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 3)
     Plot_S11 = plt.scatter([Basalton_RAW_BAS_rho2850['Stability number']], [Basalton_RAW_BAS_rho2850['Significant wave height']],
-                           c=[np.maximum(Basalton_RAW_BAS_rho2850['Probability of failure'], 1e-7)], cmap='viridis', marker='^', label='S = 11',
+                           c=[np.maximum(Basalton_RAW_BAS_rho2850['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 11',
                            norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S11)
     cbar.set_label('Probability of Failure')
@@ -194,7 +194,7 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 4)
     Plot_S17 = plt.scatter([Basalton_RAW_BAS_rho3000['Stability number']], [Basalton_RAW_BAS_rho3000['Significant wave height']],
-                           c=[np.maximum(Basalton_RAW_BAS_rho3000['Probability of failure'], 1e-7)], cmap='viridis', marker='*', label='S = 17',
+                           c=[np.maximum(Basalton_RAW_BAS_rho3000['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 17',
                            norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S17)
     cbar.set_label('Probability of Failure')
@@ -254,7 +254,7 @@ class ResultTableLooseRock:
     Plot_S6 = plt.scatter([Verkalit_RAW_Ver_rho2750['Stability number']],
                           [Verkalit_RAW_Ver_rho2750['Significant wave height']],
                           c=[np.maximum(Verkalit_RAW_Ver_rho2750['Probability of failure'], 1e-7)], cmap='viridis',
-                          marker='s', label='S = 6',
+                          marker='o', label='S = 6',
                           norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S6)
     cbar.set_label('Probability of Failure')
@@ -272,7 +272,7 @@ class ResultTableLooseRock:
     Plot_S11 = plt.scatter([Verkalit_RAW_Ver_rho2850['Stability number']],
                            [Verkalit_RAW_Ver_rho2850['Significant wave height']],
                            c=[np.maximum(Verkalit_RAW_Ver_rho2850['Probability of failure'], 1e-7)], cmap='viridis',
-                           marker='^', label='S = 11',
+                           marker='o', label='S = 11',
                            norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S11)
     cbar.set_label('Probability of Failure')
@@ -290,7 +290,7 @@ class ResultTableLooseRock:
     Plot_S17 = plt.scatter([Verkalit_RAW_Ver_rho3000['Stability number']],
                            [Verkalit_RAW_Ver_rho3000['Significant wave height']],
                            c=[np.maximum(Verkalit_RAW_Ver_rho3000['Probability of failure'], 1e-7)], cmap='viridis',
-                           marker='*', label='S = 17',
+                           marker='o', label='S = 17',
                            norm=mcolors.LogNorm())
     cbar = plt.colorbar(Plot_S17)
     cbar.set_label('Probability of Failure')
