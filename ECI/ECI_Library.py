@@ -12,11 +12,13 @@ ot.Log.Show(ot.Log.NONE)
 
 class ECILib:
 
-    kuubs = 8.34 * 2 * 0.59
-    vierkant = 8.34
+    length =np.sqrt((1.80 + 0.37)**2 + ((1.80 + 0.37) * 3.73)**2)
+    kuubs = length * 2 * 0.59
+    vierkant = length
     Maintenance_S2 = 0.59 * (2 / 10) * 50 * 0.2
-    kuubs90 = 8.34 * 2 * 0.90
+    kuubs90 = length * 2 * 0.90
     Maintenance_S290 = 0.90 * (2 / 10) * 50 * 0.2
+    # print(length)
 
     # Loose Rock
     # Transport per bulk carrier from Norway [m3]
@@ -50,7 +52,7 @@ class ECILib:
 
     # Create a pie chart
     # plt.figure(figsize=(7, 10))
-    font = {'size': 12}
+    font = {'size': 15}
     matplotlib.rc('font', **font)
     f, a = plt.subplots(1, 3)
     # Create the pie chart with actual values as labels
@@ -59,9 +61,9 @@ class ECILib:
     a[2].pie(sizes90, labels=sizes90, autopct='%0.1f%%', startangle=0)
     # a[1, 1].pie(sizeselec, labels=sizeselec, autopct='%0.1f%%', startangle=0)
 
-    a[0].set_title("Original ECI distribution, ECI = 85.3 Euro")
-    a[1].set_title("Transport distance to 100 km, ECI = 52.9 Euro")
-    a[2].set_title("Nominal rock diameter of 0.90 m, ECI = 123.2 Euro")
+    a[0].set_title("Original ECI distribution\nECI = 85.8 Euro")
+    a[1].set_title("Transport distance to 100 km\nECI = 53.2 Euro")
+    a[2].set_title("Nominal rock diameter of 0.90 m\nECI = 123.8 Euro")
     # a[1, 1].set_title("Sustainable installation, ECI = 88 Euro")
 
     plt.legend(labels=labels, bbox_to_anchor=(1.7, 0.5), fontsize="12", loc='center right')
@@ -72,9 +74,10 @@ class ECILib:
 
 # ------------------------------------------------------------------------
     # Placed elements (Verkalit)
-    kuubs_ver = 4.82 * 0.25
-    vierkant_ver = 4.82
-    kuubs_ver40 = 4.82 * 0.4
+    length = np.sqrt((2.4 - 1.79)**2 + ((2.4-1.79) * 7.7)**2)
+    kuubs_ver = length * 0.2
+    vierkant_ver = length
+    kuubs_ver40 = length * 0.4
 
     # Transport per truck from Friesland [m3]
     ECI_Transport_Ver = 1.01    # 38 km
@@ -105,7 +108,7 @@ class ECILib:
 
     # Create a pie chart
     # plt.figure(figsize=(7, 10))
-    font = {'size': 12}
+    font = {'size': 15}
     matplotlib.rc('font', **font)
     f, a = plt.subplots(1, 3)
     # Create the pie chart with actual values as labels
@@ -114,9 +117,9 @@ class ECILib:
     a[2].pie(sizes40, labels=sizes40, autopct='%0.1f%%', startangle=0)
     # a[1, 1].pie(sizeselec, labels=sizeselec, autopct='%0.1f%%', startangle=0)
 
-    a[0].set_title("Original ECI distribution, ECI = 43.5 Euro")
-    a[1].set_title("Transport distance to 228 km, ECI = 49.6 Euro")
-    a[2].set_title("Element diameter to 0.4 m, ECI = 63.2 Euro")
+    a[0].set_title("Original ECI distribution\nECI = 36.3 Euro")
+    a[1].set_title("Transport distance to 228 km\nECI = 41 Euro")
+    a[2].set_title("Element diameter to 0.4 m\nECI = 62.1 Euro")
     # a[1, 1].set_title("Sustainable installation, ECI = 42.6 Euro")
 
     plt.legend(labels=labels, bbox_to_anchor=(1.7, 0.5), fontsize="12", loc='center right')
@@ -127,9 +130,9 @@ class ECILib:
 
 # ------------------------------------------------------------------------
     # Placed elements (Basalton)
-    kuubs_Bas = 4.82 * 0.25
-    vierkant_Bas = 4.82
-    kuubs_Bas40 = 4.82 * 0.4
+    kuubs_Bas = length * 0.2
+    vierkant_Bas = length
+    kuubs_Bas40 = length * 0.4
 
     # Transport per truck from Alphen a/d Rijn [m3]
     ECI_Transport_Bas = 6.04        # Transport 200 km
@@ -163,7 +166,7 @@ class ECILib:
 
     # Create a pie chart
     # plt.figure(figsize=(7, 10))
-    font = {'size': 12}
+    font = {'size': 15}
     matplotlib.rc('font', **font)
     f, a = plt.subplots(1, 3)
     # Create the pie chart with actual values as labels
@@ -172,9 +175,9 @@ class ECILib:
     a[2].pie(sizes40, labels=sizes40, autopct='%0.1f%%', startangle=0)
     # a[1, 1].pie(sizeselec, labels=sizeselec, autopct='%0.1f%%', startangle=0)
 
-    a[0].set_title("Original ECI distribution, ECI = 43.2 Euro")
-    a[1].set_title("Transport distance to 38 km, ECI = 37.1 Euro")
-    a[2].set_title("Element diameter to 0.4 m, ECI = 60.5 Euro")
+    a[0].set_title("Original ECI distribution\nECI = 36.7 Euro")
+    a[1].set_title("Transport distance to 38 km\nECI = 32 Euro")
+    a[2].set_title("Element diameter to 0.4 m\nECI = 59.4 Euro")
     # a[1, 1].set_title("Sustainable installation, ECI = 42.3 Euro")
 
     plt.legend(labels=labels, bbox_to_anchor=(1.7, 0.5), fontsize="12", loc='center right')
@@ -184,9 +187,11 @@ class ECILib:
     # plt.show()
 # ------------------------------------------------------------------------
     # Asphalt
-    kuubs_As = 14.54 * 0.15
-    vierkant_As = 14.54
-    kuubs_As30 = 14.54 * 0.3        # 0.3m thick layer
+    length = np.sqrt((6.15 - 2.4) ** 2 + ((6.15 - 2.4) * 3.75) ** 2)
+    kuubs_As = length * 0.30
+    vierkant_As = length
+    kuubs_As30 = length * 0.15        # 0.3m thick layer
+    print(length)
 
     # Transport asphalt from factory 36 km [m3]
     ECI_Transport_As = 0.86
@@ -217,7 +222,7 @@ class ECILib:
 
     # Create a pie chart
     # plt.figure(figsize=(7, 10))
-    font = {'size': 12}
+    font = {'size': 15}
     matplotlib.rc('font', **font)
     f, a = plt.subplots(1, 3)
     # Create the pie chart with actual values as labels
@@ -226,9 +231,9 @@ class ECILib:
     a[2].pie(sizes30, labels=sizes30, autopct='%0.1f%%', startangle=0)
     # a[1, 1].pie(sizeselec, labels=sizeselec, autopct='%0.1f%%', startangle=0)
 
-    a[0].set_title("Original ECI distribution, ECI = 163.6 Euro")
-    a[1].set_title("Transport distance to 100 km, ECI = 166.9 Euro")
-    a[2].set_title("Layer thickness to 0.3 m, ECI = 269.5 Euro")
+    a[0].set_title("Original ECI distribution\nECI = 269.8 Euro")
+    a[1].set_title("Transport distance to 100 km\nECI = 276.5 Euro")
+    a[2].set_title("Layer thickness to 0.3 m\nECI = 163.8 Euro")
     # a[1, 1].set_title("Sustainable installation, ECI = 119.4 Euro")
 
     plt.legend(labels=labels, bbox_to_anchor=(1.7, 0.5), fontsize="12", loc='center right')
@@ -238,9 +243,10 @@ class ECILib:
     # plt.show()
 # ------------------------------------------------------------------------
     # Grass
-    kuubs_Gr = 8.49 * 1.4
-    vierkant_Gr = 8.49
-    kuubs_Gr2 = 8.49 * 2        # 0.3m thick layer
+    length = np.sqrt((8.22-6.15) ** 2 + ((8.22-6.15) * 4) ** 2)
+    kuubs_Gr = length * 1.4
+    vierkant_Gr = length
+    kuubs_Gr2 = length * 2
 
     # Transport grass from Betuwe (312 km) [m3] (binnenvaartschip)
     ECI_Transport_Gr = 2.78
@@ -274,7 +280,7 @@ class ECILib:
 
     # Create a pie chart
     # plt.figure(figsize=(7, 10))
-    font = {'size': 12}
+    font = {'size': 15}
     matplotlib.rc('font', **font)
     f, a = plt.subplots(1, 3)
     # Create the pie chart with actual values as labels
@@ -283,14 +289,14 @@ class ECILib:
     a[2].pie(sizes2, labels=sizes2, autopct='%0.1f%%', startangle=0)
     # a[1, 1].pie(sizeselec, labels=sizeselec, autopct='%0.1f%%', startangle=0)
 
-    a[0].set_title("Original ECI distribution, ECI = 64.7 Euro")
-    a[1].set_title("Transport distance to 40 km, ECI = 44.3 Euro")
-    a[2].set_title("Clay layer thicknes to 2 m, ECI = 92.5 Euro")
+    a[0].set_title("Original ECI distribution\nECI = 65.1 Euro")
+    a[1].set_title("Transport distance to 40 km\nECI = 44.6 Euro")
+    a[2].set_title("Clay layer thicknes to 2 m\nECI = 93 Euro")
     # a[1, 1].set_title("Sustainable installation, ECI = 63.4 Euro")
 
     plt.legend(labels=labels, bbox_to_anchor=(1.7, 0.5), fontsize="12", loc='center right')
 
     # Display the pie chart
     f.tight_layout()
-    # plt.show()
+    plt.show()
 

@@ -75,8 +75,8 @@ class ECIFunc:
         m3_As = slopelength_As * (ECILib.ECI_Transport_As + ECILib.ECI_Asphalt)
         ECI_Asphalt = m2_As + m3_As * thickness
         return ECI_Asphalt
-    # x2 = ECIAsphalt(0.30, 6.15, 1/3.75)
-    # print('ECI as', x2[0])
+    x2 = ECIAsphalt(0.30, 6.15, 1/3.75)
+    print('ECI as', x2)
 
     def ECIGrass(thickness, transition):
         h = transition
