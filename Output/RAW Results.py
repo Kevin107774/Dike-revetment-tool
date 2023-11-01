@@ -62,22 +62,47 @@ class ResultTableLooseRock:
     # Analysis for the original design
 
     Result_Raw_LR_S2 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 2]
+    probability_of_failureS2 = Result_Raw_LR_S2['Probability of failure']
+    stability_numberS2 = Result_Raw_LR_S2['Stability number']
+    significant_wave_heightS2 = Result_Raw_LR_S2['Significant wave height']
+
     Result_Raw_LR_S6 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 6]
+    probability_of_failureS6 = Result_Raw_LR_S6['Probability of failure']
+    stability_numberS6 = Result_Raw_LR_S6['Stability number']
+    significant_wave_heightS6 = Result_Raw_LR_S6['Significant wave height']
+
     Result_Raw_LR_S11 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 11]
+    probability_of_failureS11 = Result_Raw_LR_S11['Probability of failure']
+    stability_numberS11 = Result_Raw_LR_S11['Stability number']
+    significant_wave_heightS11 = Result_Raw_LR_S11['Significant wave height']
+
     Result_Raw_LR_S17 = Result_Raw_LR[Result_Raw_LR['Damage number [S]'] == 17]
+    probability_of_failureS17 = Result_Raw_LR_S17['Probability of failure']
+    stability_numberS17 = Result_Raw_LR_S17['Stability number']
+    significant_wave_heightS17 = Result_Raw_LR_S17['Significant wave height']
+
     # Result_Raw_LR_S2.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\RAW\Loose rock raw.xlsx')
 
+    above_thresholdS2 = probability_of_failureS2 > 1/60000
+    above_thresholdS6 = probability_of_failureS6 > 1/60000
+    above_thresholdS11 = probability_of_failureS11 > 1/60000
+    above_thresholdS17 = probability_of_failureS17 > 1/60000
 
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
     matplotlib.rc('font', **font)
 
     plt.subplot(2, 2, 1)
-    Plot_S2 = plt.scatter([Result_Raw_LR_S2['Stability number']], [Result_Raw_LR_S2['Significant wave height']],
-                          c=[np.maximum(Result_Raw_LR_S2['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 2',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S2)
-    cbar.set_label('Probability of Failure')
+    # Plot_S2 = plt.scatter([Result_Raw_LR_S2['Stability number']], [Result_Raw_LR_S2['Significant wave height']],
+    #                       c=[np.maximum(Result_Raw_LR_S2['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 2',
+    #                       norm=mcolors.LogNorm())
+    Plot_S2 = plt.scatter(stability_numberS2, significant_wave_heightS2, c=probability_of_failureS2, cmap='viridis', marker='o',
+                label='Pf < 1/60.000')
+    Plot_S2 = plt.scatter(stability_numberS2[above_thresholdS2], significant_wave_heightS2[above_thresholdS2], c='red', marker='o',
+                label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S2)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔDn50')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -85,13 +110,18 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure corresponding to the stability number and wave height for S = 2', 50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 2)
-    Plot_S6 = plt.scatter([Result_Raw_LR_S6['Stability number']], [Result_Raw_LR_S6['Significant wave height']],
-                          c=[np.maximum(Result_Raw_LR_S6['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 6',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S6)
-    cbar.set_label('Probability of Failure')
+    # Plot_S6 = plt.scatter([Result_Raw_LR_S6['Stability number']], [Result_Raw_LR_S6['Significant wave height']],
+    #                       c=[np.maximum(Result_Raw_LR_S6['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 6',
+    #                       norm=mcolors.LogNorm())
+    Plot_S6 = plt.scatter(stability_numberS6, significant_wave_heightS6, c=probability_of_failureS6, cmap='viridis', marker='o',
+                label='Pf < 1/60.000')
+    Plot_S6 = plt.scatter(stability_numberS6[above_thresholdS6], significant_wave_heightS6[above_thresholdS6], c='red', marker='o',
+                label='Pf > 1/60.000')
+    # cbar = plt.colorbar(Plot_S6)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔDn50')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -99,13 +129,19 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure corresponding to the stability number and wave height for S = 6', 50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 3)
-    Plot_S11 = plt.scatter([Result_Raw_LR_S11['Stability number']], [Result_Raw_LR_S11['Significant wave height']],
-                           c=[np.maximum(Result_Raw_LR_S11['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 11',
-                           norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S11)
-    cbar.set_label('Probability of Failure')
+    # Plot_S11 = plt.scatter([Result_Raw_LR_S11['Stability number']], [Result_Raw_LR_S11['Significant wave height']],
+    #                        c=[np.maximum(Result_Raw_LR_S11['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 11',
+    #                        norm=mcolors.LogNorm())
+    Plot_S11 = plt.scatter(stability_numberS11, significant_wave_heightS11, c=probability_of_failureS11, cmap='viridis', marker='o',
+                label='Pf < 1/60.000')
+    Plot_S11 = plt.scatter(stability_numberS11[above_thresholdS11], significant_wave_heightS11[above_thresholdS11], c='red', marker='o',
+                label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S11)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔDn50')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -113,13 +149,19 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure corresponding to the stability number and wave height for S = 11', 50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 4)
-    Plot_S17 = plt.scatter([Result_Raw_LR_S17['Stability number']], [Result_Raw_LR_S17['Significant wave height']],
-                           c=[np.maximum(Result_Raw_LR_S17['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 17',
-                           norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S17)
-    cbar.set_label('Probability of Failure')
+    # Plot_S17 = plt.scatter([Result_Raw_LR_S17['Stability number']], [Result_Raw_LR_S17['Significant wave height']],
+    #                        c=[np.maximum(Result_Raw_LR_S17['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 17',
+    #                        norm=mcolors.LogNorm())
+    Plot_S17 = plt.scatter(stability_numberS17, significant_wave_heightS17, c=probability_of_failureS17, cmap='viridis', marker='o',
+                label='Pf < 1/60.000')
+    Plot_S17 = plt.scatter(stability_numberS17[above_thresholdS17], significant_wave_heightS17[above_thresholdS17], c='red', marker='o',
+                label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S17)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔDn50')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -127,6 +169,7 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure corresponding to the stability number and wave height for S = 17', 50),
         loc='center')
+    plt.legend()
 
     # plt.show()
 
@@ -142,20 +185,42 @@ class ResultTableLooseRock:
                                               Result_raw_Basalton['Layer thickness Basalton'])
 
     Basalton_RAW_BAS_rho2650 = Result_raw_Basalton[Result_raw_Basalton['Density concrete'] == 2650]
+    probability_of_failure2650 = Basalton_RAW_BAS_rho2650['Probability of failure']
+    stability_number2650 = Basalton_RAW_BAS_rho2650['Stability number']
+    significant_wave_height2650 = Basalton_RAW_BAS_rho2650['Significant wave height']
+
     Basalton_RAW_BAS_rho2750 = Result_raw_Basalton[Result_raw_Basalton['Density concrete'] == 2750]
+    probability_of_failure2750 = Basalton_RAW_BAS_rho2650['Probability of failure']
+    stability_number2750 = Basalton_RAW_BAS_rho2650['Stability number']
+    significant_wave_height2750 = Basalton_RAW_BAS_rho2650['Significant wave height']
+
     Basalton_RAW_BAS_rho2850 = Result_raw_Basalton[Result_raw_Basalton['Density concrete'] == 2850]
+    probability_of_failure2850 = Basalton_RAW_BAS_rho2650['Probability of failure']
+    stability_number2850 = Basalton_RAW_BAS_rho2650['Stability number']
+    significant_wave_height2850 = Basalton_RAW_BAS_rho2650['Significant wave height']
+
     Basalton_RAW_BAS_rho3000 = Result_raw_Basalton[Result_raw_Basalton['Density concrete'] == 3000]
+    probability_of_failure3000 = Basalton_RAW_BAS_rho2650['Probability of failure']
+    stability_number3000 = Basalton_RAW_BAS_rho2650['Stability number']
+    significant_wave_height3000 = Basalton_RAW_BAS_rho2650['Significant wave height']
+
+    above_threshold2650 = probability_of_failure2650 > 1/60000
+    above_threshold2750 = probability_of_failure2750 > 1/60000
+    above_threshold2850 = probability_of_failure2850 > 1/60000
+    above_threshold3000 = probability_of_failure3000 > 1/60000
 
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
     matplotlib.rc('font', **font)
 
     plt.subplot(2, 2, 1)
-    Plot_S2 = plt.scatter([Basalton_RAW_BAS_rho2650['Stability number']], [Basalton_RAW_BAS_rho2650['Significant wave height']],
-                          c=[np.maximum(Basalton_RAW_BAS_rho2650['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 2',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S2)
-    cbar.set_label('Probability of Failure')
+    Plot_S2 = plt.scatter(stability_number2650, significant_wave_height2650, c=probability_of_failure2650, cmap='viridis', marker='o',
+                label='Pf < 1/60.000')
+    Plot_S2 = plt.scatter(stability_number2650[above_threshold2650], significant_wave_height2650[above_threshold2650], c='red', marker='o',
+                label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S2)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -163,13 +228,16 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure Basalton corresponding to the stability number and wave height for density of concrete 2650 kg/m3', 50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 2)
-    Plot_S6 = plt.scatter([Basalton_RAW_BAS_rho2750['Stability number']], [Basalton_RAW_BAS_rho2750['Significant wave height']],
-                          c=[np.maximum(Basalton_RAW_BAS_rho2750['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 6',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S6)
-    cbar.set_label('Probability of Failure')
+    Plot_S6 = plt.scatter(stability_number2750, significant_wave_height2750, c=probability_of_failure2750, cmap='viridis', marker='o',
+                label='S = 2')
+    Plot_S6 = plt.scatter(stability_number2750[above_threshold2750], significant_wave_height2750[above_threshold2750], c='red', marker='o',
+                label='S = 2 (Above Threshold)')
+
+    # cbar = plt.colorbar(Plot_S6)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -179,11 +247,13 @@ class ResultTableLooseRock:
         loc='center')
 
     plt.subplot(2, 2, 3)
-    Plot_S11 = plt.scatter([Basalton_RAW_BAS_rho2850['Stability number']], [Basalton_RAW_BAS_rho2850['Significant wave height']],
-                           c=[np.maximum(Basalton_RAW_BAS_rho2850['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 11',
-                           norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S11)
-    cbar.set_label('Probability of Failure')
+    Plot_S11 = plt.scatter(stability_number2850, significant_wave_height2850, c=probability_of_failure2850, cmap='viridis', marker='o',
+                label='S = 2')
+    Plot_S11 = plt.scatter(stability_number2850[above_threshold2850], significant_wave_height2850[above_threshold2850], c='red', marker='o',
+                label='S = 2 (Above Threshold)')
+
+    # cbar = plt.colorbar(Plot_S11)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -191,13 +261,16 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure Basalton corresponding to the stability number and wave height for density of concrete 2850 kg/m3', 50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 4)
-    Plot_S17 = plt.scatter([Basalton_RAW_BAS_rho3000['Stability number']], [Basalton_RAW_BAS_rho3000['Significant wave height']],
-                           c=[np.maximum(Basalton_RAW_BAS_rho3000['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 17',
-                           norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S17)
-    cbar.set_label('Probability of Failure')
+    Plot_S17 = plt.scatter(stability_number3000, significant_wave_height3000, c=probability_of_failure3000, cmap='viridis', marker='o',
+                label='S = 2')
+    Plot_S17 = plt.scatter(stability_number3000[above_threshold3000], significant_wave_height3000[above_threshold3000], c='red', marker='o',
+                label='S = 2 (Above Threshold)')
+
+    # cbar = plt.colorbar(Plot_S17)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -205,6 +278,7 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure Basalton corresponding to the stability number and wave height for density of concrete 3000 kg/m3', 50),
         loc='center')
+    plt.legend()
 
     # plt.show()
     #
@@ -224,22 +298,44 @@ class ResultTableLooseRock:
                 Result_raw_Verkalit['Layer thickness Verkalit'])
 
     Verkalit_RAW_Ver_rho2650 = Result_raw_Verkalit[Result_raw_Verkalit['Density concrete'] == 2650]
+    probability_of_failure2650 = Verkalit_RAW_Ver_rho2650['Probability of failure']
+    stability_number2650 = Verkalit_RAW_Ver_rho2650['Stability number']
+    significant_wave_height2650 = Verkalit_RAW_Ver_rho2650['Significant wave height']
+
     Verkalit_RAW_Ver_rho2750 = Result_raw_Verkalit[Result_raw_Verkalit['Density concrete'] == 2750]
+    probability_of_failure2750 = Verkalit_RAW_Ver_rho2650['Probability of failure']
+    stability_number2750 = Verkalit_RAW_Ver_rho2650['Stability number']
+    significant_wave_height2750 = Verkalit_RAW_Ver_rho2650['Significant wave height']
+
     Verkalit_RAW_Ver_rho2850 = Result_raw_Verkalit[Result_raw_Verkalit['Density concrete'] == 2850]
+    probability_of_failure2850 = Verkalit_RAW_Ver_rho2650['Probability of failure']
+    stability_number2850 = Verkalit_RAW_Ver_rho2650['Stability number']
+    significant_wave_height2850 = Verkalit_RAW_Ver_rho2650['Significant wave height']
+
     Verkalit_RAW_Ver_rho3000 = Result_raw_Verkalit[Result_raw_Verkalit['Density concrete'] == 3000]
+    probability_of_failure3000 = Verkalit_RAW_Ver_rho2650['Probability of failure']
+    stability_number3000 = Verkalit_RAW_Ver_rho2650['Stability number']
+    significant_wave_height3000 = Verkalit_RAW_Ver_rho2650['Significant wave height']
+
+    above_threshold2650 = probability_of_failure2650 > 1 / 60000
+    above_threshold2750 = probability_of_failure2750 > 1 / 60000
+    above_threshold2850 = probability_of_failure2850 > 1 / 60000
+    above_threshold3000 = probability_of_failure3000 > 1 / 60000
 
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
     matplotlib.rc('font', **font)
 
     plt.subplot(2, 2, 1)
-    Plot_S2 = plt.scatter([Verkalit_RAW_Ver_rho2650['Stability number']],
-                          [Verkalit_RAW_Ver_rho2650['Significant wave height']],
-                          c=[np.maximum(Verkalit_RAW_Ver_rho2650['Probability of failure'], 1e-7)], cmap='viridis',
-                          marker='o', label='S = 2',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S2)
-    cbar.set_label('Probability of Failure')
+    Plot_S2 = plt.scatter(stability_number2650, significant_wave_height2650, c=probability_of_failure2650,
+                          cmap='viridis', marker='o',
+                          label='Pf < 1/60.000')
+    Plot_S2 = plt.scatter(stability_number2650[above_threshold2650], significant_wave_height2650[above_threshold2650],
+                          c='red', marker='o',
+                          label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S2)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -249,15 +345,18 @@ class ResultTableLooseRock:
             'Probability of failure Verkalit corresponding to the stability number and wave height for density of concrete 2650 kg/m3',
             50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 2)
-    Plot_S6 = plt.scatter([Verkalit_RAW_Ver_rho2750['Stability number']],
-                          [Verkalit_RAW_Ver_rho2750['Significant wave height']],
-                          c=[np.maximum(Verkalit_RAW_Ver_rho2750['Probability of failure'], 1e-7)], cmap='viridis',
-                          marker='o', label='S = 6',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S6)
-    cbar.set_label('Probability of Failure')
+    Plot_S6 = plt.scatter(stability_number2750, significant_wave_height2750, c=probability_of_failure2750,
+                          cmap='viridis', marker='o',
+                          label='S = 2')
+    Plot_S6 = plt.scatter(stability_number2750[above_threshold2750], significant_wave_height2750[above_threshold2750],
+                          c='red', marker='o',
+                          label='S = 2 (Above Threshold)')
+
+    # cbar = plt.colorbar(Plot_S6)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -267,15 +366,18 @@ class ResultTableLooseRock:
             'Probability of failure Verkalit corresponding to the stability number and wave height for density of concrete 2750 kg/m3',
             50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 3)
-    Plot_S11 = plt.scatter([Verkalit_RAW_Ver_rho2850['Stability number']],
-                           [Verkalit_RAW_Ver_rho2850['Significant wave height']],
-                           c=[np.maximum(Verkalit_RAW_Ver_rho2850['Probability of failure'], 1e-7)], cmap='viridis',
-                           marker='o', label='S = 11',
-                           norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S11)
-    cbar.set_label('Probability of Failure')
+    Plot_S11 = plt.scatter(stability_number2850, significant_wave_height2850, c=probability_of_failure2850,
+                           cmap='viridis', marker='o',
+                           label='S = 2')
+    Plot_S11 = plt.scatter(stability_number2850[above_threshold2850], significant_wave_height2850[above_threshold2850],
+                           c='red', marker='o',
+                           label='S = 2 (Above Threshold)')
+
+    # cbar = plt.colorbar(Plot_S11)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -285,15 +387,18 @@ class ResultTableLooseRock:
             'Probability of failure Verkalit corresponding to the stability number and wave height for density of concrete 2850 kg/m3',
             50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 4)
-    Plot_S17 = plt.scatter([Verkalit_RAW_Ver_rho3000['Stability number']],
-                           [Verkalit_RAW_Ver_rho3000['Significant wave height']],
-                           c=[np.maximum(Verkalit_RAW_Ver_rho3000['Probability of failure'], 1e-7)], cmap='viridis',
-                           marker='o', label='S = 17',
-                           norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S17)
-    cbar.set_label('Probability of Failure')
+    Plot_S17 = plt.scatter(stability_number3000, significant_wave_height3000, c=probability_of_failure3000,
+                           cmap='viridis', marker='o',
+                           label='S = 2')
+    Plot_S17 = plt.scatter(stability_number3000[above_threshold3000], significant_wave_height3000[above_threshold3000],
+                           c='red', marker='o',
+                           label='S = 2 (Above Threshold)')
+
+    # cbar = plt.colorbar(Plot_S17)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔD')
     plt.ylabel('Significant wave height, Hs [m]')
     plt.ylim(0.8, 3)
@@ -303,6 +408,7 @@ class ResultTableLooseRock:
             'Probability of failure Verkalit corresponding to the stability number and wave height for density of concrete 3000 kg/m3',
             50),
         loc='center')
+    plt.legend()
 
     # plt.show()
     #
@@ -318,38 +424,67 @@ class ResultTableLooseRock:
     # Result_raw_Asphalt_d20 = Result_raw_Asphalt[Result_raw_Asphalt['Density concrete'] == 0.2]
     # Result_raw_Asphalt_d25 = Result_raw_Asphalt[Result_raw_Asphalt['Density concrete'] == 0.25]
 
+    probability_of_failure = Result_raw_Asphalt['Probability of failure']
+    Asphalt_layer_thickness = Result_raw_Asphalt['Asphalt layer thickness']
+    significant_wave_height = Result_raw_Asphalt['Significant wave height']
+    waterlevel_uplift = Result_raw_Asphalt['Waterlevel +mNAP']
+
+    above_threshold = probability_of_failure > 1 / 60000
+
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
     matplotlib.rc('font', **font)
 
-    Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
-                          [Result_raw_Asphalt['Significant wave height']],
-                          c=[np.maximum(Result_raw_Asphalt['Probability of failure'], 1e-7)], cmap='viridis',
-                          marker='o', label='S = 2',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S2)
-    cbar.set_label('Probability of Failure')
+    # Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
+    #                       [Result_raw_Asphalt['Significant wave height']],
+    #                       c=[np.maximum(Result_raw_Asphalt['Probability of failure'], 1e-7)], cmap='viridis',
+    #                       marker='o', label='S = 2',
+    #                       norm=mcolors.LogNorm())
+
+    Plot_S2 = plt.scatter(Asphalt_layer_thickness, waterlevel_uplift, c=probability_of_failure,
+                          cmap='viridis', marker='o',
+                          label='Pf < 1/60.000')
+    Plot_S2 = plt.scatter(Asphalt_layer_thickness[above_threshold], waterlevel_uplift[above_threshold],
+                          c='red', marker='o',
+                          label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S2)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Layer thickness, d [m]')
-    plt.ylabel('Significant wave height, Hs [m]')
-    plt.ylim(0.8, 2.5)
+    plt.ylabel('Waterlevel, [mNAP]')
+    plt.ylim(1.2, 7)
     plt.xlim(0, 0.5)
     plt.title(
         textwrap.fill(
-            'Probability of failure Asphalt corresponding to the layer thickness and wave height', 50),
+            'Probability of failure Asphalt corresponding to the layer thickness and water level', 50),
         loc='center')
+    plt.legend()
 
     # Uplift
+    probability_of_failure_uplift = Result_raw_Asphalt['Pf uplift']
+    waterlevel_uplift = Result_raw_Asphalt['Waterlevel +mNAP']
+
+    above_threshold_uplift = probability_of_failure_uplift > 1 / 60000
+
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
     matplotlib.rc('font', **font)
 
-    Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
-                          [Result_raw_Asphalt['Waterlevel +mNAP']],
-                          c=[np.maximum(Result_raw_Asphalt['Pf uplift'], 1e-7)], cmap='viridis',
-                          marker='o',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S2)
-    cbar.set_label('Probability of Failure')
+    # Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
+    #                       [Result_raw_Asphalt['Waterlevel +mNAP']],
+    #                       c=[np.maximum(Result_raw_Asphalt['Pf uplift'], 1e-7)], cmap='viridis',
+    #                       marker='o',
+    #                       norm=mcolors.LogNorm())
+
+    Plot_S2 = plt.scatter(Asphalt_layer_thickness, waterlevel_uplift, c=probability_of_failure_uplift,
+                          cmap='viridis', marker='o',
+                          label='Pf < 1/60.000')
+    Plot_S2 = plt.scatter(Asphalt_layer_thickness[above_threshold_uplift], waterlevel_uplift[above_threshold_uplift],
+                          c='red', marker='o',
+                          label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S2)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Layer thickness, d [m]')
     plt.ylabel('Waterlevel, [mNAP]')
     plt.ylim(1.2, 7)
@@ -358,28 +493,42 @@ class ResultTableLooseRock:
         textwrap.fill(
             'Probability of failure Asphalt due to uplift corresponding to the layer thickness and water level', 50),
         loc='center')
+    plt.legend()
 
     # Uplift and impact
-    # Uplift
+
+    probability_of_failure_combined = Result_raw_Asphalt['Probability of failure2']
+    above_threshold_combined = probability_of_failure_combined > 1 / 60000
+
+
     figure = plt.figure(figsize=(20, 10))
     font = {'size': 12}
     matplotlib.rc('font', **font)
 
-    Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
-                          [Result_raw_Asphalt['Significant wave height']],
-                          c=[np.maximum(Result_raw_Asphalt['Probability of failure2'], 1e-7)], cmap='viridis',
-                          marker='o',
-                          norm=mcolors.LogNorm())
-    cbar = plt.colorbar(Plot_S2)
-    cbar.set_label('Probability of Failure')
+    # Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
+    #                       [Result_raw_Asphalt['Significant wave height']],
+    #                       c=[np.maximum(Result_raw_Asphalt['Probability of failure2'], 1e-7)], cmap='viridis',
+    #                       marker='o',
+    #                       norm=mcolors.LogNorm())
+
+    Plot_S2 = plt.scatter(Asphalt_layer_thickness, waterlevel_uplift, c=probability_of_failure_combined,
+                          cmap='viridis', marker='o',
+                          label='Pf < 1/60.000')
+    Plot_S2 = plt.scatter(Asphalt_layer_thickness[above_threshold_combined], waterlevel_uplift[above_threshold_combined],
+                          c='red', marker='o',
+                          label='Pf > 1/60.000')
+
+    # cbar = plt.colorbar(Plot_S2)
+    # cbar.set_label('Probability of Failure')
     plt.xlabel('Layer thickness, d [m]')
-    plt.ylabel('Significant wave height, Hs [m]')
-    plt.ylim(0.8, 2.5)
+    plt.ylabel('Waterlevel, [mNAP]')
+    plt.ylim(1.2, 7)
     plt.xlim(0, 0.5)
     plt.title(
         textwrap.fill(
-            'Probability of failure Asphalt for both wave impact and uplift corresponding to the layer thickness and wave height', 50),
+            'Probability of failure Asphalt for both wave impact and uplift corresponding to the layer thickness and water level', 50),
         loc='center')
+    plt.legend()
 
     plt.show()
     # print(Result_raw_Asphalt)
