@@ -55,23 +55,23 @@ class ResultTableLooseRock:
 
     # Analysis for the original design
 
-    # Loose_rock_selection = Result_Raw_LR[Result_Raw_LR['Probability of failure'] < 1 / 60000]
-    Loose_rock_selection = Result_Raw_LR[Result_Raw_LR['Waterlevel +mNAP'] ==1.6]
+    Loose_rock_selection = Result_Raw_LR[Result_Raw_LR['Probability of failure'] < 1 / 60000]
+    Loose_rock_selection = Loose_rock_selection[Loose_rock_selection['Waterlevel +mNAP'] < 1.9]
     Loose_rock_selection = Loose_rock_selection.sort_values(
         ['Nominal diameter rock', 'Damage number [S]', 'ECI_slopelength'],
         ascending=[True, True, True])
-    # print(Loose_rock_selection)
+    print(Loose_rock_selection)
 
-    # Without maintenance (S<5)
-    Loose_rock_selection_low = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] < 5]
-    Loose_rock_selection_low = Loose_rock_selection_low.groupby('Nominal diameter rock').head(1)
+    # # Without maintenance (S<5)
+    # Loose_rock_selection_low = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] < 5]
+    # Loose_rock_selection_low = Loose_rock_selection_low.groupby('Nominal diameter rock').head(1)
     # # Create a new row filled with zeros for the graph
     # new_row = pd.DataFrame([[0] * len(Loose_rock_selection_low.columns)], columns=Loose_rock_selection_low.columns)
     # Loose_rock_selection_low = pd.concat([new_row, Loose_rock_selection_low], ignore_index=True)
     #
-    # With maintenance (S>5)
-    Loose_rock_selection_high = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] > 5]
-    Loose_rock_selection_high = Loose_rock_selection_high.groupby('Nominal diameter rock').head(1)
+    # # With maintenance (S>5)
+    # Loose_rock_selection_high = Loose_rock_selection[Loose_rock_selection['Damage number [S]'] > 5]
+    # Loose_rock_selection_high = Loose_rock_selection_high.groupby('Nominal diameter rock').head(1)
     # # print(Loose_rock_selection_low)
     # # Loose_rock_selection.to_excel(
     # #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\1. Loose Rock\Selection original design.xlsx')
@@ -157,7 +157,7 @@ class ResultTableLooseRock:
     # # Loose_rock_selection_S17 = pd.concat([zeros_df, Loose_rock_selection_S17]).reset_index(drop=True)
     #
     # figure = plt.figure(figsize=(12, 6))
-    # font = {'size': 16}
+    # font = {'size': 17}
     # matplotlib.rc('font', **font)
     #
     # x = np.arange(len(Loose_rock_selection_S2['Nominal diameter rock']))
@@ -186,8 +186,8 @@ class ResultTableLooseRock:
     # plt.title(textwrap.fill('ECI for each nominal diameter rock with different damage number S', 50),
     #           loc='center')
     # plt.legend(loc='upper left')
-    #
-    # # Add y-values to the bars
+
+    # Add y-values to the bars
     # for i, v in enumerate(Loose_rock_selection_S2['ECI_slopelength']):
     #     if v != 0:
     #         plt.text(i-8/20, v + 1, f' {Loose_rock_selection_S2["Damage number [S]"].iloc[i]}',
@@ -252,22 +252,29 @@ class ResultTableLooseRock:
     # #     if v != 0:
     # #         plt.text(i+7/20, v + 1, f'{Loose_rock_selection_S17["Damage number [S]"].iloc[i]}',
     # #                  color='cornflowerblue', ha='center')
-    #
-    # Loose_rock_selection = Loose_rock_selection.groupby('Nominal diameter rock').head(1)
-    # # print(Loose_rock_selection)
-    # # plt.show()
 
-    figure = plt.figure()
+    Loose_rock_selection = Loose_rock_selection.groupby('Nominal diameter rock').head(1)
+    print(Loose_rock_selection)
+    plt.show()
+    #
+    # figure = plt.figure()
+    font = {'size': 18}
+    matplotlib.rc('font', **font)
     x = np.arange(len(Loose_rock_selection['Nominal diameter rock']))
     plt.bar(x, Loose_rock_selection['ECI_slopelength'], color='cornflowerblue', width=0.4, label='Loose rock')
     labels_x = ['HMa 300-1000, Dn50 = 0.59m', 'HMa 1000-3000, Dn50 = 0.90m', 'HMa 3000-6000, Dn50 = 1.18m', 'HMa 6000-10000, Dn50 = 1.44m']
     plt.xticks(x, labels_x)
     plt.xlabel('Rock class (kg)')
     plt.ylabel('ECI (€)')
-    plt.ylim(0, 200)
+    plt.ylim(0, 210)
     plt.title(textwrap.fill('ECI for each rock class with corresponding lowest damage number S', 50),
               loc='center')
     plt.legend(loc='upper left')
+
+    for i, v in enumerate(Loose_rock_selection['ECI_slopelength']):
+        if v != 0:
+            plt.text(i, v + 5, f'{v:.1f}',
+                     color='cornflowerblue', ha='center')
 
     # Analysis for the transition heights
     Loose_rock_filtered = filterresults(Result_Raw_LR, 2)
@@ -290,7 +297,7 @@ class ResultTableLooseRock:
         ['Layer thickness Basalton', 'ECI_slopelength'], ascending=[True, True])
 
     Basalton_selection = Basalton_selection.groupby('Layer thickness Basalton').head(1)
-    # print(Basalton_selection)
+    print(Basalton_selection)
     # Basalton_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\3. Basalton\Selection original design Basalton.xlsx')
 
     Basalton_filtered = filterresults(Result_raw_Basalton, 5)
@@ -315,7 +322,7 @@ class ResultTableLooseRock:
     Verkalit_selection = Verkalit_selection.groupby('Layer thickness Verkalit').head(1)
     # new_row = pd.DataFrame([[0] * len(Verkalit_selection.columns)], columns=Verkalit_selection.columns)
     # Verkalit_selection = pd.concat([new_row, Verkalit_selection], ignore_index=True)
-    # print(Verkalit_selection)
+    print(Verkalit_selection)
     # Verkalit_selection.to_excel(r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\2. Verkalit\Selection original design Verkalit2.xlsx')
 
     figure = plt.figure()
@@ -330,16 +337,16 @@ class ResultTableLooseRock:
               loc='center')
     plt.legend(loc='upper left')
 
-    # Add y-values to the bars
     for i, v in enumerate(Basalton_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i - 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Basalton_selection["Density concrete"].iloc[i]}',
+            plt.text(i - 0.2, v + 1, f'{v:.1f}',
                      color='lightsalmon', ha='center')
 
     for i, v in enumerate(Verkalit_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i + 0.2, v + 1, f'ECI: {v:.1f}\nρ: {Verkalit_selection["Density concrete"].iloc[i]}',
+            plt.text(i + 0.2, v + 1, f'{v:.1f}',
                      color='peachpuff', ha='center')
+
     # plt.show()
 
     Verkalit_filtered = filterresults(Result_raw_Verkalit, 5)
@@ -357,12 +364,8 @@ class ResultTableLooseRock:
     Result_raw_Asphalt = pd.read_excel(
         r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Result Asphalt complete.xlsx')
 
-    Result_raw_Asphalt['ECI_slopelength_max'] = ECIFunc.ECIAsphalt(Result_raw_Asphalt['Asphalt layer thickness'], 6.2,
+    Result_raw_Asphalt['ECI_slopelength'] = ECIFunc.ECIAsphalt(Result_raw_Asphalt['Asphalt layer thickness'], 6.2,
                                                                Result_raw_Asphalt['slope asphalt'])
-    Result_raw_Asphalt['ECI_slopelength_bottom'] = ECIFunc.ECIAsphalt(Result_raw_Asphalt['Asphalt layer thickness'], 2.4,
-                                                                   Result_raw_Asphalt['slope asphalt'])
-
-    Result_raw_Asphalt['ECI_slopelength'] = Result_raw_Asphalt['ECI_slopelength_max'] - Result_raw_Asphalt['ECI_slopelength_bottom']
     # print(Result_raw_Asphalt)
     # Result_raw_Asphalt.to_excel(
     #     r'C:\Users\vandonsk5051\Documents\Afstuderen (Schijf)\Python scripts\Results\4. Asphalt\Raw for original design Asphalt.xlsx')
@@ -391,7 +394,7 @@ class ResultTableLooseRock:
     # Add y-values to the bars
     for i, v in enumerate(Asphalt_selection['ECI_slopelength']):
         if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='dimgrey', ha='center')
+            plt.text(i, v, f'{v:.1f}\n', color='dimgrey', ha='center')
     # plt.show()
 
     Asphalt_filtered = filterresults(Result_raw_Asphalt, 1)
@@ -422,7 +425,7 @@ class ResultTableLooseRock:
     # Add y-values to the bars
     for i, v in enumerate(Result_Grass['ECI']):
         if v != 0:
-            plt.text(i, v, f'ECI: {v:.1f}\n', color='mediumseagreen', ha='center')
+            plt.text(i, v, f'{v:.1f}\n', color='mediumseagreen', ha='center')
     plt.legend(loc='upper left')
     # Add line graph with water level
     ax2 = plt.twinx()

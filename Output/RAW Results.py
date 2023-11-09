@@ -89,7 +89,7 @@ class ResultTableLooseRock:
     above_thresholdS17 = probability_of_failureS17 > 1/60000
 
     figure = plt.figure(figsize=(20, 10))
-    font = {'size': 12}
+    font = {'size': 16}
     matplotlib.rc('font', **font)
 
     plt.subplot(2, 2, 1)
@@ -97,9 +97,9 @@ class ResultTableLooseRock:
     #                       c=[np.maximum(Result_Raw_LR_S2['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 2',
     #                       norm=mcolors.LogNorm())
     Plot_S2 = plt.scatter(stability_numberS2, significant_wave_heightS2, c=probability_of_failureS2, cmap='viridis', marker='o',
-                label='Pf < 1/60.000')
+                label='Non-failure (Pf < 1/60.000)')
     Plot_S2 = plt.scatter(stability_numberS2[above_thresholdS2], significant_wave_heightS2[above_thresholdS2], c='red', marker='o',
-                label='Pf > 1/60.000')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S2)
     # cbar.set_label('Probability of Failure')
@@ -117,9 +117,9 @@ class ResultTableLooseRock:
     #                       c=[np.maximum(Result_Raw_LR_S6['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 6',
     #                       norm=mcolors.LogNorm())
     Plot_S6 = plt.scatter(stability_numberS6, significant_wave_heightS6, c=probability_of_failureS6, cmap='viridis', marker='o',
-                label='Pf < 1/60.000')
+                label='Non-failure (Pf < 1/60.000)')
     Plot_S6 = plt.scatter(stability_numberS6[above_thresholdS6], significant_wave_heightS6[above_thresholdS6], c='red', marker='o',
-                label='Pf > 1/60.000')
+                label='Failure (Pf > 1/60.000)')
     # cbar = plt.colorbar(Plot_S6)
     # cbar.set_label('Probability of Failure')
     plt.xlabel('Stability number Hs/ΔDn50')
@@ -136,9 +136,9 @@ class ResultTableLooseRock:
     #                        c=[np.maximum(Result_Raw_LR_S11['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 11',
     #                        norm=mcolors.LogNorm())
     Plot_S11 = plt.scatter(stability_numberS11, significant_wave_heightS11, c=probability_of_failureS11, cmap='viridis', marker='o',
-                label='Pf < 1/60.000')
+                label='Non-failure (Pf < 1/60.000)')
     Plot_S11 = plt.scatter(stability_numberS11[above_thresholdS11], significant_wave_heightS11[above_thresholdS11], c='red', marker='o',
-                label='Pf > 1/60.000')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S11)
     # cbar.set_label('Probability of Failure')
@@ -156,9 +156,9 @@ class ResultTableLooseRock:
     #                        c=[np.maximum(Result_Raw_LR_S17['Probability of failure'], 1e-7)], cmap='viridis', marker='o', label='S = 17',
     #                        norm=mcolors.LogNorm())
     Plot_S17 = plt.scatter(stability_numberS17, significant_wave_heightS17, c=probability_of_failureS17, cmap='viridis', marker='o',
-                label='Pf < 1/60.000')
+                label='Non-failure (Pf < 1/60.000)')
     Plot_S17 = plt.scatter(stability_numberS17[above_thresholdS17], significant_wave_heightS17[above_thresholdS17], c='red', marker='o',
-                label='Pf > 1/60.000')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S17)
     # cbar.set_label('Probability of Failure')
@@ -210,14 +210,14 @@ class ResultTableLooseRock:
     above_threshold3000 = probability_of_failure3000 > 1/60000
 
     figure = plt.figure(figsize=(20, 10))
-    font = {'size': 12}
+    font = {'size': 16}
     matplotlib.rc('font', **font)
 
     plt.subplot(2, 2, 1)
     Plot_S2 = plt.scatter(stability_number2650, significant_wave_height2650, c=probability_of_failure2650, cmap='viridis', marker='o',
-                label='Pf < 1/60.000')
+                label='Non-failure (Pf < 1/60.000)')
     Plot_S2 = plt.scatter(stability_number2650[above_threshold2650], significant_wave_height2650[above_threshold2650], c='red', marker='o',
-                label='Pf > 1/60.000')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S2)
     # cbar.set_label('Probability of Failure')
@@ -232,9 +232,9 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 2)
     Plot_S6 = plt.scatter(stability_number2750, significant_wave_height2750, c=probability_of_failure2750, cmap='viridis', marker='o',
-                label='S = 2')
+                label='Non-Failure (Pf < 1/60.000)')
     Plot_S6 = plt.scatter(stability_number2750[above_threshold2750], significant_wave_height2750[above_threshold2750], c='red', marker='o',
-                label='S = 2 (Above Threshold)')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S6)
     # cbar.set_label('Probability of Failure')
@@ -245,12 +245,13 @@ class ResultTableLooseRock:
     plt.title(
         textwrap.fill('Probability of failure Basalton corresponding to the stability number and wave height for density of concrete 2750 kg/m3', 50),
         loc='center')
+    plt.legend()
 
     plt.subplot(2, 2, 3)
     Plot_S11 = plt.scatter(stability_number2850, significant_wave_height2850, c=probability_of_failure2850, cmap='viridis', marker='o',
-                label='S = 2')
+                label='Non-Failure (Pf < 1/60.000)')
     Plot_S11 = plt.scatter(stability_number2850[above_threshold2850], significant_wave_height2850[above_threshold2850], c='red', marker='o',
-                label='S = 2 (Above Threshold)')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S11)
     # cbar.set_label('Probability of Failure')
@@ -265,9 +266,9 @@ class ResultTableLooseRock:
 
     plt.subplot(2, 2, 4)
     Plot_S17 = plt.scatter(stability_number3000, significant_wave_height3000, c=probability_of_failure3000, cmap='viridis', marker='o',
-                label='S = 2')
+                label='Non-Failure (Pf < 1/60.000)')
     Plot_S17 = plt.scatter(stability_number3000[above_threshold3000], significant_wave_height3000[above_threshold3000], c='red', marker='o',
-                label='S = 2 (Above Threshold)')
+                label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S17)
     # cbar.set_label('Probability of Failure')
@@ -323,16 +324,16 @@ class ResultTableLooseRock:
     above_threshold3000 = probability_of_failure3000 > 1 / 60000
 
     figure = plt.figure(figsize=(20, 10))
-    font = {'size': 12}
+    font = {'size': 16}
     matplotlib.rc('font', **font)
 
     plt.subplot(2, 2, 1)
     Plot_S2 = plt.scatter(stability_number2650, significant_wave_height2650, c=probability_of_failure2650,
                           cmap='viridis', marker='o',
-                          label='Pf < 1/60.000')
+                          label='Non-failure (Pf < 1/60.000)')
     Plot_S2 = plt.scatter(stability_number2650[above_threshold2650], significant_wave_height2650[above_threshold2650],
                           c='red', marker='o',
-                          label='Pf > 1/60.000')
+                          label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S2)
     # cbar.set_label('Probability of Failure')
@@ -350,10 +351,10 @@ class ResultTableLooseRock:
     plt.subplot(2, 2, 2)
     Plot_S6 = plt.scatter(stability_number2750, significant_wave_height2750, c=probability_of_failure2750,
                           cmap='viridis', marker='o',
-                          label='S = 2')
+                          label='Non-Failure (Pf < 1/60.000)')
     Plot_S6 = plt.scatter(stability_number2750[above_threshold2750], significant_wave_height2750[above_threshold2750],
                           c='red', marker='o',
-                          label='S = 2 (Above Threshold)')
+                          label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S6)
     # cbar.set_label('Probability of Failure')
@@ -371,10 +372,10 @@ class ResultTableLooseRock:
     plt.subplot(2, 2, 3)
     Plot_S11 = plt.scatter(stability_number2850, significant_wave_height2850, c=probability_of_failure2850,
                            cmap='viridis', marker='o',
-                           label='S = 2')
+                           label='Non-Failure (Pf < 1/60.000)')
     Plot_S11 = plt.scatter(stability_number2850[above_threshold2850], significant_wave_height2850[above_threshold2850],
                            c='red', marker='o',
-                           label='S = 2 (Above Threshold)')
+                           label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S11)
     # cbar.set_label('Probability of Failure')
@@ -392,10 +393,10 @@ class ResultTableLooseRock:
     plt.subplot(2, 2, 4)
     Plot_S17 = plt.scatter(stability_number3000, significant_wave_height3000, c=probability_of_failure3000,
                            cmap='viridis', marker='o',
-                           label='S = 2')
+                           label='Non-Failure (Pf < 1/60.000)')
     Plot_S17 = plt.scatter(stability_number3000[above_threshold3000], significant_wave_height3000[above_threshold3000],
                            c='red', marker='o',
-                           label='S = 2 (Above Threshold)')
+                           label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S17)
     # cbar.set_label('Probability of Failure')
@@ -432,7 +433,7 @@ class ResultTableLooseRock:
     above_threshold = probability_of_failure > 1 / 60000
 
     figure = plt.figure(figsize=(20, 10))
-    font = {'size': 12}
+    font = {'size': 16}
     matplotlib.rc('font', **font)
 
     # Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
@@ -443,10 +444,10 @@ class ResultTableLooseRock:
 
     Plot_S2 = plt.scatter(Asphalt_layer_thickness, waterlevel_uplift, c=probability_of_failure,
                           cmap='viridis', marker='o',
-                          label='Pf < 1/60.000')
+                          label='Non-failure (Pf < 1/60.000)')
     Plot_S2 = plt.scatter(Asphalt_layer_thickness[above_threshold], waterlevel_uplift[above_threshold],
                           c='red', marker='o',
-                          label='Pf > 1/60.000')
+                          label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S2)
     # cbar.set_label('Probability of Failure')
@@ -467,7 +468,7 @@ class ResultTableLooseRock:
     above_threshold_uplift = probability_of_failure_uplift > 1 / 60000
 
     figure = plt.figure(figsize=(20, 10))
-    font = {'size': 12}
+    font = {'size': 16}
     matplotlib.rc('font', **font)
 
     # Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
@@ -478,10 +479,10 @@ class ResultTableLooseRock:
 
     Plot_S2 = plt.scatter(Asphalt_layer_thickness, waterlevel_uplift, c=probability_of_failure_uplift,
                           cmap='viridis', marker='o',
-                          label='Pf < 1/60.000')
+                          label='Non-failure (Pf < 1/60.000)')
     Plot_S2 = plt.scatter(Asphalt_layer_thickness[above_threshold_uplift], waterlevel_uplift[above_threshold_uplift],
                           c='red', marker='o',
-                          label='Pf > 1/60.000')
+                          label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S2)
     # cbar.set_label('Probability of Failure')
@@ -502,7 +503,7 @@ class ResultTableLooseRock:
 
 
     figure = plt.figure(figsize=(20, 10))
-    font = {'size': 12}
+    font = {'size': 16}
     matplotlib.rc('font', **font)
 
     # Plot_S2 = plt.scatter([Result_raw_Asphalt['Asphalt layer thickness']],
@@ -513,10 +514,10 @@ class ResultTableLooseRock:
 
     Plot_S2 = plt.scatter(Asphalt_layer_thickness, waterlevel_uplift, c=probability_of_failure_combined,
                           cmap='viridis', marker='o',
-                          label='Pf < 1/60.000')
+                          label='Non-failure (Pf < 1/60.000)')
     Plot_S2 = plt.scatter(Asphalt_layer_thickness[above_threshold_combined], waterlevel_uplift[above_threshold_combined],
                           c='red', marker='o',
-                          label='Pf > 1/60.000')
+                          label='Failure (Pf > 1/60.000)')
 
     # cbar = plt.colorbar(Plot_S2)
     # cbar.set_label('Probability of Failure')
